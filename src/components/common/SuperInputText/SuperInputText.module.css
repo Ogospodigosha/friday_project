@@ -1,0 +1,16 @@
+.superInput {
+    background-color: yellow;
+}
+
+.errorInput {
+    border: 2px solid red;
+    background: red;
+}
+
+.error {
+    color: red;
+}
+
+.spanClassName {
+    color: yellow;
+}
