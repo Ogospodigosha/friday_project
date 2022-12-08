@@ -16,8 +16,7 @@ export const Pages = () => {
             <Route path={'/profile'} element={<Profile/>}/>
             <Route path={'/password_recovery'} element={<PasswordRecovery/>}/>
             <Route path={'/test'} element={<Test/>}/>
-            <Route path={'/404'} element={<Error404/>}/>
-            <Route path={'/*'} element={<Navigate to={'/404'}/>}/>
+            <Route path={'/*'} element={<Error404/>}/>
         </Routes>
     );
 };
