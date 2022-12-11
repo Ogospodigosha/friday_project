@@ -1,12 +1,12 @@
 .flex {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 .active {
-    color: blue;
-    list-style: none;
+  color: blue;
+  list-style: none;
 }
 .link {
-    text-decoration: none;
-    color: blue;
+  color: blue;
+  text-decoration: none;
 }
