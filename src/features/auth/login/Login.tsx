@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { Box, Grid } from '@mui/material'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import {
+  Box,
+  FormControl,
+  Grid,
+  IconButton,
+  Input,
+  InputAdornment,
+  InputLabel,
+} from '@mui/material'
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
-import FormLabel from '@mui/material/FormLabel'
-import TextField from '@mui/material/TextField'
 import { useFormik } from 'formik'
 import { Navigate, NavLink } from 'react-router-dom'
 
@@ -13,12 +21,8 @@ import { useAppDispatch, useAppSelector } from '../../../app/store'
 
 import { logInTC } from './login-reducer'
 
-type FormikErrorType = {
-  email?: string
-  password?: string
-  rememberMe?: boolean
-}
 export const Login = () => {
+  const [showPassword, setShowPassword] = useState(false)
   const dispatch = useAppDispatch()
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
 
@@ -29,7 +33,7 @@ export const Login = () => {
       rememberMe: false,
     },
     validate: values => {
-      const errors: FormikErrorType = {}
+      const errors: FormikErrorT = {}
 
       if (!values.email) {
         errors.email = 'Required'
@@ -50,6 +54,10 @@ export const Login = () => {
     },
   })
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
+
   if (isLoggedIn) {
     return <Navigate to={'/profile'} />
   }
@@ -65,28 +73,38 @@ export const Login = () => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              backgroundColor: 'white',
+              backgroundColor: 'pink',
               boxShadow: '',
-              width: '413px',
+              width: '40ch',
             }}
           >
-            <FormLabel>
-              <h1>Sing in</h1>
-            </FormLabel>
-            <TextField
-              label="Email"
-              margin="normal"
-              variant="standard"
-              {...formik.getFieldProps('email')}
-            />
+            <h1>Sing in</h1>
+            <FormControl sx={{ m: 1, width: '35ch' }} variant="standard">
+              <InputLabel>Email</InputLabel>
+              <Input {...formik.getFieldProps('email')} />
+            </FormControl>
             {formik.touched.email && formik.errors.email && <div>{formik.errors.email}</div>}
-            <TextField
-              type="password"
-              label="Password"
-              margin="normal"
-              variant="standard"
-              {...formik.getFieldProps('password')}
-            />
+            {/*<TextField*/}
+            {/*  type={showPassword ? 'text' : 'password'}*/}
+            {/*  label="Password"*/}
+            {/*  margin="normal"*/}
+            {/*  variant="standard"*/}
+            {/*  {...formik.getFieldProps('password')}*/}
+            {/*/>*/}
+            <FormControl sx={{ m: 1, width: '35ch' }} variant="standard">
+              <InputLabel>Password</InputLabel>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                {...formik.getFieldProps('password')}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleClickShowPassword}>
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
             {formik.touched.password && formik.errors.password && (
               <div>{formik.errors.password}</div>
             )}
@@ -106,4 +124,12 @@ export const Login = () => {
       </Grid>
     </Grid>
   )
+}
+
+// types
+
+type FormikErrorT = {
+  email?: string
+  password?: string
+  rememberMe?: boolean
 }
