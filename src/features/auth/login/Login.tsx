@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import {
-  Box,
+  Button,
   FormControl,
   Grid,
   IconButton,
@@ -11,7 +11,6 @@ import {
   InputAdornment,
   InputLabel,
 } from '@mui/material'
-import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { useFormik } from 'formik'
@@ -20,6 +19,7 @@ import { Navigate, NavLink } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 
 import { logInTC } from './login-reducer'
+import styles from './Login.module.css'
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -64,64 +64,51 @@ export const Login = () => {
 
   return (
     <Grid container justifyContent={'center'}>
-      <Grid item justifyContent={'center'}>
-        <form onSubmit={formik.handleSubmit}>
-          <Box
-            sx={{
-              padding: '33px',
-              marginTop: 8,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              backgroundColor: 'pink',
-              boxShadow: '',
-              width: '40ch',
-            }}
-          >
-            <h1>Sing in</h1>
-            <FormControl sx={{ m: 1, width: '35ch' }} variant="standard">
-              <InputLabel>Email</InputLabel>
-              <Input {...formik.getFieldProps('email')} />
-            </FormControl>
-            {formik.touched.email && formik.errors.email && <div>{formik.errors.email}</div>}
-            {/*<TextField*/}
-            {/*  type={showPassword ? 'text' : 'password'}*/}
-            {/*  label="Password"*/}
-            {/*  margin="normal"*/}
-            {/*  variant="standard"*/}
-            {/*  {...formik.getFieldProps('password')}*/}
-            {/*/>*/}
-            <FormControl sx={{ m: 1, width: '35ch' }} variant="standard">
-              <InputLabel>Password</InputLabel>
-              <Input
-                type={showPassword ? 'text' : 'password'}
-                {...formik.getFieldProps('password')}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleClickShowPassword}>
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-            {formik.touched.password && formik.errors.password && (
-              <div>{formik.errors.password}</div>
+      <form onSubmit={formik.handleSubmit}>
+        <div className={styles.wrapper}>
+          <h1>Sing in</h1>
+          <FormControl variant="standard" className={styles.inputWrapper}>
+            <InputLabel>Email</InputLabel>
+            <Input {...formik.getFieldProps('email')} />
+            {formik.touched.email && formik.errors.email && (
+              <div className={styles.error}>{formik.errors.email}</div>
             )}
-            <FormControlLabel
-              label={'Remember me'}
-              {...formik.getFieldProps('rememberMe')}
-              control={<Checkbox />}
+          </FormControl>
+          <FormControl variant="standard" className={styles.inputWrapper}>
+            <InputLabel>Password</InputLabel>
+            <Input
+              type={showPassword ? 'text' : 'password'}
+              {...formik.getFieldProps('password')}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton onClick={handleClickShowPassword}>
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
             />
-            <NavLink to={'/password_recovery'}>Forgot Password?</NavLink>
-            <Button type={'submit'} variant={'contained'} color={'primary'}>
-              Sign In
-            </Button>
-            <p>Already have an account?</p>
-            <NavLink to={'/registration'}>Sign Up</NavLink>
-          </Box>
-        </form>
-      </Grid>
+            {formik.touched.password && formik.errors.password && (
+              <div className={styles.error}>{formik.errors.password}</div>
+            )}
+          </FormControl>
+          <FormControlLabel
+            label={'Remember me'}
+            {...formik.getFieldProps('rememberMe')}
+            control={<Checkbox />}
+            className={styles.checkBoxWrapper}
+          />
+          <NavLink to={'/password_recovery'} className={styles.passRecovery}>
+            Forgot Password?
+          </NavLink>
+          <Button type={'submit'} variant="contained" className={styles.button}>
+            Sign In
+          </Button>
+          <p className={styles.text}>Already have an account?</p>
+          <NavLink to={'/registration'} className={styles.singUp}>
+            Sign Up
+          </NavLink>
+        </div>
+      </form>
     </Grid>
   )
 }
