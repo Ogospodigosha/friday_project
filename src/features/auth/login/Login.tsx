@@ -2,15 +2,7 @@ import React, { useState } from 'react'
 
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import {
-  Button,
-  FormControl,
-  Grid,
-  IconButton,
-  Input,
-  InputAdornment,
-  InputLabel,
-} from '@mui/material'
+import { Button, FormGroup, IconButton, InputAdornment, TextField } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { useFormik } from 'formik'
@@ -63,53 +55,75 @@ export const Login = () => {
   }
 
   return (
-    <Grid container justifyContent={'center'}>
-      <form onSubmit={formik.handleSubmit}>
-        <div className={styles.wrapper}>
-          <h1>Sing in</h1>
-          <FormControl variant="standard" className={styles.inputWrapper}>
-            <InputLabel>Email</InputLabel>
-            <Input {...formik.getFieldProps('email')} />
-            {formik.touched.email && formik.errors.email && (
-              <div className={styles.error}>{formik.errors.email}</div>
-            )}
-          </FormControl>
-          <FormControl variant="standard" className={styles.inputWrapper}>
-            <InputLabel>Password</InputLabel>
-            <Input
-              type={showPassword ? 'text' : 'password'}
-              {...formik.getFieldProps('password')}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton onClick={handleClickShowPassword}>
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
+    <div className={styles.main}>
+      <div className={styles.register}>
+        <h1 className={styles.h1}>Sing in</h1>
+        <form onSubmit={formik.handleSubmit}>
+          <FormGroup>
+            <div style={{ position: 'relative' }}>
+              <TextField
+                className={styles.field}
+                label={'Email'}
+                variant={'standard'}
+                margin={'normal'}
+                {...formik.getFieldProps('email')}
+              />
+              {formik.touched.email && formik.errors.email && (
+                <div className={styles.error}>{formik.errors.email}</div>
+              )}
+            </div>
+            <div>
+              <TextField
+                className={styles.field}
+                label={'Password'}
+                variant={'standard'}
+                margin={'normal'}
+                type={showPassword ? 'text' : 'password'}
+                {...formik.getFieldProps('password')}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position={'end'}>
+                      <IconButton
+                        onClick={handleClickShowPassword}
+                        edge="start"
+                        // className={s.iconStyle}
+                      >
+                        {showPassword ? (
+                          <VisibilityOff fontSize={'medium'} />
+                        ) : (
+                          <Visibility fontSize={'medium'} />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              {formik.touched.password && formik.errors.password && (
+                <div className={styles.error}>{formik.errors.password}</div>
+              )}
+            </div>
+            <FormControlLabel
+              label={'Remember me'}
+              {...formik.getFieldProps('rememberMe')}
+              control={<Checkbox />}
+              className={styles.rememberMe}
             />
-            {formik.touched.password && formik.errors.password && (
-              <div className={styles.error}>{formik.errors.password}</div>
-            )}
-          </FormControl>
-          <FormControlLabel
-            label={'Remember me'}
-            {...formik.getFieldProps('rememberMe')}
-            control={<Checkbox />}
-            className={styles.checkBoxWrapper}
-          />
-          <NavLink to={'/password_recovery'} className={styles.passRecovery}>
-            Forgot Password?
-          </NavLink>
-          <Button type={'submit'} variant="contained" className={styles.button}>
-            Sign In
-          </Button>
-          <p className={styles.text}>Already have an account?</p>
-          <NavLink to={'/registration'} className={styles.singUp}>
+            <NavLink to={'/password_recovery'} className={styles.passRecovery}>
+              Forgot Password?
+            </NavLink>
+            <div className={styles.submitButton}>
+              <Button type={'submit'} variant="contained">
+                Sign In
+              </Button>
+            </div>
+          </FormGroup>
+          <p className={styles.question}>Have no account?</p>
+          <NavLink to={'/registration'} className={styles.link}>
             Sign Up
           </NavLink>
-        </div>
-      </form>
-    </Grid>
+        </form>
+      </div>
+    </div>
   )
 }
 
