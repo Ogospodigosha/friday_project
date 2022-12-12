@@ -1,3 +1,5 @@
+import * as buffer from 'buffer'
+
 import axios from 'axios'
 
 const instance = axios.create({
@@ -11,6 +13,9 @@ const instance = axios.create({
 export const registrationAPI = {
   registration(email: string, password: string) {
     return instance.post<RegistrationResponseType>('auth/register', { email, password })
+  },
+  me() {
+    return instance.post<MeResponseType>('auth/me')
   },
 }
 //types
@@ -27,4 +32,19 @@ type RegistrationResponseType = {
     updated: Date
     __v: number
   }
+}
+type MeResponseType = {
+  _id: string
+  email: string
+  rememberMe: boolean
+  isAdmin: boolean
+  name: string
+  verified: boolean
+  publicCardPacksCount: number
+  created: Date
+  updated: Date
+  __v: number
+  token: string
+  tokenDeathTime: Date
+  avatar: string
 }

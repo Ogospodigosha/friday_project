@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import { AnyAction, Dispatch } from 'redux'
+import { Dispatch } from 'redux'
 
 import { setAppErrorAC } from '../../../app/appReducer'
 
