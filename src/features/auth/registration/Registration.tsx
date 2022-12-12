@@ -37,6 +37,7 @@ export const Registration = () => {
     showPassword: false,
     showConfirmPassword: false,
   })
+  const IsLoading = useSelector<AppRootStateType, boolean>(state => state.registration.IsLoading)
   const handleClickShowPassword = () => {
     setValues({
       ...values,
@@ -108,6 +109,7 @@ export const Registration = () => {
                 onChange={formik.handleChange}
                 value={formik.values.email}
                 onBlur={formik.handleBlur}
+                disabled={IsLoading}
               />
               {formik.touched.email && formik.errors.email ? (
                 <div className={s.error}>{formik.errors.email}</div>
@@ -124,6 +126,7 @@ export const Registration = () => {
                 onChange={formik.handleChange}
                 value={formik.values.password}
                 onBlur={formik.handleBlur}
+                disabled={IsLoading}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position={'end'}>
@@ -160,6 +163,7 @@ export const Registration = () => {
                 onChange={formik.handleChange}
                 value={formik.values.confirmPassword}
                 onBlur={formik.handleBlur}
+                disabled={IsLoading}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position={'end'}>

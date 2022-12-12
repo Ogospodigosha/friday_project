@@ -5,6 +5,7 @@ import { ErrorSnackbar } from '../components/ErrorSnackbar'
 import { Header } from '../components/header/Header'
 import { LoadingButtonsTransition } from '../components/LoadingButtonsTransition'
 import { Pages } from '../components/pages/Pages'
+import { Registration } from '../features/auth/registration/Registration'
 
 function App() {
   return (
