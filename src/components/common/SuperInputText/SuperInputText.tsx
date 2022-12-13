@@ -1,5 +1,7 @@
 import React, { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, KeyboardEvent } from 'react'
 
+import Button from '@mui/material/Button'
+
 import s from './SuperInputText.module.css'
 
 // тип пропсов обычного инпута
@@ -56,6 +58,9 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = ({
         className={finalInputClassName}
         {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
       />
+      <Button variant="contained" href="#contained-buttons">
+        Save
+      </Button>
       {error && <span className={finalSpanClassName}>{error}</span>}
     </>
   )
