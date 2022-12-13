@@ -41,7 +41,6 @@ export const Registration = () => {
   const handleClickShowPassword = () => {
     setValues({
       ...values,
-
       showPassword: !values.showPassword,
     })
   }
