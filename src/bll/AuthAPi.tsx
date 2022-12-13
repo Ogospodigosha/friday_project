@@ -1,5 +1,3 @@
-import * as buffer from 'buffer'
-
 import axios from 'axios'
 
 const instance = axios.create({
@@ -10,7 +8,7 @@ const instance = axios.create({
   withCredentials: true,
 })
 
-export const registrationAPI = {
+export const authAPI = {
   registration(email: string, password: string) {
     return instance.post<RegistrationResponseType>('auth/register', { email, password })
   },
