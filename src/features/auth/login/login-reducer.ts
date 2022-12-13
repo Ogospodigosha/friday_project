@@ -32,6 +32,7 @@ export const logInTC =
     try {
       const res = await loginApi.login(data)
 
+      console.log(res)
       dispatch(setIsLoggedInAC(true))
     } catch (e) {
       const err = e as Error | AxiosError<{ error: string }>
@@ -45,16 +46,6 @@ export const logInTC =
     } finally {
       //dispatch
     }
-    loginApi
-      .login({ email: 'as', password: 'asd' })
-      .then(() => {
-        // code
-      })
-      .catch((err: AxiosError<{ error: string }>) => {
-        const error = err.response ? err.response.data.error : err.message
-
-        console.log('error: ', error)
-      })
   }
 
 // types
