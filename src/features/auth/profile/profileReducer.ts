@@ -1,7 +1,3 @@
-import { AppRootStateType, ThunkAppDispatchType } from '../../../app/store'
-
-import { profileApi, UpdateProfileModelType } from './profileApi'
-
 const initialState = {
   name: 'Ivan',
   email: 'YourEmail@gmail.com',
@@ -20,25 +16,15 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
   }
 }
 
-export const updateProfileTC =
-  (profileModel: UpdateProfileModelType) =>
-  async (dispatch: ThunkAppDispatchType, getState: () => AppRootStateType) => {
-    const profile = getState().profile
-
-    const profileApiModel: InitialStateType = {
-      name: profile.name,
-      email: profile.email,
-      // ...profileModel,
-    }
-
-    try {
-      const res = await profileApi.changeUserName(profileApiModel)
-
-      dispatch(changeNameAC(res.data.updatedUser.name))
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
+// export const updateProfileTC =
+//   (profileModel: UpdateProfileModelType) =>
+//   async (dispatch: AppThunkDispatch, getState: () => AppRootStateType) => {
+//     const user = getState().app.user
+//
+//     authAPI.changeUserName(user)
+//     let userModel = { ...profileModel, name: user.name }
+//
+//     dispatch()
+//   }
 export const changeNameAC = (name: string) => ({ type: 'profile/CHANGE-NAME', name } as const)
 export type ProfileReducer = ReturnType<typeof changeNameAC>

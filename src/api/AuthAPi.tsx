@@ -1,4 +1,5 @@
-import { TAuthResponseType, TLoginData } from '../features/auth/login/login-api'
+import { TLoginData } from '../features/auth/login/login-api'
+import { ProfileType, UpdateProfileModelType } from '../features/auth/profile/profileApi'
 
 import { instance } from './instance'
 
@@ -10,7 +11,10 @@ export const authAPI = {
     return instance.post<MeResponseType>('auth/me')
   },
   login(data: TLoginData) {
-    return instance.post<TLoginData, TAuthResponseType>(`auth/login`, data)
+    return instance.post<TLoginData, ProfileType>(`auth/login`, data)
+  },
+  changeUserName(data: UpdateProfileModelType) {
+    return instance.put<UpdateProfileType>('auth/me', data)
   },
 }
 //types
@@ -42,4 +46,7 @@ type MeResponseType = {
   token: string
   tokenDeathTime: Date
   avatar: string
+}
+type UpdateProfileType = {
+  updatedUser: ProfileType
 }

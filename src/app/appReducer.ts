@@ -2,11 +2,13 @@ import { AxiosError } from 'axios'
 import { Dispatch } from 'redux'
 
 import { authAPI } from '../api/AuthAPi'
+import { ProfileType } from '../features/auth/profile/profileApi'
 
 const initialAppState = {
   error: null as RequestErrorType,
   isInitialized: false,
   status: 'idle' as RequestStatusType,
+  user: {} as ProfileType,
 }
 
 export const appReducer = (
@@ -20,6 +22,8 @@ export const appReducer = (
       return { ...state, isInitialized: action.isInitialized }
     case 'APP/SET-STATUS':
       return { ...state, status: action.status }
+    case 'APP/SET-USER':
+      return { ...state, user: action.user }
     default:
       return state
   }
@@ -30,14 +34,17 @@ export type AppActionType =
   | ReturnType<typeof setAppErrorAC>
   | ReturnType<typeof setInitializedAC>
   | ReturnType<typeof setAppStatusAC>
+  | ReturnType<typeof setUserAC>
 export type RequestErrorType = null | string
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
+
 //action creator
 export const setAppErrorAC = (error: string | null) => ({ type: 'APP/SET-ERROR', error } as const)
 export const setInitializedAC = (isInitialized: boolean) =>
   ({ type: 'APP/SET-INITIALIZED', isInitialized } as const)
 export const setAppStatusAC = (status: RequestStatusType) =>
   ({ type: 'APP/SET-STATUS', status } as const)
+export const setUserAC = (user: ProfileType) => ({ type: 'APP/SET-USER', user } as const)
 //thunk creator
 export const authMeTC = () => (dispatch: Dispatch) => {
   authAPI

@@ -11,14 +11,15 @@ import ava from '../../../assets/img/avatarFish.png'
 import SuperEditableSpan from '../../../components/common/SuperEditableSpan/SuperEditableSpan'
 
 import style from './Profile.module.css'
-import { updateProfileTC } from './profileReducer'
+import { ProfileType } from './profileApi'
+// import { updateProfileTC } from './profileReducer'
 
 export const Profile = () => {
-  const profile = useAppSelector(state => state.profile)
+  const user = useAppSelector<ProfileType>(state => state.app.user)
   const dispatch = useAppDispatch()
 
   const updateTitleHandler = (name: string) => {
-    dispatch(updateProfileTC({ name }))
+    // dispatch(updateProfileTC({ name }))
   }
 
   return (
@@ -33,12 +34,12 @@ export const Profile = () => {
           <Avatar alt="your ava" src={ava} sx={{ width: 96, height: 96 }} />
         </div>
         <div className={style.editSpan}>
-          <SuperEditableSpan value={profile.name} onChangeText={updateTitleHandler} />
+          <SuperEditableSpan value={user.name} onChangeText={updateTitleHandler} />
           <span>
             <img src={pencil} alt="pencil" />
           </span>
         </div>
-        <div className={style.email}>{profile.email}</div>
+        <div className={style.email}>{user.email}</div>
         <div className={style.logOut}>
           <Fab
             sx={{ background: '#FCFCFC' }}

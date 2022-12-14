@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios'
 
 import { authAPI } from '../../../api/AuthAPi'
+import { setUserAC } from '../../../app/appReducer'
 import { AppThunk } from '../../../app/store'
 
 import { TLoginData } from './login-api'
@@ -33,6 +34,7 @@ export const logInTC =
     try {
       const res = await authAPI.login(data)
 
+      dispatch(setUserAC(res))
       console.log(res)
       dispatch(setIsLoggedInAC(true))
     } catch (e) {
