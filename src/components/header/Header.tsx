@@ -2,29 +2,32 @@ import React from 'react'
 
 import { NavLink } from 'react-router-dom'
 
-import s from './Header.module.css'
+import logo from './assets/logo.svg'
+import styles from './Header.module.css'
 
 export const Header = () => {
+  // need logic
+  const isLoginIn = false
+
   return (
-    <div className={s.flex}>
-      {/*<NavLink to={'/login'} className={s.link}>*/}
-      {/*  Login*/}
-      {/*</NavLink>*/}
-      {/*<NavLink to={'/registration'} className={s.link}>*/}
-      {/*  Registration*/}
-      {/*</NavLink>*/}
-      {/*<NavLink to={'/profile'} className={s.link}>*/}
-      {/*  Profile*/}
-      {/*</NavLink>*/}
-      {/*<NavLink to={'/404'} className={s.link}>*/}
-      {/*  Error 404*/}
-      {/*</NavLink>*/}
-      {/*<NavLink to={'/password_recovery'} className={s.link}>*/}
-      {/*  Password recovery*/}
-      {/*</NavLink>*/}
-      {/*<NavLink to={'/test'} className={s.link}>*/}
-      {/*  Test*/}
-      {/*</NavLink>*/}
-    </div>
+    <header className={styles.container}>
+      <NavLink to={'/'}>
+        <img src={logo} alt={'logo'} />
+      </NavLink>
+      {!isLoginIn ? (
+        <NavLink to={'/login'} className={styles.btn}>
+          Sign in
+        </NavLink>
+      ) : (
+        <NavLink to={'/profile'} className={styles.userInfo}>
+          <span className={styles.userName}>name</span>
+          <img
+            src={'https://s.afisha.ru/mediastorage/55/6b/d5504693e0334526a68317f56b55.jpg'}
+            alt="ava"
+            className={styles.userAva}
+          />
+        </NavLink>
+      )}
+    </header>
   )
 }
