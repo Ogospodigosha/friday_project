@@ -27,10 +27,12 @@ function App() {
   }
 
   return (
-    <div>
+    <div className={'App'}>
       <ErrorSnackbar />
       <Header />
-      <Pages />
+      <div className={'container'}>
+        <Pages />
+      </div>
     </div>
   )
 }
