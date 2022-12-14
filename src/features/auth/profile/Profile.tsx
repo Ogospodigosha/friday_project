@@ -13,14 +13,15 @@ import SuperEditableSpan from '../../../components/common/SuperEditableSpan/Supe
 import style from './Profile.module.css'
 import { ProfileType } from './profileApi'
 import { updateProfileTC } from './profileReducer'
-// import { updateProfileTC } from './profileReducer'
 
 export const Profile = () => {
   const user = useAppSelector<ProfileType>(state => state.app.user)
+  const avatar = useAppSelector(state => state.app.user.avatar)
+
   const dispatch = useAppDispatch()
 
   const updateTitleHandler = (name: string) => {
-    // dispatch(updateProfileTC({ name }))
+    dispatch(updateProfileTC({ name }))
   }
 
   return (
@@ -32,7 +33,7 @@ export const Profile = () => {
       <div className={style.main}>
         <div className={style.title}>Personal Information</div>
         <div className={style.avatar}>
-          <Avatar alt="your ava" src={ava} sx={{ width: 96, height: 96 }} />
+          <Avatar alt="your ava" src={avatar || ava} sx={{ width: 96, height: 96 }} />
         </div>
         <div className={style.editSpan}>
           <SuperEditableSpan value={user.name} onChangeText={updateTitleHandler} />
@@ -56,8 +57,6 @@ export const Profile = () => {
               Log <span>out</span>
             </span>
           </Fab>
-          {/*example*/}
-          <button onClick={() => dispatch(updateProfileTC({ name: 'sdasd' }))}>123</button>
         </div>
       </div>
     </>
