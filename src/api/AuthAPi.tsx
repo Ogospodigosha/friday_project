@@ -13,8 +13,8 @@ export const authAPI = {
   login(data: TLoginData) {
     return instance.post<TLoginData, { data: ProfileType }>(`auth/login`, data)
   },
-  changeUserName(data: UpdateProfileModelType) {
-    return instance.put<UpdateProfileType>('auth/me', data)
+  updateUser(data: UpdateProfileModelType) {
+    return instance.put('auth/me', data)
   },
 }
 //types

@@ -12,6 +12,7 @@ import SuperEditableSpan from '../../../components/common/SuperEditableSpan/Supe
 
 import style from './Profile.module.css'
 import { ProfileType } from './profileApi'
+import { updateProfileTC } from './profileReducer'
 // import { updateProfileTC } from './profileReducer'
 
 export const Profile = () => {
@@ -55,6 +56,8 @@ export const Profile = () => {
               Log <span>out</span>
             </span>
           </Fab>
+          {/*example*/}
+          <button onClick={() => dispatch(updateProfileTC({ name: 'sdasd' }))}>123</button>
         </div>
       </div>
     </>
