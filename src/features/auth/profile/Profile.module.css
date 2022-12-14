@@ -2,6 +2,15 @@
   font-family: Montserrat, sans-serif;
   font-style: normal;
 }
+.backPackList {
+  display: flex;
+  gap: 8px;
+
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 24px;
+}
 
 .main {
   display: flex;
@@ -48,7 +57,7 @@
 
   position: absolute;
   z-index: 2;
-  top: 71.5%;
+  top: 71.3%;
   left: 71.5%;
 
   width: 30px;
@@ -62,12 +71,13 @@
 
   display: flex;
   gap: 10px;
+  justify-content: start;
 
   font-size: 20px;
 }
 
 .email {
-  margin: 14px 0 29px 0;
+  margin: 14px 0 25px 0;
 
   font-size: 14px;
   font-weight: 400;
@@ -77,11 +87,14 @@
 
   opacity: 0.5;
 }
+.logOut {
+  padding-bottom: 48px;
+}
 .logOut img {
   display: block;
 }
 .logOut span {
-  padding-right: 20px;
+  padding-right: 9px;
 
   font-size: 16px;
   font-weight: 500;

@@ -4,6 +4,7 @@ import Avatar from '@mui/material/Avatar'
 import Fab from '@mui/material/Fab'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
+import arrow from '../../../assets/icons/arrowback.svg'
 import pencil from '../../../assets/icons/editPencil.png'
 import logOut from '../../../assets/icons/logout.svg'
 import ava from '../../../assets/img/avatarFish.png'
@@ -21,33 +22,40 @@ export const Profile = () => {
   }
 
   return (
-    <div className={style.main}>
-      <div className={style.title}>Personal Information</div>
-      <div className={style.avatar}>
-        <Avatar alt="your ava" src={ava} sx={{ width: 96, height: 96 }} />
+    <>
+      <div className={style.backPackList}>
+        <img src={arrow} alt="arrow" />
+        <span>Back to Pack List</span>
       </div>
-      <div className={style.editSpan}>
-        <SuperEditableSpan value={profile.name} onChangeText={updateTitleHandler} />
-        <span>
-          <img src={pencil} alt="pencil" />
-        </span>
+      <div className={style.main}>
+        <div className={style.title}>Personal Information</div>
+        <div className={style.avatar}>
+          <Avatar alt="your ava" src={ava} sx={{ width: 96, height: 96 }} />
+        </div>
+        <div className={style.editSpan}>
+          <SuperEditableSpan value={profile.name} onChangeText={updateTitleHandler} />
+          <span>
+            <img src={pencil} alt="pencil" />
+          </span>
+        </div>
+        <div className={style.email}>{profile.email}</div>
+        <div className={style.logOut}>
+          <Fab
+            sx={{ background: '#FCFCFC' }}
+            variant="extended"
+            size="medium"
+            color="default"
+            aria-label="add"
+          >
+            <span>
+              <img src={logOut} alt="logout" />
+            </span>
+            <span className={style.logoutSpan}>
+              Log <span>out</span>
+            </span>
+          </Fab>
+        </div>
       </div>
-      <div className={style.email}>{profile.email}</div>
-      <Fab
-        sx={{ background: '#FCFCFC' }}
-        className={style.logOut}
-        variant="extended"
-        size="medium"
-        color="default"
-        aria-label="add"
-      >
-        <span>
-          <img src={logOut} alt="logout" />
-        </span>
-        <span className={style.logoutSpan}>
-          Log <span>out</span>
-        </span>
-      </Fab>
-    </div>
+    </>
   )
 }
