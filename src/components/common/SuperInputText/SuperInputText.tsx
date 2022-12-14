@@ -1,5 +1,7 @@
 import React, { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, KeyboardEvent } from 'react'
 
+import Button from '@mui/material/Button'
+
 import s from './SuperInputText.module.css'
 
 // тип пропсов обычного инпута
@@ -49,6 +51,7 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = ({
 
   return (
     <>
+      <label>Nickname</label>
       <input
         type={'text'}
         onChange={onChangeCallback}
@@ -56,6 +59,27 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = ({
         className={finalInputClassName}
         {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
       />
+
+      {/*<TextField*/}
+      {/*  type={'text'}*/}
+      {/*  onChange={onChangeCallback}*/}
+      {/*  onKeyPress={onKeyPressCallback}*/}
+      {/*  className={finalInputClassName}*/}
+      {/*  label="Nickname"*/}
+      {/*  id="standard-size-small"*/}
+      {/*  // defaultValue="Small"*/}
+      {/*  size="small"*/}
+      {/*  variant="standard"*/}
+      {/*  sx={{ height: 12 }}*/}
+      {/*/>*/}
+      <Button
+        variant="contained"
+        href="#contained-buttons"
+        size="small"
+        sx={{ width: 52, height: 24 }}
+      >
+        Save
+      </Button>
       {error && <span className={finalSpanClassName}>{error}</span>}
     </>
   )

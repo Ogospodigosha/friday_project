@@ -1,0 +1,108 @@
+* {
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+}
+.backPackList {
+  display: flex;
+  gap: 8px;
+
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 24px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /*justify-content: center;*/
+  width: 413px;
+  height: 360px;
+  margin: 60px auto;
+
+  background: #ffffff;
+  border-radius: 2px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);
+}
+.title {
+  margin: 27px 0 30px 0;
+
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 27px;
+}
+.avatar {
+  position: relative;
+
+  margin-bottom: 17px;
+}
+
+.avatar::before {
+  content: '';
+
+  position: absolute;
+  z-index: 1;
+  top: 70%;
+  left: 70%;
+
+  width: 33px;
+  height: 33px;
+
+  background: #ffffff;
+  border-radius: 50%;
+}
+.avatar::after {
+  content: '';
+
+  position: absolute;
+  z-index: 2;
+  top: 71.3%;
+  left: 71.5%;
+
+  width: 30px;
+  height: 30px;
+
+  background: #808080 url(/src/assets/icons/cameraProfile.svg) no-repeat center;
+  border-radius: 50%;
+}
+.editSpan {
+  cursor: pointer;
+
+  display: flex;
+  gap: 10px;
+  justify-content: start;
+
+  font-size: 20px;
+}
+
+.email {
+  margin: 14px 0 25px 0;
+
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 24px;
+  color: #000000;
+
+  opacity: 0.5;
+}
+.logOut {
+  padding-bottom: 48px;
+}
+.logOut img {
+  display: block;
+}
+.logOut span {
+  padding-right: 9px;
+
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #000000;
+  text-align: center;
+  text-transform: capitalize;
+}
+.logoutSpan span {
+  text-transform: lowercase;
+}
