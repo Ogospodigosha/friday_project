@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { AppRootStateType } from '../app/store'
 import s from '../features/auth/registration/registration.module.css'
 
-export const LoadingButtonsTransition = () => {
+export const LoadingButtonTransition = () => {
   const IsLoading = useSelector<AppRootStateType, boolean>(state => state.registration.IsLoading)
 
   return (
@@ -31,4 +31,8 @@ export const LoadingButtonsTransition = () => {
       </LoadingButton>
     </>
   )
+}
+//type
+type LoadingButtonTransitionType = {
+  IsLoading: boolean
 }

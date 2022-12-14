@@ -1,34 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-import { RemoveRedEye, Visibility, VisibilityOff } from '@mui/icons-material'
-import {
-  Button,
-  FormControl,
-  FormGroup,
-  FormLabel,
-  Grid,
-  IconButton,
-  InputAdornment,
-  TextField,
-} from '@mui/material'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { FormGroup, IconButton, InputAdornment, TextField } from '@mui/material'
 import { useFormik } from 'formik'
-import { useDispatch, useSelector } from 'react-redux'
-import { Navigate, NavLink, Route } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { Navigate, NavLink } from 'react-router-dom'
 
 import { AppRootStateType, useAppDispatch } from '../../../app/store'
-import { LoadingButtonsTransition } from '../../../components/LoadingButtonsTransition'
+import { LoadingButtonTransition } from '../../../components/LoadingButtonTransition'
 
 import { RegistrationTC } from './registration-reducer'
 import s from './registration.module.css'
+import { validateRegistrationForm } from './validateRegistrationForm'
 
-type FormikErrorType = {
-  email?: string
-  password?: string
-  confirmPassword?: string
-}
 export const Registration = () => {
   const dispatch = useAppDispatch()
-
+  const IsLoading = useSelector<AppRootStateType, boolean>(state => state.registration.IsLoading)
   const IsRegistrated = useSelector<AppRootStateType, boolean>(
     state => state.registration.IsRegistrated
   )
@@ -37,7 +24,7 @@ export const Registration = () => {
     showPassword: false,
     showConfirmPassword: false,
   })
-  const IsLoading = useSelector<AppRootStateType, boolean>(state => state.registration.IsLoading)
+
   const handleClickShowPassword = () => {
     setValues({
       ...values,
@@ -59,26 +46,7 @@ export const Registration = () => {
       password: '',
       confirmPassword: '',
     },
-    validate: values => {
-      const errors: FormikErrorType = {}
-
-      if (!values.password) {
-        errors.password = 'Required'
-      } else if (values.password.length < 8) {
-        errors.password = 'Password must be more than 7 characters'
-      }
-      if (!values.confirmPassword) {
-        errors.confirmPassword = 'Required'
-      } else if (values.password !== values.confirmPassword) {
-        errors.confirmPassword = 'passwords must match'
-      }
-      if (!values.email) {
-        errors.email = 'Required'
-      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email))
-        errors.email = 'Invalid email address'
-
-      return errors
-    },
+    validate: validateRegistrationForm,
     onSubmit: values => {
       dispatch(RegistrationTC(values.email, values.password))
       formik.resetForm()
@@ -88,7 +56,6 @@ export const Registration = () => {
   if (IsRegistrated) {
     return <Navigate to={'/login'} />
   }
-  console.log(formik.values)
 
   return (
     <div className={s.main}>
@@ -104,11 +71,8 @@ export const Registration = () => {
                 label={'Email'}
                 variant={'standard'}
                 margin={'normal'}
-                name={'email'}
-                onChange={formik.handleChange}
-                value={formik.values.email}
-                onBlur={formik.handleBlur}
                 disabled={IsLoading}
+                {...formik.getFieldProps('email')}
               />
               {formik.touched.email && formik.errors.email ? (
                 <div className={s.error}>{formik.errors.email}</div>
@@ -121,10 +85,6 @@ export const Registration = () => {
                 type={values.showPassword ? 'text' : 'password'}
                 variant={'standard'}
                 margin={'normal'}
-                name={'password'}
-                onChange={formik.handleChange}
-                value={formik.values.password}
-                onBlur={formik.handleBlur}
                 disabled={IsLoading}
                 InputProps={{
                   endAdornment: (
@@ -145,6 +105,7 @@ export const Registration = () => {
                     </InputAdornment>
                   ),
                 }}
+                {...formik.getFieldProps('password')}
               />
               {formik.values.password !== '' ||
               (formik.touched.password && formik.errors.password) ? (
@@ -158,10 +119,6 @@ export const Registration = () => {
                 variant={'standard'}
                 margin={'normal'}
                 type={values.showConfirmPassword ? 'text' : 'password'}
-                name={'confirmPassword'}
-                onChange={formik.handleChange}
-                value={formik.values.confirmPassword}
-                onBlur={formik.handleBlur}
                 disabled={IsLoading}
                 InputProps={{
                   endAdornment: (
@@ -182,21 +139,14 @@ export const Registration = () => {
                     </InputAdornment>
                   ),
                 }}
+                {...formik.getFieldProps('confirmPassword')}
               />
               {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
                 <div className={s.error}>{formik.errors.confirmPassword}</div>
               ) : null}
             </div>
             <div className={s.submitButton}>
-              {/*<Button*/}
-              {/*  type={'submit'}*/}
-              {/*  className={s.button}*/}
-              {/*  style={{ borderRadius: '30px' }}*/}
-              {/*  variant={'contained'}*/}
-              {/*>*/}
-              <LoadingButtonsTransition />
-              {/*<span>Sign Up</span>*/}
-              {/*</Button>*/}
+              <LoadingButtonTransition />
             </div>
           </FormGroup>
           <div className={s.question}>Already have an account?</div>

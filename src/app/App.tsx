@@ -6,9 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { ErrorSnackbar } from '../components/ErrorSnackbar'
 import { Header } from '../components/header/Header'
-import { LoadingButtonsTransition } from '../components/LoadingButtonsTransition'
 import { Pages } from '../components/pages/Pages'
-import { Registration } from '../features/auth/registration/Registration'
 
 import { authMeTC } from './appReducer'
 import { AppRootStateType, useAppDispatch } from './store'
