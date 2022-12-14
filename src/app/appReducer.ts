@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios'
-import { AnyAction, Dispatch } from 'redux'
+import { Dispatch } from 'redux'
 
-import { authAPI } from '../bll/AuthAPi'
+import { authAPI } from '../api/AuthAPi'
 
 const initialAppState = {
   error: null as RequestErrorType,

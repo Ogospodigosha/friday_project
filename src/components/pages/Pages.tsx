@@ -6,8 +6,8 @@ import { Login } from '../../features/auth/login/Login'
 import { PasswordRecovery } from '../../features/auth/password recovery/PasswordRecovery'
 import { Profile } from '../../features/auth/profile/Profile'
 import { Registration } from '../../features/auth/registration/Registration'
-import { TestForm } from '../../features/auth/registration/TestForm'
 
+// import { TestForm } from '../../features/auth/registration/TestForm'
 import { Error404 } from './error404/Error404'
 import { Test } from './test/Test'
 
@@ -21,7 +21,7 @@ export const Pages = () => {
       <Route path={'/password_recovery'} element={<PasswordRecovery />} />
       <Route path={'/test'} element={<Test />} />
       <Route path={'/*'} element={<Error404 />} />
-      <Route path={'/help'} element={<TestForm />} />
+      {/*<Route path={'/help'} element={<TestForm />} />*/}
     </Routes>
   )
 }

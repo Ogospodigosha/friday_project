@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios'
 import { Dispatch } from 'redux'
 
+import { authAPI } from '../../../api/AuthAPi'
 import { setAppErrorAC } from '../../../app/appReducer'
-import { authAPI } from '../../../bll/AuthAPi'
 
 const initState = {
   IsRegistrated: false,

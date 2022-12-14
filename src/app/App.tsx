@@ -2,18 +2,17 @@ import React, { useEffect } from 'react'
 
 import './App.css'
 import { CircularProgress } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
 
 import { ErrorSnackbar } from '../components/ErrorSnackbar'
 import { Header } from '../components/header/Header'
 import { Pages } from '../components/pages/Pages'
 
 import { authMeTC } from './appReducer'
-import { AppRootStateType, useAppDispatch } from './store'
+import { useAppDispatch, useAppSelector } from './store'
 
 function App() {
   const dispatch = useAppDispatch()
-  const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
+  const isInitialized = useAppSelector(state => state.app.isInitialized)
 
   useEffect(() => {
     dispatch(authMeTC())

@@ -1,11 +1,3 @@
-import { instance } from '../../../api/instance'
-
-export const loginApi = {
-  login(data: TLoginData) {
-    return instance.post<TLoginData, TAuthResponseType>(`auth/login`, data)
-  },
-}
-
 //types
 export type TLoginData = {
   email: string

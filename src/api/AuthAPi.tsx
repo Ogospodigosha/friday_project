@@ -1,12 +1,6 @@
-import axios from 'axios'
+import { TAuthResponseType, TLoginData } from '../features/auth/login/login-api'
 
-const instance = axios.create({
-  baseURL:
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:7542/2.0/'
-      : 'https://neko-back.herokuapp.com/2.0/',
-  withCredentials: true,
-})
+import { instance } from './instance'
 
 export const authAPI = {
   registration(email: string, password: string) {
@@ -14,6 +8,9 @@ export const authAPI = {
   },
   me() {
     return instance.post<MeResponseType>('auth/me')
+  },
+  login(data: TLoginData) {
+    return instance.post<TLoginData, TAuthResponseType>(`auth/login`, data)
   },
 }
 //types

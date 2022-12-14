@@ -1,12 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { FormGroup, IconButton, InputAdornment, TextField } from '@mui/material'
 import { useFormik } from 'formik'
-import { useSelector } from 'react-redux'
 import { Navigate, NavLink } from 'react-router-dom'
 
-import { AppRootStateType, useAppDispatch } from '../../../app/store'
+import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { LoadingButtonTransition } from '../../../components/LoadingButtonTransition'
 
 import { RegistrationTC } from './registration-reducer'
@@ -15,12 +14,10 @@ import { validateRegistrationForm } from './validateRegistrationForm'
 
 export const Registration = () => {
   const dispatch = useAppDispatch()
-  const IsLoading = useSelector<AppRootStateType, boolean>(state => state.registration.IsLoading)
-  const IsRegistrated = useSelector<AppRootStateType, boolean>(
-    state => state.registration.IsRegistrated
-  )
+  const IsLoading = useAppSelector(state => state.registration.IsLoading)
+  const IsRegistrated = useAppSelector(state => state.registration.IsRegistrated)
 
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     showPassword: false,
     showConfirmPassword: false,
   })
