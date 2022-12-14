@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios'
 
 import { authAPI } from '../../../api/AuthAPi'
-import { setUserAC } from '../../../app/appReducer'
+import { setAppErrorAC, setAppStatusAC, setUserAC } from '../../../app/appReducer'
 import { AppThunk } from '../../../app/store'
 
 import { TLoginData } from './login-api'
@@ -32,19 +32,20 @@ export const logInTC =
   (data: TLoginData): AppThunk =>
   async dispatch => {
     try {
+      dispatch(setAppStatusAC('loading'))
       const res = await authAPI.login(data)
 
-      dispatch(setUserAC(res))
-      console.log(res)
+      dispatch(setUserAC(res.data))
       dispatch(setIsLoggedInAC(true))
     } catch (e) {
       const err = e as Error | AxiosError<{ error: string }>
 
       if (axios.isAxiosError(err)) {
         const error = err.response?.data ? err.response.data.error : err.message
-        // dispatch(setAppErrorAC(error))
+
+        dispatch(setAppErrorAC(error))
       } else {
-        // dispatch(setAppErrorAC(`Native error ${err.message}`))
+        dispatch(setAppErrorAC(`Native error ${err.message}`))
       }
     } finally {
       //dispatch
