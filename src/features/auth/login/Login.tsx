@@ -10,8 +10,8 @@ import { Navigate, NavLink } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 
-import { logInTC } from './login-reducer'
 import styles from './Login.module.css'
+import { logInTC } from './loginReducer'
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -41,7 +41,6 @@ export const Login = () => {
       return errors
     },
     onSubmit: values => {
-      console.log(values)
       dispatch(logInTC(values))
     },
   })
