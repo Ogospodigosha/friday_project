@@ -1,15 +1,20 @@
 {
   "files": {
-    "main.css": "/friday_project/static/css/main.48cd82b0.css",
-    "main.js": "/friday_project/static/js/main.373bb14b.js",
+    "main.css": "/friday_project/static/css/main.6787ecfe.css",
+    "main.js": "/friday_project/static/js/main.318199e9.js",
     "static/js/787.8517b185.chunk.js": "/friday_project/static/js/787.8517b185.chunk.js",
+    "static/media/avatarFish.png": "/friday_project/static/media/avatarFish.5974632cbf5d7edfaf82.png",
+    "static/media/logo.svg": "/friday_project/static/media/logo.3c09153556dc0fef65c4fc532ee16562.svg",
+    "static/media/cameraProfile.svg": "/friday_project/static/media/cameraProfile.e89d7656c1a62f2ee5e1.svg",
     "index.html": "/friday_project/index.html",
-    "main.48cd82b0.css.map": "/friday_project/static/css/main.48cd82b0.css.map",
-    "main.373bb14b.js.map": "/friday_project/static/js/main.373bb14b.js.map",
+    "static/media/logout.svg": "/friday_project/static/media/logout.1731b0b18f5a96bdef8218c129e5eaf4.svg",
+    "static/media/arrowback.svg": "/friday_project/static/media/arrowback.19c7bd8ee7d32ca8451f1de3f6803354.svg",
+    "main.6787ecfe.css.map": "/friday_project/static/css/main.6787ecfe.css.map",
+    "main.318199e9.js.map": "/friday_project/static/js/main.318199e9.js.map",
     "787.8517b185.chunk.js.map": "/friday_project/static/js/787.8517b185.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.48cd82b0.css",
-    "static/js/main.373bb14b.js"
+    "static/css/main.6787ecfe.css",
+    "static/js/main.318199e9.js"
   ]
 }
