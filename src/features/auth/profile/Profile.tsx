@@ -2,6 +2,7 @@ import React from 'react'
 
 import Avatar from '@mui/material/Avatar'
 import Fab from '@mui/material/Fab'
+import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import arrow from '../../../assets/icons/arrowback.svg'
@@ -12,16 +13,22 @@ import SuperEditableSpan from '../../../components/common/SuperEditableSpan/Supe
 
 import style from './Profile.module.css'
 import { ProfileType } from './profileApi'
-import { updateProfileTC } from './profileReducer'
+import { logOutTC, updateProfileTC } from './profileReducer'
 
 export const Profile = () => {
   const user = useAppSelector<ProfileType>(state => state.app.user)
   const avatar = useAppSelector(state => state.app.user.avatar)
-
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
   const updateTitleHandler = (name: string) => {
     dispatch(updateProfileTC({ name }))
+  }
+
+  const logOutHandler = () => {
+    dispatch(logOutTC()).then(() => {
+      navigate('/login')
+    })
   }
 
   return (
@@ -47,8 +54,7 @@ export const Profile = () => {
             sx={{ background: '#FCFCFC' }}
             variant="extended"
             size="medium"
-            color="default"
-            aria-label="add"
+            onClick={logOutHandler}
           >
             <span>
               <img src={logOut} alt="logout" />

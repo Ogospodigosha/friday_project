@@ -29,13 +29,14 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = ({
   error,
   className,
   spanClassName,
+  value,
 
   ...restProps // все остальные пропсы попадут в объект restProps
 }) => {
+  console.log(value)
   const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
     onChange && // если есть пропс onChange
       onChange(e) // то передать ему е (поскольку onChange не обязателен)
-
     onChangeText && onChangeText(e.currentTarget.value)
   }
   const onKeyPressCallback = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -59,19 +60,6 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = ({
         className={finalInputClassName}
         {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
       />
-
-      {/*<TextField*/}
-      {/*  type={'text'}*/}
-      {/*  onChange={onChangeCallback}*/}
-      {/*  onKeyPress={onKeyPressCallback}*/}
-      {/*  className={finalInputClassName}*/}
-      {/*  label="Nickname"*/}
-      {/*  id="standard-size-small"*/}
-      {/*  // defaultValue="Small"*/}
-      {/*  size="small"*/}
-      {/*  variant="standard"*/}
-      {/*  sx={{ height: 12 }}*/}
-      {/*/>*/}
       <Button
         variant="contained"
         href="#contained-buttons"

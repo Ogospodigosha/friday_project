@@ -16,6 +16,9 @@ export const authAPI = {
   updateUser(data: UpdateProfileModelType) {
     return instance.put('auth/me', data)
   },
+  logOut() {
+    return instance.delete('auth/me')
+  },
 }
 //types
 type RegistrationResponseType = {

@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import SuperButton from '../../common/SuperButton/SuperButton'
 import SuperCheckbox from '../../common/SuperCheckbox/SuperCheckbox'
 import SuperDoubleRange, { OnChangeType } from '../../common/SuperDoubleRange/SuperDoubleRange'
-import SuperEditableSpan from '../../common/SuperEditableSpan/SuperEditableSpan'
 import SuperInputText from '../../common/SuperInputText/SuperInputText'
 import SuperRadio from '../../common/SuperRadio/SuperRadio'
 import SuperRange from '../../common/SuperRange/SuperRange'
@@ -40,7 +39,7 @@ export const Test = () => {
         <SuperCheckbox />
       </div>
       <div>
-        <SuperEditableSpan value={editableSpanText} onChangeText={setEditableSpanText} />
+        {/*<SuperEditableSpan value={editableSpanText} onChangeText={setEditableSpanText} />*/}
       </div>
       <div>
         <SuperSelect options={arr} value={optionValue} onChangeOption={onChangeOption} />
