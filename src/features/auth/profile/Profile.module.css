@@ -6,6 +6,8 @@
   display: flex;
   gap: 8px;
 
+  margin-top: 24px;
+
   font-size: 14px;
   font-weight: 400;
   font-style: normal;
@@ -19,7 +21,7 @@
   /*justify-content: center;*/
   width: 413px;
   height: 360px;
-  margin: 60px auto;
+  margin: 36px auto;
 
   background: #ffffff;
   border-radius: 2px;

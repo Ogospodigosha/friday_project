@@ -5,13 +5,12 @@
 
   border: none;
   border-bottom: 2px solid #808080;
-  /*background-color: yellow;*/
   outline: none;
 }
 label {
   position: relative;
-  top: -15px;
-  left: 70px;
+  top: -20px;
+  left: 58px;
 
   font-size: 13px;
   font-weight: 400;
@@ -20,15 +19,24 @@ label {
   opacity: 0.5;
 }
 
-/*.errorInput {*/
-/*  background: red;*/
-/*  border: 2px solid red;*/
-/*}*/
+.errorInput {
+  background: red;
+  border: 2px solid red;
+}
 
-/*.error {*/
-/*  color: red;*/
-/*}*/
+.error {
+  color: red;
+}
 
-/*.spanClassName {*/
-/*  color: yellow;*/
-/*}*/
+.errorInput {
+  border: 1px solid #cc1439;
+}
+
+.error {
+  position: relative;
+  top: -25px;
+  left: -370px;
+
+  font-size: 10px;
+  color: #cc1439;
+}
