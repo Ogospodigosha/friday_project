@@ -14,13 +14,13 @@ import { Test } from './test/Test'
 export const Pages = () => {
   return (
     <Routes>
-      <Route path={'/'} element={<Navigate to={'/profile'} />} />
+      <Route path={'/friday_project'} element={<Navigate to={'/profile'} />} />
       <Route path={'/login'} element={<Login />} />
       <Route path={'/registration'} element={<Registration />} />
       <Route path={'/profile'} element={<Profile />} />
       <Route path={'/password_recovery'} element={<PasswordRecovery />} />
       <Route path={'/test'} element={<Test />} />
-      <Route path={'/*'} element={<Error404 />} />
+      <Route path={'*'} element={<Error404 />} />
       {/*<Route path={'/help'} element={<TestForm />} />*/}
     </Routes>
   )
