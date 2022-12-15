@@ -2,7 +2,7 @@ import { AxiosError } from 'axios'
 import { Dispatch } from 'redux'
 
 import { authAPI } from '../../../api/AuthAPi'
-import { setAppErrorAC } from '../../../app/appReducer'
+import { setAppErrorAC, setAppStatusAC } from '../../../app/appReducer'
 
 const initState = {
   IsRegistrated: false,
@@ -24,28 +24,27 @@ export const registrationReducer = (
 //types
 export type RegistrationStateType = {
   IsRegistrated: boolean
-  IsLoading: boolean
 }
 export type ActionsType = ReturnType<typeof registratedAC>
 //action creator
 export const registratedAC = (IsRegistrated: boolean) =>
   ({ type: 'SET-REGISTRATION', IsRegistrated } as const)
-export const loadingAC = (IsLoading: boolean) => ({ type: 'SET-LOADING', IsLoading } as const)
+
 //thunk creator
 export const RegistrationTC = (email: string, password: string) => (dispatch: Dispatch) => {
-  dispatch(loadingAC(true))
+  dispatch(setAppStatusAC('loading'))
   authAPI
     .registration(email, password)
     .then(res => {
       dispatch(registratedAC(true))
       console.log(res.data.addedUser)
-      dispatch(loadingAC(false))
+      dispatch(setAppStatusAC('succeeded'))
     })
     .catch((err: AxiosError) => {
       const error = err.response ? (err.response.data as { error: string }).error : err.message
 
       dispatch(setAppErrorAC(error))
-      dispatch(loadingAC(false))
+      dispatch(setAppStatusAC('failed'))
       console.log('error: ', error)
     })
 }
