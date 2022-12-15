@@ -105,7 +105,7 @@ export const Login = () => {
                 control={<Checkbox />}
               />
             </div>
-            <NavLink to={'/forgotPassword'} className={styles.passRecovery}>
+            <NavLink to={'/forgot_password'} className={styles.passRecovery}>
               Forgot Password?
             </NavLink>
             <div className={styles.submitButton}>

@@ -2,22 +2,15 @@ import React from 'react'
 
 import { NavLink } from 'react-router-dom'
 
-import { authAPI } from '../../../api/AuthAPi'
+import { useAppDispatch } from '../../../app/store'
 
 import styles from './ForgotPassword.module.css'
+import { forgotPassTC } from './forgotPasswordRedcer'
 
 export const ForgotPassword = () => {
+  const dispatch = useAppDispatch()
   const onClickHandler = () => {
-    authAPI.forgotPassword({
-      email: 'klrotex11@gmail.com', // кому восстанавливать пароль
-      from: 'test-front-admin <klrotex11@gmail.com>',
-      // можно указать разработчика фронта)
-      message: `<div style="background-color: lime; padding: 15px">
-password recovery link: 
-<a href='http://localhost:3000/create_new_password/$token$'>
-link</a>
-</div>`, // хтмп-письмо, вместо $token$ бэк вставит токен
-    })
+    dispatch(forgotPassTC('klrotex11@gmail.com'))
   }
 
   return (
