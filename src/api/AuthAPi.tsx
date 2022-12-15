@@ -1,4 +1,3 @@
-import { TLoginData } from '../features/auth/login/login-api'
 import { ProfileType, UpdateProfileModelType } from '../features/auth/profile/profileApi'
 
 import { instance } from './instance'
@@ -8,10 +7,10 @@ export const authAPI = {
     return instance.post<RegistrationResponseType>('auth/register', { email, password })
   },
   me() {
-    return instance.post<MeResponseType>('auth/me')
+    return instance.post('auth/me')
   },
-  login(data: TLoginData) {
-    return instance.post<TLoginData, { data: ProfileType }>(`auth/login`, data)
+  login(data: LoginDataType) {
+    return instance.post<LoginDataType, { data: ProfileType }>(`auth/login`, data)
   },
   updateUser(data: UpdateProfileModelType) {
     return instance.put('auth/me', data)
@@ -49,4 +48,9 @@ type MeResponseType = {
 }
 type UpdateProfileType = {
   updatedUser: ProfileType
+}
+export type LoginDataType = {
+  email: string
+  password: string
+  rememberMe?: boolean
 }
