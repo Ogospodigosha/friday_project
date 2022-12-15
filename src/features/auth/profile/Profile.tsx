@@ -25,7 +25,7 @@ export const Profile = () => {
   }
 
   const logOutHandler = () => {
-    dispatch(logOutTC()).then(() => {
+    dispatch(logOutTC()).finally(() => {
       navigate('/login')
     })
   }
@@ -53,7 +53,7 @@ export const Profile = () => {
             onClick={logOutHandler}
           >
             <span>
-              <img src={logOut} alt="logout" />
+              <img src={logOut} alt="logout1" />
             </span>
             <span className={style.logoutSpan}>
               Log <span>out</span>
