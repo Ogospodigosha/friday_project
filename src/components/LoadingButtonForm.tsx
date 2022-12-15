@@ -1,17 +1,17 @@
 import LoadingButton from '@mui/lab/LoadingButton'
-import { useSelector } from 'react-redux'
 
-import { AppRootStateType } from '../app/store'
+import { RequestStatusType } from '../app/appReducer'
 import s from '../features/auth/registration/registration.module.css'
 
-export const LoadingButtonTransition = () => {
-  const IsLoading = useSelector<AppRootStateType, boolean>(state => state.registration.IsLoading)
-
+type LoadingButtonTransitionPropsType = {
+  IsLoading: RequestStatusType
+}
+export const LoadingButtonForm: React.FC<LoadingButtonTransitionPropsType> = ({ IsLoading }) => {
   return (
     <>
       <LoadingButton
         size="small"
-        loading={IsLoading}
+        loading={IsLoading === 'loading'}
         variant={'contained'}
         type={'submit'}
         className={s.button}
@@ -27,12 +27,8 @@ export const LoadingButtonTransition = () => {
           textTransform: 'none',
         }}
       >
-        {!IsLoading && <>Sign Up</>}
+        {IsLoading !== 'loading' && <>Sign Up</>}
       </LoadingButton>
     </>
   )
-}
-//type
-type LoadingButtonTransitionType = {
-  IsLoading: boolean
 }

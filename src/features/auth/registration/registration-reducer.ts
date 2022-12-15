@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios'
 import { Dispatch } from 'redux'
 
-import { setAppErrorAC } from '../../../app/appReducer'
+import { setAppErrorAC, setAppStatusAC } from '../../../app/appReducer'
 import { authAPI } from '../../../bll/AuthAPi'
 
 const initState = {
@@ -35,19 +35,18 @@ export const registratedAC = (IsRegistrated: boolean) =>
 export const loadingAC = (IsLoading: boolean) => ({ type: 'SET-LOADING', IsLoading } as const)
 //thunk creator
 export const RegistrationTC = (email: string, password: string) => (dispatch: Dispatch) => {
-  dispatch(loadingAC(true))
+  dispatch(setAppStatusAC('loading'))
   authAPI
     .registration(email, password)
     .then(res => {
       dispatch(registratedAC(true))
-      console.log(res.data.addedUser)
-      dispatch(loadingAC(false))
+      dispatch(setAppStatusAC('succeeded'))
     })
     .catch((err: AxiosError) => {
       const error = err.response ? (err.response.data as { error: string }).error : err.message
 
       dispatch(setAppErrorAC(error))
-      dispatch(loadingAC(false))
+      dispatch(setAppStatusAC('failed'))
       console.log('error: ', error)
     })
 }
