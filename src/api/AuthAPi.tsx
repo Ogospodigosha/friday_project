@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 import { TLoginData } from '../features/auth/login/login-api'
 import { ProfileType, UpdateProfileModelType } from '../features/auth/profile/profileApi'
 
@@ -15,6 +17,9 @@ export const authAPI = {
   },
   updateUser(data: UpdateProfileModelType) {
     return instance.put('auth/me', data)
+  },
+  forgotPassword(forgotPassword: any) {
+    return axios.post('https://neko-back.herokuapp.com/2.0/auth/forgot', forgotPassword)
   },
 }
 //types
