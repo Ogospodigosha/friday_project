@@ -54,12 +54,12 @@ export const Login = () => {
   }
 
   return (
-    <div className={styles.main}>
-      <div className={styles.register}>
+    <div className={styles.wrapper}>
+      <div className={styles.page}>
         <h1 className={styles.h1}>Sing in</h1>
         <form onSubmit={formik.handleSubmit}>
           <FormGroup>
-            <div style={{ position: 'relative' }}>
+            <div>
               <TextField
                 className={styles.field}
                 label={'Email'}
@@ -82,11 +82,7 @@ export const Login = () => {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position={'end'}>
-                      <IconButton
-                        onClick={handleClickShowPassword}
-                        edge="start"
-                        // className={s.iconStyle}
-                      >
+                      <IconButton onClick={handleClickShowPassword} edge="start">
                         {showPassword ? (
                           <VisibilityOff fontSize={'medium'} />
                         ) : (
@@ -101,13 +97,15 @@ export const Login = () => {
                 <div className={styles.error}>{formik.errors.password}</div>
               )}
             </div>
-            <FormControlLabel
-              label={'Remember me'}
-              {...formik.getFieldProps('rememberMe')}
-              control={<Checkbox />}
-              className={styles.rememberMe}
-            />
-            <NavLink to={'/password_recovery'} className={styles.passRecovery}>
+            <div className={styles.container}>
+              <FormControlLabel
+                label={'Remember me'}
+                sx={{ left: '0' }}
+                {...formik.getFieldProps('rememberMe')}
+                control={<Checkbox />}
+              />
+            </div>
+            <NavLink to={'/forgotPassword'} className={styles.passRecovery}>
               Forgot Password?
             </NavLink>
             <div className={styles.submitButton}>
