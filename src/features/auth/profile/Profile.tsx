@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Avatar from '@mui/material/Avatar'
 import Fab from '@mui/material/Fab'
@@ -20,16 +20,25 @@ export const Profile = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn)
-  const navigate = useNavigate()
+  const [text, setText] = useState(user.name)
   const updateTitleHandler = (name: string) => {
-    dispatch(updateProfileTC({ name }))
+    setText(name)
+    // dispatch(updateProfileTC({ name }))
   }
 
   const logOutHandler = () => {
-    dispatch(logOutTC()).finally(() => {
-      navigate('/login')
-    })
+    dispatch(logOutTC())
   }
+  const sendTextHandler = () => {
+    console.log('asdsa')
+    dispatch(updateProfileTC({ name: text }))
+  }
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/login')
+    }
+  }, [isLoggedIn])
 
   return (
     <>
@@ -43,7 +52,11 @@ export const Profile = () => {
           <Avatar alt="your ava" src={avatar || ava} sx={{ width: 96, height: 96 }} />
         </div>
         <div className={style.editSpan}>
-          <SuperEditableSpan value={user.name} onChangeText={updateTitleHandler} />
+          <SuperEditableSpan
+            value={text}
+            onChangeText={updateTitleHandler}
+            sendText={sendTextHandler}
+          />
         </div>
         <div className={style.email}>{user.email}</div>
         <div className={style.logOut}>

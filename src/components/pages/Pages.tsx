@@ -5,13 +5,11 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { CreateNewPassword } from '../../features/auth/create new password/CreateNewPassword'
 import { ForgotPassword } from '../../features/auth/forgot password/ForgotPassword'
 import { Login } from '../../features/auth/login/Login'
-import { PasswordRecovery } from '../../features/auth/password recovery/PasswordRecovery'
 import { Profile } from '../../features/auth/profile/Profile'
 import { Registration } from '../../features/auth/registration/Registration'
 
 // import { TestForm } from '../../features/auth/registration/TestForm'
 import { Error404 } from './error404/Error404'
-import { Test } from './test/Test'
 
 export const Pages = () => {
   return (

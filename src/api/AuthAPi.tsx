@@ -24,6 +24,9 @@ export const authAPI = {
       message,
     })
   },
+  logOut() {
+    return instance.delete('auth/me')
+  },
 }
 
 const programmerEmail = 'test-front-admin <klrotex11@gmail.com>'
