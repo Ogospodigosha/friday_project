@@ -16,8 +16,6 @@ export const registrationReducer = (
   switch (action.type) {
     case 'SET-REGISTRATION':
       return { ...state, IsRegistrated: action.IsRegistrated }
-    case 'SET-LOADING':
-      return { ...state, IsLoading: action.IsLoading }
     default:
       return state
   }
@@ -28,11 +26,11 @@ export type RegistrationStateType = {
   IsRegistrated: boolean
   IsLoading: boolean
 }
-export type ActionsType = ReturnType<typeof registratedAC> | ReturnType<typeof loadingAC>
+export type ActionsType = ReturnType<typeof registratedAC>
 //action creator
 export const registratedAC = (IsRegistrated: boolean) =>
   ({ type: 'SET-REGISTRATION', IsRegistrated } as const)
-export const loadingAC = (IsLoading: boolean) => ({ type: 'SET-LOADING', IsLoading } as const)
+
 //thunk creator
 export const RegistrationTC = (email: string, password: string) => (dispatch: Dispatch) => {
   dispatch(setAppStatusAC('loading'))
