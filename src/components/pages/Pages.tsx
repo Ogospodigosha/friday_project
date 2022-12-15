@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Navigate, Route, Routes } from 'react-router-dom'
 
+import { CreateNewPassword } from '../../features/auth/create new password/CreateNewPassword'
 import { ForgotPassword } from '../../features/auth/forgot password/ForgotPassword'
 import { Login } from '../../features/auth/login/Login'
 import { Profile } from '../../features/auth/profile/Profile'
@@ -18,6 +19,7 @@ export const Pages = () => {
       <Route path={'/registration'} element={<Registration />} />
       <Route path={'/profile'} element={<Profile />} />
       <Route path={'/forgot_password'} element={<ForgotPassword />} />
+      <Route path={'/create_new_password/*'} element={<CreateNewPassword />} />
       {/*<Route path={'/test'} element={<Test />} />*/}
       <Route path={'*'} element={<Error404 />} />
       {/*<Route path={'/help'} element={<TestForm />} />*/}

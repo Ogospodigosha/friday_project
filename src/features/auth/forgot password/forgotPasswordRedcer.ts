@@ -4,25 +4,25 @@ import { authAPI } from '../../../api/AuthAPi'
 import { setAppErrorAC } from '../../../app/appReducer'
 import { AppThunk } from '../../../app/store'
 
-const initialState = {
-  send: false,
-}
-
-type InitialStateType = typeof initialState
-
-export const forgotPasswordReducer = (
-  state: InitialStateType = initialState,
-  action: forgotPasswordReducerAT
-) => {
-  switch (action.type) {
-    case 'password/SET-SEND':
-      return state
-    default:
-      return state
-  }
-}
+// const initialState = {
+//   send: false,
+// }
+//
+// type InitialStateType = typeof initialState
+//
+// export const forgotPasswordReducer = (
+//   state: InitialStateType = initialState,
+//   action: forgotPasswordReducerAT
+// ) => {
+//   switch (action.type) {
+//     case 'password/SET-SEND':
+//       return { ...state, send: action.value }
+//     default:
+//       return state
+//   }
+// }
 // actions
-export const setSendAC = (value: boolean) => ({ type: 'password/SET-SEND', value } as const)
+// export const setSendAC = (value: boolean) => ({ type: 'password/SET-SEND', value } as const)
 
 // thunks
 export const forgotPassTC =
@@ -31,8 +31,8 @@ export const forgotPassTC =
     try {
       const res = await authAPI.forgotPassword(email)
 
-      dispatch(setSendAC(true))
-      console.log(res)
+      // dispatch(setSendAC(true))
+      // console.log(res)
     } catch (e) {
       const err = e as Error | AxiosError<{ error: string }>
 
@@ -49,4 +49,4 @@ export const forgotPassTC =
   }
 
 // types
-type forgotPasswordReducerAT = ReturnType<typeof setSendAC>
+// type forgotPasswordReducerAT = ReturnType<typeof setSendAC>

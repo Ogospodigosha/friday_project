@@ -29,7 +29,7 @@ export const authAPI = {
 const programmerEmail = 'test-front-admin <klrotex11@gmail.com>'
 const message = `<div style="background-color: lime; padding: 15px">
 password recovery link: 
-<a href='http://localhost:3000/#/set-new-password/$token$'>
+<a href='http://localhost:3000/create_new_password/$token$'>
 link</a>
 </div>`
 
