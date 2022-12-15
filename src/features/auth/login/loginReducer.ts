@@ -1,10 +1,8 @@
 import axios, { AxiosError } from 'axios'
 
-import { authAPI } from '../../../api/AuthAPi'
+import { authAPI, LoginDataType } from '../../../api/AuthAPi'
 import { setAppErrorAC, setAppStatusAC, setUserAC } from '../../../app/appReducer'
 import { AppThunk } from '../../../app/store'
-
-import { TLoginData } from './login-api'
 
 const initialState = {
   isLoggedIn: false,
@@ -29,12 +27,13 @@ export const setIsLoggedInAC = (value: boolean) =>
 
 // thunks
 export const logInTC =
-  (data: TLoginData): AppThunk =>
+  (data: LoginDataType): AppThunk =>
   async dispatch => {
+    dispatch(setAppStatusAC('loading'))
     try {
-      dispatch(setAppStatusAC('loading'))
       const res = await authAPI.login(data)
 
+      console.log(data)
       dispatch(setUserAC(res.data))
       dispatch(setIsLoggedInAC(true))
     } catch (e) {
