@@ -40,11 +40,11 @@ type MeResponseType = {
   name: string
   verified: boolean
   publicCardPacksCount: number
-  created: Date
-  updated: Date
+  created: string
+  updated: string
   __v: number
   token: string
-  tokenDeathTime: Date
+  tokenDeathTime: string
   avatar: string
 }
 type UpdateProfileType = {

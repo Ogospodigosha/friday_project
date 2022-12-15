@@ -2,6 +2,7 @@ import React from 'react'
 
 import Avatar from '@mui/material/Avatar'
 import Fab from '@mui/material/Fab'
+import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import arrow from '../../../assets/icons/arrowback.svg'
@@ -18,7 +19,8 @@ import { updateProfileTC } from './profileReducer'
 export const Profile = () => {
   const user = useAppSelector<ProfileType>(state => state.app.user)
   const dispatch = useAppDispatch()
-
+  const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn)
+  const navigate = useNavigate()
   const updateTitleHandler = (name: string) => {
     // dispatch(updateProfileTC({ name }))
   }

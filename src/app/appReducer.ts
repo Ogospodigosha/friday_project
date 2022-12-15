@@ -2,6 +2,7 @@ import { AxiosError } from 'axios'
 import { Dispatch } from 'redux'
 
 import { authAPI } from '../api/AuthAPi'
+import { setIsLoggedInAC } from '../features/auth/login/loginReducer'
 import { ProfileType } from '../features/auth/profile/profileApi'
 
 const initialAppState = {
@@ -47,13 +48,19 @@ export const setAppStatusAC = (status: RequestStatusType) =>
 export const setUserAC = (user: ProfileType) => ({ type: 'APP/SET-USER', user } as const)
 //thunk creator
 export const authMeTC = () => (dispatch: Dispatch) => {
+  debugger
   authAPI
     .me()
     .then(res => {
-      // dispatch(IsLoggedInAC( true))
-      dispatch(setInitializedAC(true))
+      console.log(res.data)
+      dispatch(setUserAC(res.data))
+      dispatch(setIsLoggedInAC(true))
     })
     .catch((e: AxiosError) => {
+      dispatch(setIsLoggedInAC(false))
+      console.log(e.message)
+    })
+    .finally(() => {
       dispatch(setInitializedAC(true))
     })
 }
