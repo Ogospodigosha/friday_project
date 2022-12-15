@@ -10,7 +10,7 @@ import { forgotPassTC } from './forgotPasswordRedcer'
 export const ForgotPassword = () => {
   const dispatch = useAppDispatch()
   const onClickHandler = () => {
-    dispatch(forgotPassTC('klrotex11@gmail.com'))
+    dispatch(forgotPassTC('odintsovis@hotmail.com'))
   }
 
   return (

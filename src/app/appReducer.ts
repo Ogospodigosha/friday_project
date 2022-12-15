@@ -48,7 +48,6 @@ export const setAppStatusAC = (status: RequestStatusType) =>
 export const setUserAC = (user: ProfileType) => ({ type: 'APP/SET-USER', user } as const)
 //thunk creator
 export const authMeTC = () => (dispatch: Dispatch) => {
-  debugger
   authAPI
     .me()
     .then(res => {

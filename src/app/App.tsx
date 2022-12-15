@@ -15,8 +15,6 @@ function App() {
   const isInitialized = useAppSelector(state => state.app.isInitialized)
 
   useEffect(() => {
-    debugger
-
     dispatch(authMeTC())
   }, [dispatch])
 
