@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import arrow from '../../../assets/icons/arrowback.svg'
-import pencil from '../../../assets/icons/editPencil.png'
 import logOut from '../../../assets/icons/logout.svg'
 import ava from '../../../assets/img/avatarFish.png'
 import SuperEditableSpan from '../../../components/common/SuperEditableSpan/SuperEditableSpan'
@@ -44,9 +43,6 @@ export const Profile = () => {
         </div>
         <div className={style.editSpan}>
           <SuperEditableSpan value={user.name} onChangeText={updateTitleHandler} />
-          <span>
-            <img src={pencil} alt="pencil" />
-          </span>
         </div>
         <div className={style.email}>{user.email}</div>
         <div className={style.logOut}>
