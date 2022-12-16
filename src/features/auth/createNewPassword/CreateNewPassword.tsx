@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { RequestStatusType } from '../../../app/appReducer'
 import { AppRootStateType, useAppDispatch, useAppSelector } from '../../../app/store'
 import { LoadingButtonForm } from '../../../components/LoadingButtonForm'
+import { PATH } from '../../../components/pages/Pages'
 import { PasswordInputForm } from '../../../components/PasswordInputForm'
 import s from '../registration/registration.module.css'
 
@@ -23,7 +24,7 @@ export const CreateNewPassword = () => {
   const passwordChanged = useAppSelector<boolean>(state => state.createNewPassword.passwordChanged)
 
   if (passwordChanged) {
-    navigate('/login')
+    navigate(PATH.LOGIN)
   }
 
   return (

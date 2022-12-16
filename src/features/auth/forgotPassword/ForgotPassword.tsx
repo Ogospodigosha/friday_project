@@ -6,6 +6,7 @@ import { Navigate, NavLink } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { LoadingButtonForm } from '../../../components/LoadingButtonForm'
+import { PATH } from '../../../components/pages/Pages'
 import { FormikErrorType } from '../registration/RegistrationTypes'
 
 import styles from './ForgotPassword.module.css'
@@ -36,7 +37,7 @@ export const ForgotPassword = () => {
   })
 
   if (send) {
-    return <Navigate to="/check_email" />
+    return <Navigate to={PATH.CHECK_EMAIL} />
   }
 
   return (

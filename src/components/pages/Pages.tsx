@@ -12,21 +12,28 @@ import { Registration } from '../../features/auth/registration/Registration'
 // import { TestForm } from '../../features/auth/registration/TestForm'
 import { Error404 } from './error404/Error404'
 
+export const PATH = {
+  LOGIN: '/login',
+  PROFILE: '/profile',
+  FORGOT_PASSWORD: '/forgot_password',
+  CREATE_NEW_PASSWORD: '/createNewPassword/',
+  REGISTRATION: '/registration',
+  CHECK_EMAIL: '/check_email',
+}
 export const Pages = () => {
   return (
     <Routes>
       <Route path={'/'} element={<Navigate to={'/profile'} />} />
-      <Route path={'/friday_project'} element={<Navigate to={'/profile'} />} />
-      <Route path={'/login'} element={<Login />} />
-      <Route path={'/registration'} element={<Registration />} />
-      <Route path={'/profile'} element={<Profile />} />
-      <Route path={'/forgot_password'} element={<ForgotPassword />} />
-      <Route path={'/createNewPassword/:token'} element={<CreateNewPassword />} />
-      {/*<Route path={'/create_new_password/*'} element={<Bla />} />*/}
-      {/*<Route path={'/test'} element={<Test />} />*/}
+      <Route path={PATH.LOGIN} element={<Login />} />
+      <Route path={PATH.REGISTRATION} element={<Registration />} />
+      <Route path={PATH.PROFILE} element={<Profile />} />
+      <Route path={PATH.FORGOT_PASSWORD} element={<ForgotPassword />} />
+
+      <Route path={PATH.CREATE_NEW_PASSWORD} element={<CreateNewPassword />}>
+        <Route path=":token" element={<CreateNewPassword />} />
+      </Route>
       <Route path={'*'} element={<Error404 />} />
-      <Route path={'/check_email'} element={<CheckEmail />} />
-      {/*<Route path={'/help'} element={<TestForm />} />*/}
+      <Route path={PATH.CHECK_EMAIL} element={<CheckEmail />} />
     </Routes>
   )
 }

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import checkEmail from '../../../assets/icons/checkEmail.svg'
+import { PATH } from '../../../components/pages/Pages'
 import { setSendAC } from '../forgotPassword/forgotPasswordReducer'
 
 import style from './checkEmail.module.css'
@@ -15,7 +16,7 @@ export const CheckEmail = () => {
   const navigate = useNavigate()
   const navigateToLogin = () => {
     dispatch(setSendAC(false))
-    navigate('/login')
+    navigate(PATH.LOGIN)
   }
 
   return (

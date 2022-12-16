@@ -10,6 +10,7 @@ import { Navigate, NavLink } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { LoadingButtonForm } from '../../../components/LoadingButtonForm'
+import { PATH } from '../../../components/pages/Pages'
 
 import styles from './Login.module.css'
 import { logInTC } from './loginReducer'
@@ -52,7 +53,7 @@ export const Login = () => {
   }
 
   if (isLoggedIn) {
-    return <Navigate to={'/profile'} />
+    return <Navigate to={PATH.PROFILE} />
   }
 
   return (

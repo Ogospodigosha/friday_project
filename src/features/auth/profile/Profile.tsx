@@ -9,6 +9,7 @@ import arrow from '../../../assets/icons/arrowback.svg'
 import logOut from '../../../assets/icons/logout.svg'
 import ava from '../../../assets/img/avatarFish.png'
 import SuperEditableSpan from '../../../components/common/SuperEditableSpan/SuperEditableSpan'
+import { PATH } from '../../../components/pages/Pages'
 
 import style from './Profile.module.css'
 import { ProfileType } from './profileApi'
@@ -34,7 +35,7 @@ export const Profile = () => {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      navigate('/login')
+      navigate(PATH.LOGIN)
     }
   }, [isLoggedIn])
 

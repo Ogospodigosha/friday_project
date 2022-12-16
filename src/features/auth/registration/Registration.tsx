@@ -10,6 +10,7 @@ import { AppRootStateType, useAppDispatch } from '../../../app/store'
 import { ConfirmPasswordInputForm } from '../../../components/ConfirmPasswordInputForm'
 import { EmailInputForm } from '../../../components/EmailInputForm'
 import { LoadingButtonForm } from '../../../components/LoadingButtonForm'
+import { PATH } from '../../../components/pages/Pages'
 import { PasswordInputForm } from '../../../components/PasswordInputForm'
 
 import { RegistrationTC } from './registration-reducer'
@@ -26,7 +27,7 @@ export const Registration = () => {
   const registerInitValues = { email: '', password: '', confirmPassword: '' }
 
   if (IsRegistrated) {
-    return <Navigate to={'/login'} />
+    return <Navigate to={PATH.LOGIN} />
   }
 
   return (
