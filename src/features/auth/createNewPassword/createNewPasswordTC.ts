@@ -15,5 +15,6 @@ export const createNewPasswordTC = (data: createPasswordDataType) => (dispatch: 
     })
     .catch(e => {
       dispatch(setAppErrorAC(e.message))
+      dispatch(setAppStatusAC('failed'))
     })
 }
