@@ -23,7 +23,6 @@ export const Profile = () => {
   const [text, setText] = useState(user.name)
   const updateTitleHandler = (name: string) => {
     setText(name)
-    // dispatch(updateProfileTC({ name }))
   }
 
   const logOutHandler = () => {
