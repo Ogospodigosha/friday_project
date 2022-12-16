@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import { Button, FormGroup, IconButton, InputAdornment, TextField } from '@mui/material'
+import { FormGroup, IconButton, InputAdornment, TextField } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { useFormik } from 'formik'
 import { Navigate, NavLink } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { LoadingButtonForm } from '../../../components/LoadingButtonForm'
 
 import styles from './Login.module.css'
 import { logInTC } from './loginReducer'
@@ -109,9 +110,7 @@ export const Login = () => {
               Forgot Password?
             </NavLink>
             <div className={styles.submitButton}>
-              <Button type={'submit'} variant="contained">
-                Sign In
-              </Button>
+              <LoadingButtonForm IsLoading={'idle'} title={'Sign In'} />
             </div>
           </FormGroup>
           <p className={styles.question}>Have no account?</p>

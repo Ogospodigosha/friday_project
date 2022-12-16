@@ -5,8 +5,12 @@ import s from '../features/auth/registration/registration.module.css'
 
 type LoadingButtonTransitionPropsType = {
   IsLoading: RequestStatusType
+  title: string
 }
-export const LoadingButtonForm: React.FC<LoadingButtonTransitionPropsType> = ({ IsLoading }) => {
+export const LoadingButtonForm: React.FC<LoadingButtonTransitionPropsType> = ({
+  IsLoading,
+  title,
+}) => {
   return (
     <>
       <LoadingButton
@@ -27,7 +31,7 @@ export const LoadingButtonForm: React.FC<LoadingButtonTransitionPropsType> = ({ 
           textTransform: 'none',
         }}
       >
-        {IsLoading !== 'loading' && <>Sign Up</>}
+        {IsLoading !== 'loading' && <>{title}</>}
       </LoadingButton>
     </>
   )

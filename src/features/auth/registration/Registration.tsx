@@ -60,7 +60,7 @@ export const Registration = () => {
                 />
               </div>
               <div className={s.submitButton}>
-                <LoadingButtonForm IsLoading={IsLoading} />
+                <LoadingButtonForm IsLoading={IsLoading} title={'Sign Up'} />
               </div>
             </FormGroup>
             <div className={s.question}>Already have an account?</div>
