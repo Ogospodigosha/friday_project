@@ -17,9 +17,6 @@ export const authAPI = {
   updateUser(data: UpdateProfileModelType) {
     return instance.put('auth/me', data)
   },
-  logOut() {
-    return instance.delete('auth/me')
-  },
   forgotPassword(email: string) {
     return axios.post('https://neko-back.herokuapp.com/2.0/auth/forgot', {
       email,
@@ -27,12 +24,18 @@ export const authAPI = {
       message,
     })
   },
+  logOut() {
+    return instance.delete('auth/me')
+  },
+  createPassword(data: createPasswordDataType) {
+    return instance.post('https://neko-back.herokuapp.com/2.0/auth/set-new-password/', data)
+  },
 }
 
-const programmerEmail = 'test-front-admin <klrotex11@gmail.com>'
+const programmerEmail = 'test-front-admin <odintsovis@hotmail.com>'
 const message = `<div style="background-color: lime; padding: 15px">
 password recovery link: 
-<a href='http://localhost:3000/create_new_password/$token$'>
+<a href='http://localhost:3000/createNewPassword/$token$'>
 link</a>
 </div>`
 
@@ -73,4 +76,8 @@ export type LoginDataType = {
   email: string
   password: string
   rememberMe?: boolean
+}
+export type createPasswordDataType = {
+  password: string
+  resetPasswordToken: string
 }

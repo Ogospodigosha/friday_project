@@ -4,9 +4,8 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { IconButton, InputAdornment, TextField } from '@mui/material'
 import { useField } from 'formik'
 
-import { RequestStatusType } from '../../../app/appReducer'
-
-import s from './registration.module.css'
+import { RequestStatusType } from '../app/appReducer'
+import s from '../features/auth/registration/registration.module.css'
 
 type PasswordInputFormType = {
   label: string
