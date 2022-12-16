@@ -2,10 +2,10 @@ import React from 'react'
 
 import { Form, Formik } from 'formik'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { RequestStatusType } from '../../../app/appReducer'
-import { AppRootStateType, useAppDispatch } from '../../../app/store'
+import { AppRootStateType, useAppDispatch, useAppSelector } from '../../../app/store'
 import { LoadingButtonForm } from '../../../components/LoadingButtonForm'
 import { PasswordInputForm } from '../../../components/PasswordInputForm'
 import s from '../registration/registration.module.css'
@@ -17,8 +17,14 @@ import { validateNewPasswordForm } from './validateNewPasswordForm'
 export const CreateNewPassword = () => {
   const dispatch = useAppDispatch()
   const { token } = useParams()
+  const navigate = useNavigate()
   const IsLoading = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
   const newPasswordInitValues = { password: '' }
+  const passwordChanged = useAppSelector<boolean>(state => state.createNewPassword.passwordChanged)
+
+  if (passwordChanged) {
+    navigate('/login')
+  }
 
   return (
     <div className={style.main}>
