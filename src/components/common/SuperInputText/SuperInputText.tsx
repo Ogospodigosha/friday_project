@@ -4,6 +4,7 @@ import React, {
   InputHTMLAttributes,
   KeyboardEvent,
   ReactNode,
+  useState,
 } from 'react'
 
 import Button from '@mui/material/Button'
@@ -31,23 +32,28 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = ({
   onChangeText,
   onKeyPress,
   onEnter,
-  error,
   className,
   spanClassName,
   id,
 
   ...restProps // все остальные пропсы попадут в объект restProps
 }) => {
+  const [error, setError] = useState<boolean | string>(false)
   const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
     onChange?.(e) // если есть пропс onChange, то передать ему е (поскольку onChange не обязателен)
+    if (e.currentTarget.value.length > 25) {
+      setError('Name is too long, only 25 symbols')
+    } else if (e.currentTarget.value.length < 2) {
+      setError('Name is too short, must be more than 2 symbols')
+    } else setError(false)
 
     onChangeText?.(e.currentTarget.value)
   }
   const onKeyPressCallback = (e: KeyboardEvent<HTMLInputElement>) => {
     onKeyPress?.(e)
-
     onEnter && // если есть пропс onEnter
       e.key === 'Enter' && // и если нажата кнопка Enter
+      !error &&
       onEnter() // то вызвать его
   }
 
@@ -66,19 +72,20 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = ({
         onChange={onChangeCallback}
         onKeyPress={onKeyPressCallback}
         className={finalInputClassName}
-        {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
+        {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутр)
       />
       <Button
         variant="contained"
         href="#contained-buttons"
         size="small"
+        disabled={!!error}
         sx={{ width: 52, height: 24 }}
       >
         Save
       </Button>
-      <span id={id ? id + '-span' : undefined} className={finalSpanClassName}>
+      <div id={id ? id + '-span' : undefined} className={finalSpanClassName}>
         {error}
-      </span>
+      </div>
     </div>
   )
 }

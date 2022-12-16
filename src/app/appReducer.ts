@@ -51,7 +51,6 @@ export const authMeTC = () => (dispatch: Dispatch) => {
   authAPI
     .me()
     .then(res => {
-      console.log(res.data)
       dispatch(setUserAC(res.data))
       dispatch(setIsLoggedInAC(true))
     })

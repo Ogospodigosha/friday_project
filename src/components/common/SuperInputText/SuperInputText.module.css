@@ -20,23 +20,17 @@ label {
 }
 
 .errorInput {
-  background: red;
-  border: 2px solid red;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+
+  border-bottom: 2px solid red;
 }
 
 .error {
-  color: red;
-}
-
-.errorInput {
-  border: 1px solid #cc1439;
-}
-
-.error {
-  position: relative;
-  top: -25px;
-  left: -370px;
+  padding-top: 5px;
 
   font-size: 10px;
   color: #cc1439;
+  text-align: center;
 }
