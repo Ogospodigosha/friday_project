@@ -35,8 +35,6 @@ export const updateProfileTC =
     authAPI
       .updateUser(model)
       .then(res => {
-        console.log(res.data)
-        // console.log(res.data.updatedUser.name)
         dispatch(setUserAC(res.data.updatedUser))
         dispatch(setAppStatusAC('succeeded'))
       })

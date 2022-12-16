@@ -18,6 +18,7 @@ export const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
   const dispatch = useAppDispatch()
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
+  const appStatus = useAppSelector(state => state.app.status)
 
   const formik = useFormik({
     initialValues: {
@@ -66,6 +67,7 @@ export const Login = () => {
                 label={'Email'}
                 variant={'standard'}
                 margin={'normal'}
+                disabled={appStatus === 'loading'}
                 {...formik.getFieldProps('email')}
               />
               {formik.touched.email && formik.errors.email && (
@@ -78,6 +80,7 @@ export const Login = () => {
                 label={'Password'}
                 variant={'standard'}
                 margin={'normal'}
+                disabled={appStatus === 'loading'}
                 type={showPassword ? 'text' : 'password'}
                 {...formik.getFieldProps('password')}
                 InputProps={{
@@ -102,6 +105,7 @@ export const Login = () => {
               <FormControlLabel
                 label={'Remember me'}
                 sx={{ left: '0' }}
+                disabled={appStatus === 'loading'}
                 {...formik.getFieldProps('rememberMe')}
                 control={<Checkbox />}
               />
@@ -110,7 +114,7 @@ export const Login = () => {
               Forgot Password?
             </NavLink>
             <div className={styles.submitButton}>
-              <LoadingButtonForm IsLoading={'idle'} title={'Sign In'} />
+              <LoadingButtonForm IsLoading={appStatus} title={'Sign In'} />
             </div>
           </FormGroup>
           <p className={styles.question}>Have no account?</p>

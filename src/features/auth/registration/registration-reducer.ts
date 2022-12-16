@@ -45,6 +45,5 @@ export const RegistrationTC = (email: string, password: string) => (dispatch: Di
 
       dispatch(setAppErrorAC(error))
       dispatch(setAppStatusAC('failed'))
-      console.log('error: ', error)
     })
 }

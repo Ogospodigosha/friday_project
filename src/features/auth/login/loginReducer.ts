@@ -33,7 +33,6 @@ export const logInTC =
     try {
       const res = await authAPI.login(data)
 
-      console.log(data)
       dispatch(setUserAC(res.data))
       dispatch(setIsLoggedInAC(true))
     } catch (e) {
@@ -47,7 +46,7 @@ export const logInTC =
         dispatch(setAppErrorAC(`Native error ${err.message}`))
       }
     } finally {
-      //dispatch
+      dispatch(setAppStatusAC('idle'))
     }
   }
 

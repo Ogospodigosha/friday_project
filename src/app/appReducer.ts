@@ -48,17 +48,14 @@ export const setAppStatusAC = (status: RequestStatusType) =>
 export const setUserAC = (user: ProfileType) => ({ type: 'APP/SET-USER', user } as const)
 //thunk creator
 export const authMeTC = () => (dispatch: Dispatch) => {
-  debugger
   authAPI
     .me()
     .then(res => {
-      console.log(res.data)
       dispatch(setUserAC(res.data))
       dispatch(setIsLoggedInAC(true))
     })
     .catch((e: AxiosError) => {
       dispatch(setIsLoggedInAC(false))
-      console.log(e.message)
     })
     .finally(() => {
       dispatch(setInitializedAC(true))

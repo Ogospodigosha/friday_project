@@ -30,7 +30,6 @@ export const Profile = () => {
     dispatch(logOutTC())
   }
   const sendTextHandler = () => {
-    console.log('asdsa')
     dispatch(updateProfileTC({ name: text }))
   }
 

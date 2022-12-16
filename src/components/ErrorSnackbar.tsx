@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import MuiAlert, { AlertProps } from '@mui/material/Alert'
 import Snackbar from '@mui/material/Snackbar'
@@ -15,7 +15,6 @@ export function ErrorSnackbar() {
   const dispatch = useDispatch()
   const error = useSelector<AppRootStateType, RequestErrorType>(state => state.app.error)
 
-  console.log(error)
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return
