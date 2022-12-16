@@ -49,7 +49,7 @@ export const CreateNewPassword = () => {
               Create new password and we will send you further instructions to email
             </div>
             <div className={s.submitButton}>
-              <LoadingButtonForm IsLoading={IsLoading} />
+              <LoadingButtonForm IsLoading={IsLoading} title={'create new password'} />
             </div>
           </Form>
         </Formik>

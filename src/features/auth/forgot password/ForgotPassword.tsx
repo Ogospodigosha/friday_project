@@ -36,7 +36,7 @@ export const ForgotPassword = () => {
   })
 
   if (send) {
-    return <Navigate to="/create_new_password" />
+    return <Navigate to="/check_email" />
   }
 
   return (

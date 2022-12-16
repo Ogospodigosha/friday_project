@@ -3,7 +3,6 @@ import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { CheckEmail } from '../../features/auth/checkEmail/CheckEmail'
-
 import { CreateNewPassword } from '../../features/auth/createNewPassword/CreateNewPassword'
 import { ForgotPassword } from '../../features/auth/forgot password/ForgotPassword'
 import { Login } from '../../features/auth/login/Login'
@@ -16,6 +15,7 @@ import { Error404 } from './error404/Error404'
 export const Pages = () => {
   return (
     <Routes>
+      <Route path={'/'} element={<Navigate to={'/profile'} />} />
       <Route path={'/friday_project'} element={<Navigate to={'/profile'} />} />
       <Route path={'/login'} element={<Login />} />
       <Route path={'/registration'} element={<Registration />} />
@@ -25,7 +25,7 @@ export const Pages = () => {
       {/*<Route path={'/create_new_password/*'} element={<Bla />} />*/}
       {/*<Route path={'/test'} element={<Test />} />*/}
       <Route path={'*'} element={<Error404 />} />
-        <Route path={'/check_email'} element={<CheckEmail />
+      <Route path={'/check_email'} element={<CheckEmail />} />
       {/*<Route path={'/help'} element={<TestForm />} />*/}
     </Routes>
   )

@@ -28,7 +28,7 @@ export const authAPI = {
     return instance.delete('auth/me')
   },
   createPassword(data: createPasswordDataType) {
-    return instance.post('https://neko-back.herokuapp.com/2.0/auth/set-new-password/', data)
+    return axios.post('https://neko-back.herokuapp.com/2.0/auth/set-new-password/', data)
   },
 }
 

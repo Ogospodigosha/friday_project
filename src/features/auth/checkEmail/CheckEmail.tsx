@@ -3,15 +3,20 @@ import React from 'react'
 import Button from '@mui/material/Button'
 import { useNavigate } from 'react-router-dom'
 
-import { useAppSelector } from '../../../app/store'
+import { useAppDispatch, useAppSelector } from '../../../app/store'
 import checkEmail from '../../../assets/icons/checkEmail.svg'
+import { setSendAC } from '../forgot password/forgotPasswordReducer'
 
 import style from './checkEmail.module.css'
 
 export const CheckEmail = () => {
-  const email = useAppSelector<string>(state => state.app.user.email)
+  const dispatch = useAppDispatch()
+  const email = useAppSelector<string>(state => state.forgotPassword.email)
   const navigate = useNavigate()
-  const navigateToLogin = () => navigate('/login')
+  const navigateToLogin = () => {
+    dispatch(setSendAC(false))
+    navigate('/login')
+  }
 
   return (
     <div className={style.wrapper}>
