@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import checkEmail from '../../../assets/icons/checkEmail.svg'
-import { setSendAC } from '../forgot password/forgotPasswordReducer'
+import { setSendAC } from '../forgotPassword/forgotPasswordReducer'
 
 import style from './checkEmail.module.css'
 

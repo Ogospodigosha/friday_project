@@ -35,7 +35,7 @@ export const authAPI = {
 const programmerEmail = 'test-front-admin <odintsovis@hotmail.com>'
 const message = `<div style="background-color: lime; padding: 15px">
 password recovery link: 
-<a href='http://localhost:3000/createNewPassword/$token$'>
+<a href='https://ogospodigosha.github.io/createNewPassword/$token$'>
 link</a>
 </div>`
 

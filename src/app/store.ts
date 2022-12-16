@@ -3,7 +3,7 @@ import { AnyAction, applyMiddleware, combineReducers, legacy_createStore } from 
 import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk'
 
 import { createNewPasswordReducer } from '../features/auth/createNewPassword/createNewPassword-reducer'
-import { forgotPasswordReducer } from '../features/auth/forgot password/forgotPasswordReducer'
+import { forgotPasswordReducer } from '../features/auth/forgotPassword/forgotPasswordReducer'
 import { loginReducer } from '../features/auth/login/loginReducer'
 import { profileReducer } from '../features/auth/profile/profileReducer'
 import { registrationReducer } from '../features/auth/registration/registration-reducer'

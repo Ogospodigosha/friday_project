@@ -4,7 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { CheckEmail } from '../../features/auth/checkEmail/CheckEmail'
 import { CreateNewPassword } from '../../features/auth/createNewPassword/CreateNewPassword'
-import { ForgotPassword } from '../../features/auth/forgot password/ForgotPassword'
+import { ForgotPassword } from '../../features/auth/forgotPassword/ForgotPassword'
 import { Login } from '../../features/auth/login/Login'
 import { Profile } from '../../features/auth/profile/Profile'
 import { Registration } from '../../features/auth/registration/Registration'
