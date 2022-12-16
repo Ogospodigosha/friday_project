@@ -8,12 +8,10 @@ const initialState = {
   isLoggedIn: false,
 }
 
-type InitialStateType = typeof initialState
-
 export const loginReducer = (
-  state: InitialStateType = initialState,
-  action: TLoginReducer
-): InitialStateType => {
+  state: LoginInitialStateType = initialState,
+  action: LoginReducerType
+): LoginInitialStateType => {
   switch (action.type) {
     case 'login/SET-IS-LOGGED-IN':
       return { ...state, isLoggedIn: action.value }
@@ -34,10 +32,12 @@ export const logInTC =
       const res = await authAPI.login(data)
 
       dispatch(setUserAC(res.data))
+      // dispatch(setAppStatusAC('succeeded'))
       dispatch(setIsLoggedInAC(true))
     } catch (e) {
       const err = e as Error | AxiosError<{ error: string }>
 
+      // dispatch(setAppStatusAC('failed'))
       if (axios.isAxiosError(err)) {
         const error = err.response?.data ? err.response.data.error : err.message
 
@@ -51,4 +51,5 @@ export const logInTC =
   }
 
 // types
-export type TLoginReducer = ReturnType<typeof setIsLoggedInAC>
+export type LoginReducerType = ReturnType<typeof setIsLoggedInAC>
+type LoginInitialStateType = typeof initialState

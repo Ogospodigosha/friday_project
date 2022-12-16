@@ -17,15 +17,15 @@ export const authAPI = {
   updateUser(data: UpdateProfileModelType) {
     return instance.put('auth/me', data)
   },
+  logOut() {
+    return instance.delete('auth/me')
+  },
   forgotPassword(email: string) {
     return axios.post('https://neko-back.herokuapp.com/2.0/auth/forgot', {
       email,
       from: programmerEmail,
       message,
     })
-  },
-  logOut() {
-    return instance.delete('auth/me')
   },
 }
 

@@ -27,7 +27,7 @@ export const Login = () => {
       rememberMe: false,
     },
     validate: values => {
-      const errors: FormikErrorT = {}
+      const errors: FormikErrorType = {}
 
       if (!values.email) {
         errors.email = 'Required'
@@ -129,7 +129,7 @@ export const Login = () => {
 
 // types
 
-type FormikErrorT = {
+type FormikErrorType = {
   email?: string
   password?: string
   rememberMe?: boolean
