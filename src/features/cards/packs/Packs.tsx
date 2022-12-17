@@ -13,14 +13,16 @@ import {
   TableRow,
 } from '@mui/material'
 import Button from '@mui/material/Button'
+import { useParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 
-import { createPackTC, getPacksTC } from './packs-reducer'
+import { createPackTC, deletePackTC, getPacksTC } from './packs-reducer'
 
 export const Packs = () => {
   const dispatch = useAppDispatch()
   const packs = useAppSelector(state => state.packs.cardPacks)
+  const { token } = useParams()
 
   console.log(packs)
   useEffect(() => {
@@ -41,11 +43,14 @@ export const Packs = () => {
   }
   const data = {
     cardsPack: {
-      name: 'дерево',
+      name: '55',
     },
   }
   const createPack = () => {
     dispatch(createPackTC(data))
+  }
+  const deletePack = (id: string) => {
+    dispatch(deletePackTC(id))
   }
 
   return (
@@ -77,7 +82,7 @@ export const Packs = () => {
                   <EditIcon />
                 </IconButton>
                 <IconButton>
-                  <DeleteIcon />
+                  <DeleteIcon onClick={() => deletePack(raw._id)} />
                 </IconButton>
               </TableCell>
             </TableRow>

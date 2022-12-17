@@ -9,6 +9,9 @@ export const packsApi = {
   cratePack(data: createDataType) {
     return instance.post('cards/pack', data)
   },
+  deletePack(id: string) {
+    return instance.delete('cards/pack', { params: { id: id } })
+  },
 }
 //types
 export type createDataType = {
