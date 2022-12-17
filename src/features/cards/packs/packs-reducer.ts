@@ -1,6 +1,8 @@
 import { Dispatch } from 'redux'
 
-import { packsApi } from './packsApi'
+import { AppThunkDispatch } from '../../../app/store'
+
+import { createDataType, packsApi } from './packsApi'
 
 const initState: StateType = {
   cardPacks: [],
@@ -16,7 +18,7 @@ export const packsReducer = (state: StateType = initState, action: ActionsType):
 }
 //types
 type ActionsType = ReturnType<typeof getPacksAC>
-type PackType = {
+export type PackType = {
   _id: string
   user_id: string
   user_name: string
@@ -38,9 +40,15 @@ type StateType = {
 }
 //action creator
 export const getPacksAC = (packs: PackType[]) => ({ type: 'GET-PACKS', packs })
+export const createPackAC = (data: createDataType) => ({ type: 'GET-PACKS', data })
 //thunk creator
 export const getPacksTC = () => (dispatch: Dispatch) => {
   packsApi.getPacks().then(res => {
     dispatch(getPacksAC(res.data.cardPacks))
+  })
+}
+export const createPackTC = (data: createDataType) => (dispatch: AppThunkDispatch) => {
+  packsApi.cratePack(data).then(res => {
+    dispatch(getPacksTC())
   })
 }

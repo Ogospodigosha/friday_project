@@ -12,10 +12,11 @@ import {
   TableContainer,
   TableRow,
 } from '@mui/material'
+import Button from '@mui/material/Button'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 
-import { getPacksTC } from './packs-reducer'
+import { createPackTC, getPacksTC } from './packs-reducer'
 
 export const Packs = () => {
   const dispatch = useAppDispatch()
@@ -38,9 +39,18 @@ export const Packs = () => {
 
     return newUpdated.join('.')
   }
+  const data = {
+    cardsPack: {
+      name: 'дерево',
+    },
+  }
+  const createPack = () => {
+    dispatch(createPackTC(data))
+  }
 
   return (
     <TableContainer component={Paper}>
+      <Button onClick={createPack}>create pack</Button>
       <Table>
         <thead>
           <TableRow>
