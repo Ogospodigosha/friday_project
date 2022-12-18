@@ -12,19 +12,12 @@ export const packsReducer = (state: StateType = initState, action: ActionsType):
   switch (action.type) {
     case 'GET-PACKS':
       return { ...state, cardPacks: action.packs }
-    case 'CREATE-PACK':
-      return { ...state }
-    case 'DELETE-PACK':
-      return { ...state }
     default:
       return state
   }
 }
 //types
-type ActionsType =
-  | ReturnType<typeof getPacksAC>
-  | ReturnType<typeof createPackAC>
-  | ReturnType<typeof deletePackAC>
+type ActionsType = ReturnType<typeof getPacksAC>
 export type PackType = {
   _id: string
   user_id: string
@@ -47,8 +40,6 @@ type StateType = {
 }
 //action creator
 export const getPacksAC = (packs: PackType[]) => ({ type: 'GET-PACKS', packs } as const)
-export const createPackAC = (data: createDataType) => ({ type: 'CREATE-PACK', data } as const)
-export const deletePackAC = (data: createDataType) => ({ type: 'DELETE-PACK', data } as const)
 //thunk creator
 export const getPacksTC = () => (dispatch: Dispatch) => {
   packsApi.getPacks().then(res => {
@@ -62,6 +53,11 @@ export const createPackTC = (data: createDataType) => (dispatch: AppThunkDispatc
 }
 export const deletePackTC = (id: string) => (dispatch: AppThunkDispatch) => {
   packsApi.deletePack(id).then(res => {
+    dispatch(getPacksTC())
+  })
+}
+export const editPackTC = (id: string) => (dispatch: AppThunkDispatch) => {
+  packsApi.editPack({ cardsPack: { _id: id, name: 'new name' } }).then(res => {
     dispatch(getPacksTC())
   })
 }

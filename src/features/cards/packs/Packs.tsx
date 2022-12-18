@@ -16,7 +16,7 @@ import Button from '@mui/material/Button'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 
-import { createPackTC, deletePackTC, getPacksTC } from './packs-reducer'
+import { createPackTC, deletePackTC, editPackTC, getPacksTC } from './packs-reducer'
 import s from './packs.module.css'
 
 export const Packs = () => {
@@ -50,6 +50,9 @@ export const Packs = () => {
   }
   const deletePack = (id: string) => {
     dispatch(deletePackTC(id))
+  }
+  const editPack = (id: string) => {
+    dispatch(editPackTC(id))
   }
 
   return (
@@ -89,7 +92,7 @@ export const Packs = () => {
                   <IconButton>
                     <SchoolIcon />
                   </IconButton>
-                  <IconButton>
+                  <IconButton onClick={() => editPack(raw._id)}>
                     <EditIcon />
                   </IconButton>
                   <IconButton onClick={() => deletePack(raw._id)}>

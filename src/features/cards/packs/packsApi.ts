@@ -12,12 +12,21 @@ export const packsApi = {
   deletePack(id: string) {
     return instance.delete('cards/pack', { params: { id: id } })
   },
+  editPack(data: editDataType) {
+    return instance.put('cards/pack', data)
+  },
 }
 //types
 export type createDataType = {
   cardsPack: {
     name?: string
     private?: boolean
+  }
+}
+export type editDataType = {
+  cardsPack: {
+    name?: string
+    _id: string
   }
 }
 type ResponseDataCreateType = {
