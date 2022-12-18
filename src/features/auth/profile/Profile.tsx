@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import Avatar from '@mui/material/Avatar'
 import Fab from '@mui/material/Fab'
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import arrow from '../../../assets/icons/arrowback.svg'
@@ -43,7 +43,7 @@ export const Profile = () => {
     <>
       <div className={style.backPackList} onClick={() => navigate(PATH.CARDS)}>
         <img src={arrow} alt="arrow" />
-        <span>Back to Pack List</span>
+        <NavLink to={PATH.PACKS}>Back to Pack List</NavLink>
       </div>
       <div className={style.main}>
         <div className={style.title}>Personal Information</div>
