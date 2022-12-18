@@ -8,8 +8,8 @@ import { ForgotPassword } from '../../features/auth/forgotPassword/ForgotPasswor
 import { Login } from '../../features/auth/login/Login'
 import { Profile } from '../../features/auth/profile/Profile'
 import { Registration } from '../../features/auth/registration/Registration'
+import { UniversalPagination } from '../pagination/UniversalPagination'
 
-// import { TestForm } from '../../features/auth/registration/TestForm'
 import { Error404 } from './error404/Error404'
 
 export const PATH = {
@@ -19,6 +19,7 @@ export const PATH = {
   CREATE_NEW_PASSWORD: '/createNewPassword/',
   REGISTRATION: '/registration',
   CHECK_EMAIL: '/check_email',
+  TEST: '/pagination',
 }
 export const Pages = () => {
   return (
@@ -34,6 +35,7 @@ export const Pages = () => {
       </Route>
       <Route path={'*'} element={<Error404 />} />
       <Route path={PATH.CHECK_EMAIL} element={<CheckEmail />} />
+      <Route path={PATH.TEST} element={<UniversalPagination />} />
     </Routes>
   )
 }
