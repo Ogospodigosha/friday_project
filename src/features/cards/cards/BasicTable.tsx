@@ -8,23 +8,18 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
+import { useAppSelector } from '../../../app/store'
+
 import { style } from './styleSXForBasicTable'
 
-function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-  return { name, calories, fat, carbs, protein }
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-]
-
 export default function BasicTable() {
-  return (
-    <TableContainer component={Paper}>
+  const cardPacks = useAppSelector(state => state.cards.cards)
+  const convertDataFormat = (value: string) => {
+    return new Intl.DateTimeFormat('ru-RU').format(new Date(value))
+  }
+
+  return cardPacks ? (
+    <TableContainer component={Paper} sx={style.container}>
       <Table sx={style.table} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -35,18 +30,22 @@ export default function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.name} sx={style.tableRow}>
+          {cardPacks.map(card => (
+            <TableRow key={card._id} sx={style.tableRow}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {card.question}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
+              <TableCell align="right">{card.answer}</TableCell>
+              <TableCell align="right">{convertDataFormat(card.updated)}</TableCell>
+              <TableCell align="right">{card.grade}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+  ) : (
+    <div>
+      <div>This pack is empty. Click add new card to fill this pack</div>
+    </div>
   )
 }

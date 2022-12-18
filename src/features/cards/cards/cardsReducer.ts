@@ -1,5 +1,5 @@
-import { setAppStatusAC } from '../../app/appReducer'
-import { AppRootStateType, AppThunkDispatch } from '../../app/store'
+import { setAppStatusAC } from '../../../app/appReducer'
+import { AppRootStateType, AppThunkDispatch } from '../../../app/store'
 
 import { cardsApi, CardType, GetCardsResponseType } from './CardsApi'
 
@@ -10,8 +10,8 @@ const cardsInitialState = {
   minGrade: 0,
   page: 1,
   pageCount: 5,
-  packUserId: '639de5a09aa32653302bd563',
-  currentPackId: '',
+  packUserId: '5eb543f6bea3ad21480f1ee7',
+  currentPackId: '639e269ac7270c4efc6205a3',
   sortCardsValue: '0updated',
   filterSearchValue: '',
 }
@@ -61,7 +61,7 @@ export const getCardsTC =
     dispatch(setAppStatusAC('loading'))
     const cardsPack_id = getState().cards.currentPackId
     const page = getState().cards.page
-    const pageCount = 1
+    const pageCount = 5
     const cardQuestion = getState().cards.filterSearchValue
     const sortCards = getState().cards.sortCardsValue
 

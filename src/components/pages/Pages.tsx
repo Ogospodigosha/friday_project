@@ -8,8 +8,8 @@ import { ForgotPassword } from '../../features/auth/forgotPassword/ForgotPasswor
 import { Login } from '../../features/auth/login/Login'
 import { Profile } from '../../features/auth/profile/Profile'
 import { Registration } from '../../features/auth/registration/Registration'
+import { CardsMain } from '../../features/cards/cards/CardsMain'
 import { Packs } from '../../features/cards/packs/Packs'
-import { CardsMain } from '../../features/cards/CardsMain'
 
 import { Error404 } from './error404/Error404'
 

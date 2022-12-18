@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 
 import Avatar from '@mui/material/Avatar'
 import Fab from '@mui/material/Fab'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
-import arrow from '../../../assets/icons/arrowback.svg'
 import logOut from '../../../assets/icons/logout.svg'
 import ava from '../../../assets/img/avatarFish.png'
+import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
 import SuperEditableSpan from '../../../components/common/SuperEditableSpan/SuperEditableSpan'
 import { PATH } from '../../../components/pages/Pages'
 
@@ -41,10 +41,7 @@ export const Profile = () => {
 
   return (
     <>
-      <div className={style.backPackList} onClick={() => navigate(PATH.CARDS)}>
-        <img src={arrow} alt="arrow" />
-        <NavLink to={PATH.PACKS}>Back to Pack List</NavLink>
-      </div>
+      <BackToPackList />
       <div className={style.main}>
         <div className={style.title}>Personal Information</div>
         <div className={style.avatar}>
