@@ -13,16 +13,15 @@ import {
   TableRow,
 } from '@mui/material'
 import Button from '@mui/material/Button'
-import { useParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 
 import { createPackTC, deletePackTC, getPacksTC } from './packs-reducer'
+import s from './packs.module.css'
 
 export const Packs = () => {
   const dispatch = useAppDispatch()
   const packs = useAppSelector(state => state.packs.cardPacks)
-  const { token } = useParams()
 
   console.log(packs)
   useEffect(() => {
@@ -54,41 +53,54 @@ export const Packs = () => {
   }
 
   return (
-    <TableContainer component={Paper}>
-      <Button onClick={createPack}>create pack</Button>
-      <Table>
-        <thead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Cards</TableCell>
-            <TableCell>Last Updated</TableCell>
-            <TableCell>Created by</TableCell>
-            <TableCell>Actions</TableCell>
-          </TableRow>
-        </thead>
-
-        <TableBody>
-          {packs.map(raw => (
-            <TableRow key={raw._id}>
-              <TableCell>{raw.name}</TableCell>
-              <TableCell>{raw.cardsCount}</TableCell>
-              <TableCell>{editableDate(raw.updated)}</TableCell>
-              <TableCell>{raw.user_name}</TableCell>
-              <TableCell>
-                <IconButton>
-                  <SchoolIcon />
-                </IconButton>
-                <IconButton>
-                  <EditIcon />
-                </IconButton>
-                <IconButton>
-                  <DeleteIcon onClick={() => deletePack(raw._id)} />
-                </IconButton>
-              </TableCell>
+    <div>
+      <div className={s.header}>
+        <div className={s.description}>Packs list</div>
+        <Button
+          onClick={createPack}
+          variant={'contained'}
+          className={s.button}
+          style={{ textTransform: 'none', borderRadius: '30px' }}
+        >
+          Add new pack
+        </Button>
+      </div>
+      <div className={s.navigation}></div>
+      <TableContainer component={Paper}>
+        <Table>
+          <thead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Cards</TableCell>
+              <TableCell>Last Updated</TableCell>
+              <TableCell>Created by</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </thead>
+
+          <TableBody>
+            {packs.map(raw => (
+              <TableRow key={raw._id}>
+                <TableCell>{raw.name}</TableCell>
+                <TableCell>{raw.cardsCount}</TableCell>
+                <TableCell>{editableDate(raw.updated)}</TableCell>
+                <TableCell>{raw.user_name}</TableCell>
+                <TableCell>
+                  <IconButton>
+                    <SchoolIcon />
+                  </IconButton>
+                  <IconButton>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton onClick={() => deletePack(raw._id)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   )
 }
