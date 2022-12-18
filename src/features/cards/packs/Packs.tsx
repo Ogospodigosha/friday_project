@@ -3,14 +3,17 @@ import React, { useEffect } from 'react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import SchoolIcon from '@mui/icons-material/School'
+import SearchIcon from '@mui/icons-material/Search'
 import {
   IconButton,
+  InputAdornment,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
+  TextField,
 } from '@mui/material'
 import Button from '@mui/material/Button'
 
@@ -68,7 +71,23 @@ export const Packs = () => {
           Add new pack
         </Button>
       </div>
-      <div className={s.navigation}></div>
+      <div className={s.search}>
+        <span>Search</span>
+      </div>
+      <div className={s.navigation}>
+        <TextField
+          className={s.input}
+          size="small"
+          placeholder={'Provide your text'}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position={'start'}>
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </div>
       <TableContainer component={Paper}>
         <Table>
           <thead>
