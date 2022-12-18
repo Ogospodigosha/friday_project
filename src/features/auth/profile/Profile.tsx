@@ -41,7 +41,7 @@ export const Profile = () => {
 
   return (
     <>
-      <div className={style.backPackList}>
+      <div className={style.backPackList} onClick={() => navigate(PATH.CARDS)}>
         <img src={arrow} alt="arrow" />
         <span>Back to Pack List</span>
       </div>
