@@ -10,4 +10,11 @@ export const style = {
   container: {
     margin: '30px 0 0 0',
   },
+  addNewCard: {
+    background: '#366EFF',
+    boxShadow: '0px 4px 18px rgba(54, 110, 255, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3)',
+    borderRadius: '30px',
+    width: '171px',
+    height: '36px',
+  },
 }

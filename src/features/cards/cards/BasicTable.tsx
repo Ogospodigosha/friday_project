@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -10,6 +11,7 @@ import TableRow from '@mui/material/TableRow'
 
 import { useAppSelector } from '../../../app/store'
 
+import s from './BasicTable.module.css'
 import { style } from './styleSXForBasicTable'
 
 export default function BasicTable() {
@@ -44,8 +46,11 @@ export default function BasicTable() {
       </Table>
     </TableContainer>
   ) : (
-    <div>
-      <div>This pack is empty. Click add new card to fill this pack</div>
+    <div className={s.wrappedEmptyPack}>
+      <div className={s.title}>This pack is empty. Click add new card to fill this pack</div>
+      <Button variant="contained" sx={style.addNewCard}>
+        <span className={s.btnTitle}>Add new card</span>
+      </Button>
     </div>
   )
 }

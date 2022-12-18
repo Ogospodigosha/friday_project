@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
 
 import BasicTable from './BasicTable'
 import { getCardsTC } from './cardsReducer'
@@ -16,6 +17,7 @@ export const CardsMain = () => {
 
   return (
     <>
+      <BackToPackList />
       <BasicTable />
     </>
   )
