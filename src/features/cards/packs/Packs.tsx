@@ -29,8 +29,8 @@ export const Packs = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const packs = useAppSelector(state => state.packs.cardPacks)
   const totalCount = useAppSelector(state => state.packs.totalCount)
-  const page = useAppSelector(state => state.packs.page)
-  const pageCount = useAppSelector(state => state.packs.pageCount)
+  const page = useAppSelector(state => state.packs.params.page)
+  const pageCount = useAppSelector(state => state.packs.params.pageCount)
 
   useEffect(() => {
     const params = Object.fromEntries(searchParams)

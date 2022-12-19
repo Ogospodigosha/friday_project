@@ -1,14 +1,16 @@
-import { Dispatch } from 'redux'
+import { AppThunk, AppThunkDispatch } from '../../../app/store'
 
-import { AppThunkDispatch } from '../../../app/store'
-
-import { createDataType, packsApi, ParamsType } from './packsApi'
+import { createDataType, packsApi } from './packsApi'
 
 const initState: StateType = {
   cardPacks: [],
   totalCount: 0,
-  pageCount: 10,
-  page: 1,
+  params: {
+    pageCount: 10,
+    page: 1,
+    // min: 3,
+    // max: 9,
+  },
 }
 
 export const packsReducer = (state: StateType = initState, action: ActionsType): StateType => {
@@ -17,10 +19,8 @@ export const packsReducer = (state: StateType = initState, action: ActionsType):
       return { ...state, cardPacks: action.packs }
     case 'packs/SET-TOTAL-COUNT':
       return { ...state, totalCount: action.totalCount }
-    case 'packs/SET-COUNT':
-      return { ...state, pageCount: action.pageCount }
-    case 'packs/SET-PAGE':
-      return { ...state, page: action.page }
+    case 'packs/SET-PARAMS':
+      return { ...state, params: action.params }
     default:
       return state
   }
@@ -29,8 +29,8 @@ export const packsReducer = (state: StateType = initState, action: ActionsType):
 type ActionsType =
   | ReturnType<typeof getPacksAC>
   | ReturnType<typeof setPacksTotalCountAC>
-  | ReturnType<typeof setPageCountAC>
-  | ReturnType<typeof setPageAC>
+  | ReturnType<typeof setParamsAC>
+
 export type PackType = {
   _id: string
   user_id: string
@@ -51,38 +51,60 @@ export type PackType = {
 type StateType = {
   cardPacks: PackType[]
   totalCount: number
+  params: ParamsType
+}
+export type ParamsType = {
   pageCount: number
   page: number
+  // min: number
+  // max: number
+}
+export type ParamsModelType = {
+  pageCount?: number
+  page?: number
+  min?: number
+  max?: number
 }
 //action creator
 export const getPacksAC = (packs: PackType[]) => ({ type: 'GET-PACKS', packs } as const)
-export const setPageCountAC = (pageCount: number) =>
-  ({ type: 'packs/SET-COUNT', pageCount } as const)
-export const setPageAC = (page: number) => ({ type: 'packs/SET-PAGE', page } as const)
+export const setParamsAC = (params: ParamsType) => ({ type: 'packs/SET-PARAMS', params } as const)
+
 export const setPacksTotalCountAC = (totalCount: number) =>
   ({ type: 'packs/SET-TOTAL-COUNT', totalCount } as const)
 //thunk creator
 
-export const getPacksTC = (params: ParamsType) => (dispatch: Dispatch) => {
-  packsApi.getPacks(params).then(res => {
-    dispatch(getPacksAC(res.data.cardPacks))
-    dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
-    dispatch(setPageCountAC(res.data.pageCount))
-    dispatch(setPageAC(res.data.page))
-  })
-}
+export const getPacksTC =
+  (newParams: ParamsModelType = {}): AppThunk =>
+  (dispatch, getState) => {
+    const oldParams = getState().packs.params
+    const params: ParamsType = {
+      ...oldParams,
+      ...newParams,
+    }
+
+    packsApi.getPacks(params).then(res => {
+      const params = {
+        pageCount: res.data.pageCount,
+        page: res.data.page,
+      }
+
+      dispatch(setParamsAC(params))
+      dispatch(getPacksAC(res.data.cardPacks))
+      dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
+    })
+  }
 export const createPackTC = (data: createDataType) => (dispatch: AppThunkDispatch) => {
   packsApi.cratePack(data).then(res => {
-    // dispatch(getPacksTC())
+    dispatch(getPacksTC())
   })
 }
 export const deletePackTC = (id: string) => (dispatch: AppThunkDispatch) => {
   packsApi.deletePack(id).then(res => {
-    // dispatch(getPacksTC())
+    dispatch(getPacksTC())
   })
 }
 export const editPackTC = (id: string) => (dispatch: AppThunkDispatch) => {
   packsApi.editPack({ cardsPack: { _id: id, name: 'new name' } }).then(res => {
-    // dispatch(getPacksTC())
+    dispatch(getPacksTC())
   })
 }
