@@ -9,6 +9,7 @@ const initState: StateType = {
     pageCount: 10,
     page: 1,
     sortPacks: '0updated',
+    packName: '',
     // min: 3,
     // max: 9,
   },
@@ -26,6 +27,8 @@ export const packsReducer = (state: StateType = initState, action: ActionsType):
       return { ...state, params: { ...state.params, page: action.page } }
     case 'packs/CHANGE-PAGE-COUNT':
       return { ...state, params: { ...state.params, pageCount: action.pageCount } }
+    case 'packs/CHANGE-PACK-NAME':
+      return { ...state, params: { ...state.params, packName: action.packName } }
     default:
       return state
   }
@@ -37,6 +40,7 @@ type ActionsType =
   | ReturnType<typeof setSortAC>
   | ReturnType<typeof changePageAC>
   | ReturnType<typeof changePageCountAC>
+  | ReturnType<typeof changePackNameAC>
 
 export type PackType = {
   _id: string
@@ -64,6 +68,7 @@ export type ParamsType = {
   pageCount: number
   page: number
   sortPacks: string
+  packName: string
   // min: number
   // max: number
 }
@@ -73,6 +78,7 @@ export type ParamsModelType = {
   sortPacks?: string
   min?: number
   max?: number
+  packName?: string
 }
 //action creator
 export const getPacksAC = (packs: PackType[]) => ({ type: 'GET-PACKS', packs } as const)
@@ -84,6 +90,8 @@ export const setSortAC = (newSort: string) => ({ type: 'packs/SET-SORT', newSort
 
 export const setPacksTotalCountAC = (totalCount: number) =>
   ({ type: 'packs/SET-TOTAL-COUNT', totalCount } as const)
+export const changePackNameAC = (packName: string) =>
+  ({ type: 'packs/CHANGE-PACK-NAME', packName } as const)
 //thunk creator
 
 export const getPacksTC =
