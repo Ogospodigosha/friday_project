@@ -1,8 +1,8 @@
-import down from './icons/down.svg'
-import up from './icons/up.svg'
+import downIcon from './icons/down.svg'
+import upIcon from './icons/up.svg'
 
 type PropsType = {
-  filter: string
+  sort: string
   onClick: (newSort: string) => void
   value: string
 }
@@ -10,13 +10,13 @@ const change = (filter: string, up: string, down: string) => {
   return filter === up ? down : up
 }
 
-export const Filtration = (props: PropsType) => {
-  const setUp = '0' + props.value
-  const setDown = '1' + props.value
+export const UniversalSort = (props: PropsType) => {
+  const up = '0' + props.value
+  const down = '1' + props.value
 
-  const icon = props.filter === setUp ? up : down
+  const icon = props.sort === up ? upIcon : downIcon
   const onClickHandler = () => {
-    props.onClick(change(props.filter, setUp, setDown))
+    props.onClick(change(props.sort, up, down))
   }
 
   return (

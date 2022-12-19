@@ -19,9 +19,10 @@ import Button from '@mui/material/Button'
 import { createSearchParams, useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { UniversalSort } from '../../../components/filtration/UniversalSort'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 
-import { createPackTC, deletePackTC, editPackTC, getPacksTC } from './packs-reducer'
+import { createPackTC, deletePackTC, editPackTC, getPacksTC, setSortAC } from './packs-reducer'
 import s from './packs.module.css'
 
 export const Packs = () => {
@@ -31,6 +32,7 @@ export const Packs = () => {
   const totalCount = useAppSelector(state => state.packs.totalCount)
   const page = useAppSelector(state => state.packs.params.page)
   const pageCount = useAppSelector(state => state.packs.params.pageCount)
+  const sort = useAppSelector(state => state.packs.sort)
 
   useEffect(() => {
     const params = Object.fromEntries(searchParams)
@@ -72,6 +74,10 @@ export const Packs = () => {
   const editPack = (id: string) => {
     dispatch(editPackTC(id))
   }
+  const onChangeSort = (newSort: string) => {
+    dispatch(getPacksTC({ sortPacks: newSort, page: 1 }))
+    dispatch(setSortAC(newSort))
+  }
 
   return (
     <div>
@@ -103,13 +109,22 @@ export const Packs = () => {
           }}
         />
       </div>
+      <UniversalPagination
+        totalCount={totalCount}
+        page={page}
+        pageCount={pageCount}
+        onChange={onChangeCallback}
+      />
       <TableContainer component={Paper}>
         <Table>
           <thead>
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>Cards</TableCell>
-              <TableCell>Last Updated</TableCell>
+              <TableCell>
+                Last Updated
+                <UniversalSort sort={sort} value={'updated'} onClick={onChangeSort} />
+              </TableCell>
               <TableCell>Created by</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>

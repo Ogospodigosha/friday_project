@@ -11,6 +11,7 @@ const initState: StateType = {
     // min: 3,
     // max: 9,
   },
+  sort: '0updated',
 }
 
 export const packsReducer = (state: StateType = initState, action: ActionsType): StateType => {
@@ -21,6 +22,8 @@ export const packsReducer = (state: StateType = initState, action: ActionsType):
       return { ...state, totalCount: action.totalCount }
     case 'packs/SET-PARAMS':
       return { ...state, params: action.params }
+    case 'packs/SET-SORT':
+      return { ...state, sort: action.newSort }
     default:
       return state
   }
@@ -30,6 +33,7 @@ type ActionsType =
   | ReturnType<typeof getPacksAC>
   | ReturnType<typeof setPacksTotalCountAC>
   | ReturnType<typeof setParamsAC>
+  | ReturnType<typeof setSortAC>
 
 export type PackType = {
   _id: string
@@ -52,6 +56,7 @@ type StateType = {
   cardPacks: PackType[]
   totalCount: number
   params: ParamsType
+  sort: string
 }
 export type ParamsType = {
   pageCount: number
@@ -62,12 +67,14 @@ export type ParamsType = {
 export type ParamsModelType = {
   pageCount?: number
   page?: number
+  sortPacks?: string
   min?: number
   max?: number
 }
 //action creator
 export const getPacksAC = (packs: PackType[]) => ({ type: 'GET-PACKS', packs } as const)
 export const setParamsAC = (params: ParamsType) => ({ type: 'packs/SET-PARAMS', params } as const)
+export const setSortAC = (newSort: string) => ({ type: 'packs/SET-SORT', newSort } as const)
 
 export const setPacksTotalCountAC = (totalCount: number) =>
   ({ type: 'packs/SET-TOTAL-COUNT', totalCount } as const)
