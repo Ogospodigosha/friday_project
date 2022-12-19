@@ -1,7 +1,13 @@
 import { setAppStatusAC } from '../../../app/appReducer'
 import { AppRootStateType, AppThunkDispatch } from '../../../app/store'
 
-import { cardsApi, CardType, CreateCardRequestType, GetCardsResponseType } from './CardsApi'
+import {
+  cardsApi,
+  CardType,
+  CreateCardRequestType,
+  GetCardsResponseType,
+  UpdateCardType,
+} from './CardsApi'
 
 const cardsInitialState = {
   cards: null as CardType[] | null,
@@ -61,20 +67,15 @@ export const getCardsTC =
     dispatch(setAppStatusAC('loading'))
     const cardsPack_id = getState().cards.currentPackId
     const page = getState().cards.page
-    const pageCount = 5
-    const cardQuestion = getState().cards.filterSearchValue
-    const sortCards = getState().cards.sortCardsValue
+    const pageCount = 10
 
     try {
       const res = await cardsApi.getCards({
         cardsPack_id,
         page,
         pageCount,
-        cardQuestion,
-        sortCards,
       })
 
-      console.log(res)
       dispatch(setCardsAC(res.data))
       dispatch(setAppStatusAC('succeeded'))
     } catch (err) {
@@ -96,6 +97,17 @@ export const deleteCardTC = (id: string) => async (dispatch: AppThunkDispatch) =
   dispatch(setAppStatusAC('loading'))
   try {
     await cardsApi.deleteCard(id)
+    dispatch(getCardsTC())
+    dispatch(setAppStatusAC('succeeded'))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const updateCardTC = (data: UpdateCardType) => async (dispatch: AppThunkDispatch) => {
+  dispatch(setAppStatusAC('loading'))
+  try {
+    await cardsApi.updateCard(data)
     dispatch(getCardsTC())
     dispatch(setAppStatusAC('succeeded'))
   } catch (err) {

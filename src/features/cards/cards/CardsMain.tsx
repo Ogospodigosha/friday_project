@@ -7,12 +7,12 @@ import { BackToPackList } from '../../../components/common/BackToPackList/BackTo
 
 import BasicTable from './BasicTable'
 import s from './CardsMain.module.css'
-import { createNewCardTC, deleteCardTC, getCardsTC } from './cardsReducer'
+import { createNewCardTC, deleteCardTC, getCardsTC, updateCardTC } from './cardsReducer'
 import { style } from './styleSXForBasicTable'
 
 export const CardsMain = () => {
   const dispatch = useAppDispatch()
-  const myId = useAppSelector(state => state.app.user._id)
+  // const myId = useAppSelector(state => state.app.user._id)
   const cardsPack_id = useAppSelector(state => state.cards.currentPackId)
 
   useEffect(() => {
@@ -25,6 +25,16 @@ export const CardsMain = () => {
     dispatch(deleteCardTC(cardId))
   }
 
+  const updateCard = (cardId: string) => {
+    dispatch(
+      updateCardTC({
+        _id: cardId,
+        question: 'What are you think about it',
+        answer: 'I know it',
+      })
+    )
+  }
+
   return (
     <>
       <BackToPackList />
@@ -34,7 +44,7 @@ export const CardsMain = () => {
           <span className={s.btnTitle}>Add new card</span>
         </Button>
       </div>
-      <BasicTable deleteCardOnClick={deleteCard} />
+      <BasicTable deleteCardOnClick={deleteCard} updateCardOnClick={updateCard} />
     </>
   )
 }

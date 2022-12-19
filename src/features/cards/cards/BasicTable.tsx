@@ -18,6 +18,7 @@ import { style } from './styleSXForBasicTable'
 
 type BasicTableProps = {
   deleteCardOnClick: (value: string) => void
+  updateCardOnClick: (value: string) => void
 }
 
 export default function BasicTable(props: BasicTableProps) {
@@ -60,7 +61,7 @@ export default function BasicTable(props: BasicTableProps) {
                 {card.grade}
               </TableCell>
               <TableCell sx={style.editDelete} align="right">
-                <EditIcon />
+                <EditIcon onClick={() => props.updateCardOnClick(card._id)} />
                 <DeleteIcon onClick={() => props.deleteCardOnClick(card._id)} />
               </TableCell>
             </TableRow>
