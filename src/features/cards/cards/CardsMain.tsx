@@ -7,24 +7,27 @@ import { BackToPackList } from '../../../components/common/BackToPackList/BackTo
 
 import BasicTable from './BasicTable'
 import s from './CardsMain.module.css'
-import { getCardsTC } from './cardsReducer'
+import { createNewCardTC, getCardsTC } from './cardsReducer'
 import { style } from './styleSXForBasicTable'
 
 export const CardsMain = () => {
   const dispatch = useAppDispatch()
   const myId = useAppSelector(state => state.app.user._id)
-  const cardPacks = useAppSelector(state => state.cards.cards)
+  const cardsPack_id = useAppSelector(state => state.cards.currentPackId)
 
   useEffect(() => {
     dispatch(getCardsTC())
   }, [])
+  const addNewCard = () => {
+    dispatch(createNewCardTC({ cardsPack_id, question: 'la-la', answer: 'ty-la-la' }))
+  }
 
   return (
     <>
       <BackToPackList />
       <div className={s.packName}>
         <div className={s.packNameTitle}>Lorem Ipsum</div>
-        <Button variant="contained" sx={style.addNewCard}>
+        <Button variant="contained" sx={style.addNewCard} onClick={addNewCard}>
           <span className={s.btnTitle}>Add new card</span>
         </Button>
       </div>

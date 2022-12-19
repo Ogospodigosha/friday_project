@@ -1,7 +1,7 @@
 import { setAppStatusAC } from '../../../app/appReducer'
 import { AppRootStateType, AppThunkDispatch } from '../../../app/store'
 
-import { cardsApi, CardType, GetCardsResponseType } from './CardsApi'
+import { cardsApi, CardType, CreateCardRequestType, GetCardsResponseType } from './CardsApi'
 
 const cardsInitialState = {
   cards: null as CardType[] | null,
@@ -9,7 +9,7 @@ const cardsInitialState = {
   maxGrade: 0,
   minGrade: 0,
   page: 1,
-  pageCount: 5,
+  pageCount: 1,
   packUserId: '5eb543f6bea3ad21480f1ee7',
   currentPackId: '639e269ac7270c4efc6205a4',
   sortCardsValue: '0updated',
@@ -77,6 +77,16 @@ export const getCardsTC =
       console.log(res)
       dispatch(setCardsAC(res.data))
       dispatch(setAppStatusAC('succeeded'))
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+export const createNewCardTC =
+  (data: CreateCardRequestType) => async (dispatch: AppThunkDispatch) => {
+    try {
+      await cardsApi.addCard(data)
+      dispatch(getCardsTC())
     } catch (err) {
       console.log(err)
     }
