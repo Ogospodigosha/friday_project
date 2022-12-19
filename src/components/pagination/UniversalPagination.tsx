@@ -32,7 +32,7 @@ export const UniversalPagination = (props: PaginationPropsType) => {
           color="primary"
           shape="rounded"
         />
-        <span>Show</span>
+        <span className={s.show}>Show</span>
         <Select
           sx={{ height: '100%', width: '70px' }}
           value={props.pageCount}
@@ -43,7 +43,7 @@ export const UniversalPagination = (props: PaginationPropsType) => {
           <MenuItem value={20}>20</MenuItem>
         </Select>
 
-        <span>Cards per page</span>
+        <span className={s.hint}>Cards per page</span>
       </div>
     </>
   )

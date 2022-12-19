@@ -2,7 +2,14 @@
     display: flex;
     align-items: center;
 
-    height: 35px;
+    height: 33px;
 
     /*background-color: red;*/
+}
+.show {
+    margin-right: 5px;
+    margin-left: 15px;
+}
+.hint {
+    margin-left: 5px;
 }
