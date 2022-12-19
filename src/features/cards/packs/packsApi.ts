@@ -3,8 +3,10 @@ import { instance } from '../../../api/instance'
 import { PackType } from './packs-reducer'
 
 export const packsApi = {
-  getPacks() {
-    return instance.get('cards/pack')
+  getPacks(params: ParamsType) {
+    return instance.get('cards/pack', {
+      params: { page: params.page, pageCount: params.pageCount },
+    })
   },
   cratePack(data: createDataType) {
     return instance.post('cards/pack', data)
@@ -17,6 +19,10 @@ export const packsApi = {
   },
 }
 //types
+export type ParamsType = {
+  page: number
+  pageCount: number
+}
 export type createDataType = {
   cardsPack: {
     name?: string

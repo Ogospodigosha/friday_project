@@ -13,22 +13,37 @@ import {
   TableRow,
 } from '@mui/material'
 import Button from '@mui/material/Button'
+import { createSearchParams, useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 
 import { createPackTC, deletePackTC, editPackTC, getPacksTC } from './packs-reducer'
 import s from './packs.module.css'
 
 export const Packs = () => {
   const dispatch = useAppDispatch()
+  const [searchParams, setSearchParams] = useSearchParams()
   const packs = useAppSelector(state => state.packs.cardPacks)
+  const totalCount = useAppSelector(state => state.packs.totalCount)
+  const page = useAppSelector(state => state.packs.page)
+  const pageCount = useAppSelector(state => state.packs.pageCount)
 
-  console.log(packs)
   useEffect(() => {
-    dispatch(getPacksTC())
+    const params = Object.fromEntries(searchParams)
+
+    dispatch(getPacksTC({ page: +params.page || 1, pageCount: +params.count || 10 }))
   }, [])
-  const onClickHandler = () => {
-    console.log(1)
+
+  // callback that change searchParams
+  const onChangeCallback = (newPage: number, newCountForPage: number) => {
+    dispatch(getPacksTC({ page: newPage, pageCount: newCountForPage }))
+    setSearchParams(
+      createSearchParams({
+        page: newPage.toString(),
+        count: newCountForPage.toString(),
+      })
+    )
   }
   const editableDate = (updated: string) => {
     let newUpdated = updated.split('T')[0].split('-')
@@ -104,6 +119,12 @@ export const Packs = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <UniversalPagination
+        totalCount={totalCount}
+        page={page}
+        pageCount={pageCount}
+        onChange={onChangeCallback}
+      />
     </div>
   )
 }

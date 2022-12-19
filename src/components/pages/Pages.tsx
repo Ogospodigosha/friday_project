@@ -9,7 +9,6 @@ import { Login } from '../../features/auth/login/Login'
 import { Profile } from '../../features/auth/profile/Profile'
 import { Registration } from '../../features/auth/registration/Registration'
 import { Packs } from '../../features/cards/packs/Packs'
-import { UniversalPagination } from '../pagination/UniversalPagination'
 
 import { Error404 } from './error404/Error404'
 
@@ -21,7 +20,6 @@ export const PATH = {
   REGISTRATION: '/registration',
   CHECK_EMAIL: '/check_email',
   PACKS: '/packs',
-  TEST: '/pagination',
 }
 export const Pages = () => {
   return (
@@ -37,7 +35,6 @@ export const Pages = () => {
       </Route>
       <Route path={'*'} element={<Error404 />} />
       <Route path={PATH.CHECK_EMAIL} element={<CheckEmail />} />
-      <Route path={PATH.TEST} element={<UniversalPagination />} />
     </Routes>
   )
 }
