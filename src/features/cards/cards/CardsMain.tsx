@@ -7,7 +7,7 @@ import { BackToPackList } from '../../../components/common/BackToPackList/BackTo
 
 import BasicTable from './BasicTable'
 import s from './CardsMain.module.css'
-import { createNewCardTC, getCardsTC } from './cardsReducer'
+import { createNewCardTC, deleteCardTC, getCardsTC } from './cardsReducer'
 import { style } from './styleSXForBasicTable'
 
 export const CardsMain = () => {
@@ -21,6 +21,9 @@ export const CardsMain = () => {
   const addNewCard = () => {
     dispatch(createNewCardTC({ cardsPack_id, question: 'la-la', answer: 'ty-la-la' }))
   }
+  const deleteCard = (cardId: string) => {
+    dispatch(deleteCardTC(cardId))
+  }
 
   return (
     <>
@@ -31,7 +34,7 @@ export const CardsMain = () => {
           <span className={s.btnTitle}>Add new card</span>
         </Button>
       </div>
-      <BasicTable />
+      <BasicTable deleteCardOnClick={deleteCard} />
     </>
   )
 }

@@ -16,7 +16,11 @@ import { useAppSelector } from '../../../app/store'
 import s from './BasicTable.module.css'
 import { style } from './styleSXForBasicTable'
 
-export default function BasicTable() {
+type BasicTableProps = {
+  deleteCardOnClick: (value: string) => void
+}
+
+export default function BasicTable(props: BasicTableProps) {
   const cardPacks = useAppSelector(state => state.cards.cards)
   const convertDataFormat = (value: string) => {
     return new Intl.DateTimeFormat('ru-RU').format(new Date(value))
@@ -57,7 +61,7 @@ export default function BasicTable() {
               </TableCell>
               <TableCell sx={style.editDelete} align="right">
                 <EditIcon />
-                <DeleteIcon />
+                <DeleteIcon onClick={() => props.deleteCardOnClick(card._id)} />
               </TableCell>
             </TableRow>
           ))}

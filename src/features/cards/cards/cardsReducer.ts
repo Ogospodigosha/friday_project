@@ -91,3 +91,14 @@ export const createNewCardTC =
       console.log(err)
     }
   }
+
+export const deleteCardTC = (id: string) => async (dispatch: AppThunkDispatch) => {
+  dispatch(setAppStatusAC('loading'))
+  try {
+    await cardsApi.deleteCard(id)
+    dispatch(getCardsTC())
+    dispatch(setAppStatusAC('succeeded'))
+  } catch (err) {
+    console.log(err)
+  }
+}
