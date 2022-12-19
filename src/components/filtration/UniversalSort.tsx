@@ -6,8 +6,8 @@ type PropsType = {
   onClick: (newSort: string) => void
   value: string
 }
-const change = (filter: string, up: string, down: string) => {
-  return filter === up ? down : up
+export const change = (sort: string, up: string, down: string) => {
+  return sort === up ? down : up
 }
 
 export const UniversalSort = (props: PropsType) => {

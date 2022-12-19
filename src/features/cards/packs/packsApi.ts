@@ -1,9 +1,9 @@
 import { instance } from '../../../api/instance'
 
-import { PackType, ParamsType } from './packs-reducer'
+import { PackType, ParamsModelType } from './packs-reducer'
 
 export const packsApi = {
-  getPacks(params: ParamsType) {
+  getPacks(params: ParamsModelType) {
     return instance.get('cards/pack', {
       params: { ...params },
     })
@@ -18,6 +18,7 @@ export const packsApi = {
     return instance.put('cards/pack', data)
   },
 }
+
 export type createDataType = {
   cardsPack: {
     name?: string

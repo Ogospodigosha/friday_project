@@ -22,7 +22,15 @@ import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { UniversalSort } from '../../../components/filtration/UniversalSort'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 
-import { createPackTC, deletePackTC, editPackTC, getPacksTC, setSortAC } from './packs-reducer'
+import {
+  changePageAC,
+  changePageCountAC,
+  createPackTC,
+  deletePackTC,
+  editPackTC,
+  getPacksTC,
+  setSortAC,
+} from './packs-reducer'
 import s from './packs.module.css'
 
 export const Packs = () => {
@@ -32,21 +40,37 @@ export const Packs = () => {
   const totalCount = useAppSelector(state => state.packs.totalCount)
   const page = useAppSelector(state => state.packs.params.page)
   const pageCount = useAppSelector(state => state.packs.params.pageCount)
-  const sort = useAppSelector(state => state.packs.sort)
+  const sort = useAppSelector(state => state.packs.params.sortPacks)
 
   useEffect(() => {
     const params = Object.fromEntries(searchParams)
+    const page = +params.page
+    const pageCount = +params.pageCount
+    const sortPacks = params.sortPacks
 
-    dispatch(getPacksTC({ page: +params.page || 1, pageCount: +params.count || 10 }))
+    dispatch(changePageAC(page))
+    dispatch(changePageCountAC(pageCount))
+    dispatch(setSortAC(sortPacks))
+
+    dispatch(
+      getPacksTC({
+        page: page || 1,
+        pageCount: +pageCount || 10,
+        sortPacks: sortPacks || '0updated',
+      })
+    )
   }, [])
 
   // callback that change searchParams
   const onChangeCallback = (newPage: number, newCountForPage: number) => {
-    dispatch(getPacksTC({ page: newPage, pageCount: newCountForPage }))
+    dispatch(getPacksTC({ page: newPage, pageCount: newCountForPage, sortPacks: sort }))
+    dispatch(changePageAC(newPage))
+    dispatch(changePageCountAC(newCountForPage))
     setSearchParams(
       createSearchParams({
         page: newPage.toString(),
-        count: newCountForPage.toString(),
+        pageCount: newCountForPage.toString(),
+        sortPacks: sort,
       })
     )
   }
@@ -77,6 +101,13 @@ export const Packs = () => {
   const onChangeSort = (newSort: string) => {
     dispatch(getPacksTC({ sortPacks: newSort, page: 1 }))
     dispatch(setSortAC(newSort))
+    setSearchParams(
+      createSearchParams({
+        page: page.toString(),
+        pageCount: pageCount.toString(),
+        sortPacks: newSort,
+      })
+    )
   }
 
   return (

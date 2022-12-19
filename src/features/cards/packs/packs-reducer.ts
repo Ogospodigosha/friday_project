@@ -8,10 +8,10 @@ const initState: StateType = {
   params: {
     pageCount: 10,
     page: 1,
+    sortPacks: '0updated',
     // min: 3,
     // max: 9,
   },
-  sort: '0updated',
 }
 
 export const packsReducer = (state: StateType = initState, action: ActionsType): StateType => {
@@ -20,10 +20,12 @@ export const packsReducer = (state: StateType = initState, action: ActionsType):
       return { ...state, cardPacks: action.packs }
     case 'packs/SET-TOTAL-COUNT':
       return { ...state, totalCount: action.totalCount }
-    case 'packs/SET-PARAMS':
-      return { ...state, params: action.params }
     case 'packs/SET-SORT':
-      return { ...state, sort: action.newSort }
+      return { ...state, params: { ...state.params, sortPacks: action.newSort } }
+    case 'packs/CHANGE-PAGE':
+      return { ...state, params: { ...state.params, page: action.page } }
+    case 'packs/CHANGE-PAGE-COUNT':
+      return { ...state, params: { ...state.params, pageCount: action.pageCount } }
     default:
       return state
   }
@@ -32,8 +34,9 @@ export const packsReducer = (state: StateType = initState, action: ActionsType):
 type ActionsType =
   | ReturnType<typeof getPacksAC>
   | ReturnType<typeof setPacksTotalCountAC>
-  | ReturnType<typeof setParamsAC>
   | ReturnType<typeof setSortAC>
+  | ReturnType<typeof changePageAC>
+  | ReturnType<typeof changePageCountAC>
 
 export type PackType = {
   _id: string
@@ -56,11 +59,11 @@ type StateType = {
   cardPacks: PackType[]
   totalCount: number
   params: ParamsType
-  sort: string
 }
 export type ParamsType = {
   pageCount: number
   page: number
+  sortPacks: string
   // min: number
   // max: number
 }
@@ -73,7 +76,10 @@ export type ParamsModelType = {
 }
 //action creator
 export const getPacksAC = (packs: PackType[]) => ({ type: 'GET-PACKS', packs } as const)
-export const setParamsAC = (params: ParamsType) => ({ type: 'packs/SET-PARAMS', params } as const)
+export const changePageAC = (page: number) => ({ type: 'packs/CHANGE-PAGE', page } as const)
+export const changePageCountAC = (pageCount: number) =>
+  ({ type: 'packs/CHANGE-PAGE-COUNT', pageCount } as const)
+
 export const setSortAC = (newSort: string) => ({ type: 'packs/SET-SORT', newSort } as const)
 
 export const setPacksTotalCountAC = (totalCount: number) =>
@@ -84,18 +90,12 @@ export const getPacksTC =
   (newParams: ParamsModelType = {}): AppThunk =>
   (dispatch, getState) => {
     const oldParams = getState().packs.params
-    const params: ParamsType = {
+    const params: ParamsModelType = {
       ...oldParams,
       ...newParams,
     }
 
     packsApi.getPacks(params).then(res => {
-      const params = {
-        pageCount: res.data.pageCount,
-        page: res.data.page,
-      }
-
-      dispatch(setParamsAC(params))
       dispatch(getPacksAC(res.data.cardPacks))
       dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount))
     })
