@@ -1,6 +1,7 @@
 * {
   font-family: Montserrat, sans-serif;
 }
+
 .wrappedEmptyPack {
   display: flex;
   flex-direction: column;
@@ -8,7 +9,7 @@
   align-items: center;
   justify-content: center;
 
-  margin-top: 86px;
+  margin-top: 27px;
 }
 .title {
   font-size: 16px;
@@ -27,4 +28,11 @@
 }
 .btnTitle:first-letter {
   text-transform: uppercase;
+}
+.namePack {
+  align-self: flex-start;
+
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 27px;
 }

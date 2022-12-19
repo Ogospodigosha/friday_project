@@ -11,7 +11,7 @@ const cardsInitialState = {
   page: 1,
   pageCount: 5,
   packUserId: '5eb543f6bea3ad21480f1ee7',
-  currentPackId: '639e269ac7270c4efc6205a3',
+  currentPackId: '639e269ac7270c4efc6205a4',
   sortCardsValue: '0updated',
   filterSearchValue: '',
 }
