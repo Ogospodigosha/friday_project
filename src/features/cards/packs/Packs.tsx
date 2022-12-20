@@ -21,8 +21,8 @@ import { createPackTC } from './createPackTC'
 import { deletePackTC } from './deletePackTC'
 import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
-import { setIsMyPackAC } from './packs-reducer'
 import s from './packs.module.css'
+import { SwitchMyAll } from './SwitchMyAll'
 
 export const Packs = () => {
   const dispatch = useAppDispatch()
@@ -70,14 +70,10 @@ export const Packs = () => {
   const createPack = () => {
     dispatch(createPackTC(data))
   }
-  const Handler = () => {
-    dispatch(setIsMyPackAC(true))
-  }
 
   return (
     <div>
       <div className={s.header}>
-        <Button onClick={Handler}>My</Button>
         <div className={s.description}>Packs list</div>
         <Button
           onClick={createPack}
@@ -88,7 +84,10 @@ export const Packs = () => {
           Add new pack
         </Button>
       </div>
-      <div className={s.navigation}></div>
+      <div className={s.navigation}>
+        <input style={{ width: '413px', marginRight: '24px' }} />
+        <SwitchMyAll />
+      </div>
       <TableContainer component={Paper}>
         <Table>
           <thead>
