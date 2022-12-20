@@ -44,6 +44,7 @@ export const Packs = () => {
   const sort = useAppSelector(state => state.packs.sort)
   const packName = useAppSelector(state => state.packs.packName)
 
+  console.log(packs)
   useEffect(() => {
     dispatch(getPacksTC())
   }, [isMyPack, page, pageCount, sort, useDebounce(packName)])
@@ -84,6 +85,13 @@ export const Packs = () => {
   }
   const SchoolIconHandler = (id: string) => {
     navigate(PATH.CARDS)
+  }
+  const schoolHandler = (id: string) => {}
+  const disabledSchool = (id: string) => {
+    debugger
+    let currentPack = packs.find(el => el._id === id)
+
+    return currentPack && currentPack.cardsCount === 0
   }
 
   return (
@@ -152,7 +160,10 @@ export const Packs = () => {
                 <TableCell sx={{ width: '150px' }}>
                   {isMyPack ? (
                     <div>
-                      <IconButton>
+                      <IconButton
+                        onClick={() => schoolHandler(raw._id)}
+                        disabled={disabledSchool(raw._id)}
+                      >
                         <SchoolIcon />
                       </IconButton>
                       <IconButton onClick={() => editPack(raw._id)}>
@@ -163,7 +174,7 @@ export const Packs = () => {
                       </IconButton>
                     </div>
                   ) : (
-                    <IconButton>
+                    <IconButton disabled={disabledSchool(raw._id)}>
                       <SchoolIcon />
                     </IconButton>
                   )}
