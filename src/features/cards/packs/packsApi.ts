@@ -1,11 +1,19 @@
 import { instance } from '../../../api/instance'
 
-import { PackType, ParamsModelType } from './packs-reducer'
+import { PackType } from './packs-reducer'
 
 export const packsApi = {
-  getPacks(params: ParamsModelType) {
+  getPacks(
+    userId: string,
+    page?: number,
+    pageCount?: number,
+    sortPacks?: string,
+    packName?: string,
+    min?: number,
+    max?: number
+  ) {
     return instance.get('cards/pack', {
-      params: { ...params },
+      params: { user_id: userId, packName, min, max, sortPacks, pageCount, page },
     })
   },
   cratePack(data: createDataType) {

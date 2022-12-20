@@ -3,7 +3,6 @@ import React, { ChangeEvent, useEffect } from 'react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import SchoolIcon from '@mui/icons-material/School'
-import SearchIcon from '@mui/icons-material/Search'
 import {
   IconButton,
   InputAdornment,
@@ -16,71 +15,37 @@ import {
   TextField,
 } from '@mui/material'
 import Button from '@mui/material/Button'
-import { createSearchParams, useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { UniversalSort } from '../../../components/filtration/UniversalSort'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { useDebounce } from '../../../utils/hookUseDebounce'
 
-import {
-  changePackNameAC,
-  changePageAC,
-  changePageCountAC,
-  createPackTC,
-  deletePackTC,
-  editPackTC,
-  getPacksTC,
-  setSortAC,
-} from './packs-reducer'
+import { createPackTC } from './createPackTC'
+import { deletePackTC } from './deletePackTC'
+import { editPackTC } from './editPackTC'
+import { getPacksTC } from './getPacksTC'
+// import { changePackNameAC } from './packs-reducer'
+import { setIsMyPackAC, setPackNameAC, setPageAC, setPageCountAC, setSortAC } from './packs-reducer'
 import s from './packs.module.css'
 
 export const Packs = () => {
   const dispatch = useAppDispatch()
-  const [searchParams, setSearchParams] = useSearchParams()
-  const packs = useAppSelector(state => state.packs.cardPacks)
-  const totalCount = useAppSelector(state => state.packs.totalCount)
-  const page = useAppSelector(state => state.packs.params.page)
-  const pageCount = useAppSelector(state => state.packs.params.pageCount)
-  const sort = useAppSelector(state => state.packs.params.sortPacks)
-  const packName = useAppSelector(state => state.packs.params.packName)
-
-  console.log(12)
+  const isMyPack = useAppSelector(state => state.packs.isMyPack)
+  const packs = useAppSelector(state => state.packs.packs.cardPacks)
+  const page = useAppSelector(state => state.packs.packs.page)
+  const pageCount = useAppSelector(state => state.packs.packs.pageCount)
+  const totalCount = useAppSelector(state => state.packs.packs.cardPacksTotalCount)
+  const sort = useAppSelector(state => state.packs.sort)
+  const packName = useAppSelector(state => state.packs.packName)
 
   useEffect(() => {
-    const params = Object.fromEntries(searchParams)
-    const page = +params.page || 1
-    const pageCount = +params.pageCount || 10
-    const sortPacks = params.sortPacks || '0updated'
-    const packName = params.packName || ''
-
-    dispatch(changePageAC(page))
-    dispatch(changePageCountAC(pageCount))
-    dispatch(setSortAC(sortPacks))
-    dispatch(changePackNameAC(packName))
-
-    dispatch(
-      getPacksTC({
-        page: page,
-        pageCount: pageCount,
-        sortPacks: sortPacks,
-        packName: packName,
-      })
-    )
-  }, [useDebounce(packName)])
+    dispatch(getPacksTC())
+  }, [isMyPack, page, pageCount, sort, useDebounce(packName)])
 
   const onChangeCallback = (newPage: number, newCountForPage: number) => {
-    dispatch(getPacksTC({ page: newPage, pageCount: newCountForPage, sortPacks: sort }))
-    dispatch(changePageAC(newPage))
-    dispatch(changePageCountAC(newCountForPage))
-    setSearchParams(
-      createSearchParams({
-        page: newPage.toString(),
-        pageCount: newCountForPage.toString(),
-        sortPacks: sort,
-        packName: packName,
-      })
-    )
+    dispatch(setPageAC(newPage))
+    dispatch(setPageCountAC(newCountForPage))
   }
   const editableDate = (updated: string) => {
     let newUpdated = updated.split('T')[0].split('-')
@@ -107,33 +72,20 @@ export const Packs = () => {
     dispatch(editPackTC(id))
   }
   const onChangeSort = (newSort: string) => {
-    dispatch(getPacksTC({ sortPacks: newSort, page: 1 }))
     dispatch(setSortAC(newSort))
-    setSearchParams(
-      createSearchParams({
-        page: page.toString(),
-        pageCount: pageCount.toString(),
-        sortPacks: newSort,
-        packName: packName,
-      })
-    )
   }
 
   const handler = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(changePackNameAC(e.target.value))
-    setSearchParams(
-      createSearchParams({
-        page: page.toString(),
-        pageCount: pageCount.toString(),
-        sortPacks: sort,
-        packName: e.target.value,
-      })
-    )
+    dispatch(setPackNameAC(e.currentTarget.value))
+  }
+  const myHandler = () => {
+    dispatch(setIsMyPackAC(!isMyPack))
   }
 
   return (
     <div>
       <div className={s.header}>
+        <Button onClick={myHandler}>My</Button>
         <div className={s.description}>Packs list</div>
         <Button
           onClick={createPack}
@@ -156,9 +108,7 @@ export const Packs = () => {
           placeholder={'Provide your text'}
           InputProps={{
             startAdornment: (
-              <InputAdornment position={'start'}>
-                <SearchIcon />
-              </InputAdornment>
+              <InputAdornment position={'start'}>{/*<SearchIcon />*/}</InputAdornment>
             ),
           }}
         />
