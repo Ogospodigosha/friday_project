@@ -6,7 +6,7 @@
 .backPackList {
   cursor: pointer;
 
-  display: flex;
+  display: inline-flex;
   gap: 8px;
 
   margin-top: 24px;

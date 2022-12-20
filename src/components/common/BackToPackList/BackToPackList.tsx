@@ -13,7 +13,7 @@ export const BackToPackList = () => {
   return (
     <div className={style.backPackList} onClick={() => navigate(PATH.CARDS)}>
       <img src={arrow} alt="arrow" />
-      <div>Back to Pack List</div>
+      <span>Back to Pack List</span>
     </div>
   )
 }

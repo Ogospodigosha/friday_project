@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { FC } from 'react'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
@@ -21,7 +22,7 @@ type BasicTableProps = {
   updateCardOnClick: (value: string) => void
 }
 
-export default function BasicTable(props: BasicTableProps) {
+export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardOnClick }) => {
   const cardPacks = useAppSelector(state => state.cards.cards)
   const convertDataFormat = (value: string) => {
     return new Intl.DateTimeFormat('ru-RU').format(new Date(value))
@@ -61,8 +62,8 @@ export default function BasicTable(props: BasicTableProps) {
                 {card.grade}
               </TableCell>
               <TableCell sx={style.editDelete} align="right">
-                <EditIcon onClick={() => props.updateCardOnClick(card._id)} />
-                <DeleteIcon onClick={() => props.deleteCardOnClick(card._id)} />
+                <EditIcon onClick={() => updateCardOnClick(card._id)} />
+                <DeleteIcon onClick={() => deleteCardOnClick(card._id)} />
               </TableCell>
             </TableRow>
           ))}

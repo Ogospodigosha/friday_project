@@ -5,7 +5,7 @@ import Button from '@mui/material/Button'
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
 
-import BasicTable from './BasicTable'
+import { BasicTable } from './BasicTable'
 import s from './CardsMain.module.css'
 import { createNewCardTC, deleteCardTC, getCardsTC, updateCardTC } from './cardsReducer'
 import { style } from './styleSXForBasicTable'
@@ -19,7 +19,7 @@ export const CardsMain = () => {
     dispatch(getCardsTC())
   }, [])
   const addNewCard = () => {
-    dispatch(createNewCardTC({ cardsPack_id, question: 'la-la', answer: 'ty-la-la' }))
+    dispatch(createNewCardTC({ cardsPack_id, question: 'qu1', answer: 'ans1' }))
   }
   const deleteCard = (cardId: string) => {
     dispatch(deleteCardTC(cardId))
