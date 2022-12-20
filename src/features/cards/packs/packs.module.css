@@ -22,10 +22,13 @@
     border-radius: 30px;
 }
 .navigation {
-margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
 }
 .input {
     width: 413px;
+
 
 }
 .search {
@@ -34,9 +37,9 @@ margin-bottom: 24px;
 
 }
 .search span {
+    font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     font-weight: 500;
     line-height: 17px;
     color: #000000;
-    font-family: 'Montserrat', sans-serif;
 }

@@ -15,7 +15,6 @@ import {
   TextField,
 } from '@mui/material'
 import Button from '@mui/material/Button'
-import { useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { UniversalSort } from '../../../components/filtration/UniversalSort'
@@ -27,7 +26,7 @@ import { deletePackTC } from './deletePackTC'
 import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
 // import { changePackNameAC } from './packs-reducer'
-import { setIsMyPackAC, setPackNameAC, setPageAC, setPageCountAC, setSortAC } from './packs-reducer'
+import { setPackNameAC, setPageAC, setPageCountAC, setSortAC } from './packs-reducer'
 import s from './packs.module.css'
 import { SwitchMyAll } from './SwitchMyAll'
 
@@ -75,17 +74,14 @@ export const Packs = () => {
   }
   const onChangeSort = (newSort: string) => {
     dispatch(setSortAC(newSort))
-
-
+  }
   const handler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setPackNameAC(e.currentTarget.value))
   }
 
-
   return (
     <div>
       <div className={s.header}>
-
         <div className={s.description}>Packs list</div>
         <Button
           onClick={createPack}
@@ -96,26 +92,25 @@ export const Packs = () => {
           Add new pack
         </Button>
       </div>
-      <div className={s.navigation}>
-
-        <SwitchMyAll />
-      </div>
       <div className={s.search}>
         <span>Search</span>
       </div>
       <div className={s.navigation}>
-        <TextField
-          className={s.input}
-          size="small"
-          value={packName}
-          onChange={handler}
-          placeholder={'Provide your text'}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position={'start'}>{/*<SearchIcon />*/}</InputAdornment>
-            ),
-          }}
-        />
+        <div style={{ marginRight: '20px' }}>
+          <TextField
+            className={s.input}
+            size="small"
+            value={packName}
+            onChange={handler}
+            placeholder={'Provide your text'}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position={'start'}>{/*<SearchIcon />*/}</InputAdornment>
+              ),
+            }}
+          />
+        </div>
+        <SwitchMyAll />
       </div>
       <UniversalPagination
         totalCount={totalCount}
