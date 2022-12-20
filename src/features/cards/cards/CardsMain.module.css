@@ -1,0 +1,27 @@
+* {
+  font-family: Montserrat, sans-serif;
+}
+
+.packName {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  max-height: 50px;
+  margin-top: 15px;
+}
+.packNameTitle {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 27;
+}
+.btnTitle {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: center;
+  text-transform: lowercase;
+}
+.btnTitle:first-letter {
+  text-transform: uppercase;
+}

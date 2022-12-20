@@ -8,6 +8,7 @@ import { ForgotPassword } from '../../features/auth/forgotPassword/ForgotPasswor
 import { Login } from '../../features/auth/login/Login'
 import { Profile } from '../../features/auth/profile/Profile'
 import { Registration } from '../../features/auth/registration/Registration'
+import { CardsMain } from '../../features/cards/cards/CardsMain'
 import { Packs } from '../../features/cards/packs/Packs'
 
 import { Error404 } from './error404/Error404'
@@ -20,6 +21,7 @@ export const PATH = {
   REGISTRATION: '/registration',
   CHECK_EMAIL: '/check_email',
   PACKS: '/packs',
+  CARDS: '/cards',
 }
 export const Pages = () => {
   return (
@@ -30,6 +32,7 @@ export const Pages = () => {
       <Route path={PATH.PROFILE} element={<Profile />} />
       <Route path={PATH.FORGOT_PASSWORD} element={<ForgotPassword />} />
       <Route path={PATH.PACKS} element={<Packs />} />
+      <Route path={PATH.CARDS} element={<CardsMain />} />
       <Route path={PATH.CREATE_NEW_PASSWORD} element={<CreateNewPassword />}>
         <Route path=":token" element={<CreateNewPassword />} />
       </Route>
