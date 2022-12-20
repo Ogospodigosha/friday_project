@@ -13,23 +13,36 @@ import {
   TableRow,
 } from '@mui/material'
 import Button from '@mui/material/Button'
+import { useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 
-import { createPackTC, deletePackTC, editPackTC, getPacksTC } from './packs-reducer'
+import { createPackTC } from './createPackTC'
+import { deletePackTC } from './deletePackTC'
+import { editPackTC } from './editPackTC'
+import { getPacksTC } from './getPacksTC'
+import { setIsMyPackAC } from './packs-reducer'
 import s from './packs.module.css'
 
 export const Packs = () => {
   const dispatch = useAppDispatch()
-  const packs = useAppSelector(state => state.packs.cardPacks)
 
-  console.log(packs)
+  const packs = useAppSelector(state => state.packs.packs)
+  let [searchParams, setSearchParams] = useSearchParams({})
+  const currentPage = useAppSelector(state => state.packs.packs.page)
+  const isMyPack = useAppSelector(state => state.packs.isMyPack)
+
+  console.log(searchParams)
+  // console.log(packs)
   useEffect(() => {
+    // setSearchParams(
+    //   createSearchParams({
+    //     currentPage: currentPage.toString(),
+    //   })
+    // )
     dispatch(getPacksTC())
-  }, [])
-  const onClickHandler = () => {
-    console.log(1)
-  }
+  }, [isMyPack])
+
   const editableDate = (updated: string) => {
     let newUpdated = updated.split('T')[0].split('-')
     let years = newUpdated.shift()
@@ -45,19 +58,26 @@ export const Packs = () => {
       name: '55',
     },
   }
-  const createPack = () => {
-    dispatch(createPackTC(data))
-  }
   const deletePack = (id: string) => {
     dispatch(deletePackTC(id))
   }
   const editPack = (id: string) => {
     dispatch(editPackTC(id))
   }
+  // const onClickHandler = () => {
+  //   console.log(1)
+  // }
+  const createPack = () => {
+    dispatch(createPackTC(data))
+  }
+  const Handler = () => {
+    dispatch(setIsMyPackAC(true))
+  }
 
   return (
     <div>
       <div className={s.header}>
+        <Button onClick={Handler}>My</Button>
         <div className={s.description}>Packs list</div>
         <Button
           onClick={createPack}
@@ -82,7 +102,7 @@ export const Packs = () => {
           </thead>
 
           <TableBody>
-            {packs.map(raw => (
+            {packs.cardPacks.map(raw => (
               <TableRow key={raw._id}>
                 <TableCell>{raw.name}</TableCell>
                 <TableCell>{raw.cardsCount}</TableCell>

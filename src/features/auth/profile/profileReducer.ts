@@ -54,3 +54,18 @@ export const logOutTC = () => async (dispatch: AppThunkDispatch) => {
 }
 export const changeNameAC = (name: string) => ({ type: 'profile/CHANGE-NAME', name } as const)
 export type ProfileReducer = ReturnType<typeof changeNameAC>
+export type AuthMeType = {
+  _id: string
+  email: string
+  rememberMe: boolean
+  isAdmin: boolean
+  name: string
+  verified: boolean
+  publicCardPacksCount: number
+  created: string
+  updated: string
+  __v: number
+  token: string
+  tokenDeathTime: number
+  avatar: string
+}

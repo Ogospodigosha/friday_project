@@ -1,63 +1,69 @@
-import { Dispatch } from 'redux'
-
-import { AppThunkDispatch } from '../../../app/store'
-
-import { createDataType, packsApi } from './packsApi'
-
-const initState: StateType = {
-  cardPacks: [],
+const initState: InitialStateType = {
+  packs: {
+    minCardsCount: 0,
+    maxCardsCount: 10,
+    pageCount: 15,
+    page: 1,
+    cardPacks: [] as PackType[],
+  } as PacksType,
+  sort: '',
+  searchPack: '',
+  isMyPack: false,
+  localMinRage: 0,
+  localMaxRage: 30,
+  resultMessageAddPack: '',
 }
 
-export const packsReducer = (state: StateType = initState, action: ActionsType): StateType => {
+export const packsReducer = (
+  state: InitialStateType = initState,
+  action: ActionsType
+): InitialStateType => {
   switch (action.type) {
-    case 'GET-PACKS':
-      return { ...state, cardPacks: action.packs }
+    case 'SET-PACKS':
+      return { ...state, packs: action.packs }
+    case 'SET-IS-MY-PACK':
+      return { ...state, isMyPack: action.isMyPack }
     default:
       return state
   }
 }
 //types
-type ActionsType = ReturnType<typeof getPacksAC>
+export type InitialStateType = {
+  packs: PacksType
+  sort: string
+  searchPack: string
+  isMyPack: boolean
+  localMinRage: number
+  localMaxRage: number
+  resultMessageAddPack: string
+}
+export type PacksType = {
+  cardPacks: PackType[]
+  cardPacksTotalCount: number
+  maxCardsCount: number
+  minCardsCount: number
+  page: number
+  pageCount: number
+  token: string
+  tokenDeathTime: number
+}
 export type PackType = {
-  _id: string
-  user_id: string
-  user_name: string
-  private: boolean
+  cardsCount: number
+  created: string
+  grade: number
+  more_id: string
   name: string
   path: string
-  grade: number
-  shots: number
-  cardsCount: number
-  type: string
+  private: boolean
   rating: number
-  created: string
+  shots: number
+  type: string
   updated: string
-  more_id: string
+  user_id: string
+  user_name: string
   __v: number
+  _id: string
 }
-type StateType = {
-  cardPacks: PackType[]
-}
-//action creator
-export const getPacksAC = (packs: PackType[]) => ({ type: 'GET-PACKS', packs } as const)
-//thunk creator
-export const getPacksTC = () => (dispatch: Dispatch) => {
-  packsApi.getPacks().then(res => {
-    dispatch(getPacksAC(res.data.cardPacks))
-  })
-}
-export const createPackTC = (data: createDataType) => (dispatch: AppThunkDispatch) => {
-  packsApi.cratePack(data).then(res => {
-    dispatch(getPacksTC())
-  })
-}
-export const deletePackTC = (id: string) => (dispatch: AppThunkDispatch) => {
-  packsApi.deletePack(id).then(res => {
-    dispatch(getPacksTC())
-  })
-}
-export const editPackTC = (id: string) => (dispatch: AppThunkDispatch) => {
-  packsApi.editPack({ cardsPack: { _id: id, name: 'new name' } }).then(res => {
-    dispatch(getPacksTC())
-  })
-}
+export const setPacksAC = (packs: PacksType) => ({ type: 'SET-PACKS', packs } as const)
+export const setIsMyPackAC = (isMyPack: boolean) => ({ type: 'SET-IS-MY-PACK', isMyPack } as const)
+export type ActionsType = ReturnType<typeof setPacksAC> | ReturnType<typeof setIsMyPackAC>
