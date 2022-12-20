@@ -3,6 +3,7 @@ import { FC } from 'react'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import { IconButton } from '@mui/material'
 import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -62,8 +63,12 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
                 {card.grade}
               </TableCell>
               <TableCell sx={style.editDelete} align="right">
-                <EditIcon onClick={() => updateCardOnClick(card._id)} />
-                <DeleteIcon onClick={() => deleteCardOnClick(card._id)} />
+                <IconButton onClick={() => updateCardOnClick(card._id)}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton onClick={() => deleteCardOnClick(card._id)}>
+                  <DeleteIcon />
+                </IconButton>
               </TableCell>
             </TableRow>
           ))}

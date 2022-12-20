@@ -32,7 +32,7 @@ export const style = {
     lineHeight: '16px',
   },
   editDelete: {
-    width: '80px',
+    width: '110px',
     cursor: 'pointer',
   },
 }
