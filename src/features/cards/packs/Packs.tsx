@@ -15,6 +15,7 @@ import {
   TextField,
 } from '@mui/material'
 import Button from '@mui/material/Button'
+import { useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { UniversalSort } from '../../../components/filtration/UniversalSort'
@@ -26,7 +27,7 @@ import { deletePackTC } from './deletePackTC'
 import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
 // import { changePackNameAC } from './packs-reducer'
-import { setPackNameAC, setPageAC, setPageCountAC, setSortAC } from './packs-reducer'
+import { setIsMyPackAC, setPackNameAC, setPageAC, setPageCountAC, setSortAC } from './packs-reducer'
 import s from './packs.module.css'
 import { SwitchMyAll } from './SwitchMyAll'
 
@@ -74,15 +75,17 @@ export const Packs = () => {
   }
   const onChangeSort = (newSort: string) => {
     dispatch(setSortAC(newSort))
-  }
+
 
   const handler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setPackNameAC(e.currentTarget.value))
   }
 
+
   return (
     <div>
       <div className={s.header}>
+
         <div className={s.description}>Packs list</div>
         <Button
           onClick={createPack}
@@ -94,6 +97,7 @@ export const Packs = () => {
         </Button>
       </div>
       <div className={s.navigation}>
+
         <SwitchMyAll />
       </div>
       <div className={s.search}>
