@@ -150,15 +150,23 @@ export const Packs = () => {
                 <TableCell>{editableDate(raw.updated)}</TableCell>
                 <TableCell>{raw.user_name}</TableCell>
                 <TableCell sx={{ width: '150px' }}>
-                  <IconButton onClick={() => SchoolIconHandler(raw._id)}>
-                    <SchoolIcon />
-                  </IconButton>
-                  <IconButton onClick={() => editPack(raw._id)}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton onClick={() => deletePack(raw._id)}>
-                    <DeleteIcon />
-                  </IconButton>
+                  {isMyPack ? (
+                    <div>
+                      <IconButton>
+                        <SchoolIcon />
+                      </IconButton>
+                      <IconButton onClick={() => editPack(raw._id)}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton onClick={() => deletePack(raw._id)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </div>
+                  ) : (
+                    <IconButton>
+                      <SchoolIcon />
+                    </IconButton>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
