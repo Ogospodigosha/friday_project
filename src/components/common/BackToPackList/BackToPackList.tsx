@@ -11,7 +11,7 @@ export const BackToPackList = () => {
   const navigate = useNavigate()
 
   return (
-    <div className={style.backPackList} onClick={() => navigate(PATH.CARDS)}>
+    <div className={style.backPackList} onClick={() => navigate(PATH.PACKS)}>
       <img src={arrow} alt="arrow" />
       <span>Back to Pack List</span>
     </div>

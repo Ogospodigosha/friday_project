@@ -3,6 +3,7 @@ import React, { ChangeEvent, useEffect } from 'react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import SchoolIcon from '@mui/icons-material/School'
+import SearchIcon from '@mui/icons-material/Search'
 import {
   IconButton,
   InputAdornment,
@@ -15,10 +16,11 @@ import {
   TextField,
 } from '@mui/material'
 import Button from '@mui/material/Button'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { UniversalSort } from '../../../components/filtration/UniversalSort'
+import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { useDebounce } from '../../../utils/hookUseDebounce'
 
@@ -27,11 +29,12 @@ import { deletePackTC } from './deletePackTC'
 import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
 // import { changePackNameAC } from './packs-reducer'
-import { setIsMyPackAC, setPackNameAC, setPageAC, setPageCountAC, setSortAC } from './packs-reducer'
+import { setPackNameAC, setPageAC, setPageCountAC, setSortAC } from './packs-reducer'
 import s from './packs.module.css'
 import { SwitchMyAll } from './SwitchMyAll'
 
 export const Packs = () => {
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const isMyPack = useAppSelector(state => state.packs.isMyPack)
   const packs = useAppSelector(state => state.packs.packs.cardPacks)
@@ -79,12 +82,13 @@ export const Packs = () => {
   const handler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setPackNameAC(e.currentTarget.value))
   }
-
+  const SchoolIconHandler = (id: string) => {
+    navigate(PATH.CARDS)
+  }
 
   return (
     <div>
       <div className={s.header}>
-
         <div className={s.description}>Packs list</div>
         <Button
           onClick={createPack}
@@ -108,7 +112,9 @@ export const Packs = () => {
             placeholder={'Provide your text'}
             InputProps={{
               startAdornment: (
-                <InputAdornment position={'start'}>{/*<SearchIcon />*/}</InputAdornment>
+                <InputAdornment position={'start'}>
+                  <SearchIcon />
+                </InputAdornment>
               ),
             }}
           />
@@ -143,8 +149,8 @@ export const Packs = () => {
                 <TableCell>{raw.cardsCount}</TableCell>
                 <TableCell>{editableDate(raw.updated)}</TableCell>
                 <TableCell>{raw.user_name}</TableCell>
-                <TableCell>
-                  <IconButton>
+                <TableCell sx={{ width: '150px' }}>
+                  <IconButton onClick={() => SchoolIconHandler(raw._id)}>
                     <SchoolIcon />
                   </IconButton>
                   <IconButton onClick={() => editPack(raw._id)}>
