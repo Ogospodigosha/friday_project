@@ -1,48 +1,54 @@
-import React, { useEffect } from 'react'
+import React, { ChangeEvent, useEffect } from 'react'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import SchoolIcon from '@mui/icons-material/School'
 import {
   IconButton,
+  InputAdornment,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
+  TextField,
 } from '@mui/material'
 import Button from '@mui/material/Button'
 import { useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { UniversalSort } from '../../../components/filtration/UniversalSort'
+import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
+import { useDebounce } from '../../../utils/hookUseDebounce'
 
 import { createPackTC } from './createPackTC'
 import { deletePackTC } from './deletePackTC'
 import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
+// import { changePackNameAC } from './packs-reducer'
+import { setIsMyPackAC, setPackNameAC, setPageAC, setPageCountAC, setSortAC } from './packs-reducer'
 import s from './packs.module.css'
 import { SwitchMyAll } from './SwitchMyAll'
 
 export const Packs = () => {
   const dispatch = useAppDispatch()
-
-  const packs = useAppSelector(state => state.packs.packs)
-  let [searchParams, setSearchParams] = useSearchParams({})
-  const currentPage = useAppSelector(state => state.packs.packs.page)
   const isMyPack = useAppSelector(state => state.packs.isMyPack)
+  const packs = useAppSelector(state => state.packs.packs.cardPacks)
+  const page = useAppSelector(state => state.packs.packs.page)
+  const pageCount = useAppSelector(state => state.packs.packs.pageCount)
+  const totalCount = useAppSelector(state => state.packs.packs.cardPacksTotalCount)
+  const sort = useAppSelector(state => state.packs.sort)
+  const packName = useAppSelector(state => state.packs.packName)
 
-  console.log(searchParams)
-  // console.log(packs)
   useEffect(() => {
-    // setSearchParams(
-    //   createSearchParams({
-    //     currentPage: currentPage.toString(),
-    //   })
-    // )
     dispatch(getPacksTC())
-  }, [isMyPack])
+  }, [isMyPack, page, pageCount, sort, useDebounce(packName)])
 
+  const onChangeCallback = (newPage: number, newCountForPage: number) => {
+    dispatch(setPageAC(newPage))
+    dispatch(setPageCountAC(newCountForPage))
+  }
   const editableDate = (updated: string) => {
     let newUpdated = updated.split('T')[0].split('-')
     let years = newUpdated.shift()
@@ -58,22 +64,28 @@ export const Packs = () => {
       name: '55',
     },
   }
+  const createPack = () => {
+    dispatch(createPackTC(data))
+  }
   const deletePack = (id: string) => {
     dispatch(deletePackTC(id))
   }
   const editPack = (id: string) => {
     dispatch(editPackTC(id))
   }
-  // const onClickHandler = () => {
-  //   console.log(1)
-  // }
-  const createPack = () => {
-    dispatch(createPackTC(data))
+  const onChangeSort = (newSort: string) => {
+    dispatch(setSortAC(newSort))
+
+
+  const handler = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setPackNameAC(e.currentTarget.value))
   }
+
 
   return (
     <div>
       <div className={s.header}>
+
         <div className={s.description}>Packs list</div>
         <Button
           onClick={createPack}
@@ -85,23 +97,49 @@ export const Packs = () => {
         </Button>
       </div>
       <div className={s.navigation}>
-        <input style={{ width: '413px', marginRight: '24px' }} />
+
         <SwitchMyAll />
       </div>
+      <div className={s.search}>
+        <span>Search</span>
+      </div>
+      <div className={s.navigation}>
+        <TextField
+          className={s.input}
+          size="small"
+          value={packName}
+          onChange={handler}
+          placeholder={'Provide your text'}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position={'start'}>{/*<SearchIcon />*/}</InputAdornment>
+            ),
+          }}
+        />
+      </div>
+      <UniversalPagination
+        totalCount={totalCount}
+        page={page}
+        pageCount={pageCount}
+        onChange={onChangeCallback}
+      />
       <TableContainer component={Paper}>
         <Table>
           <thead>
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>Cards</TableCell>
-              <TableCell>Last Updated</TableCell>
+              <TableCell>
+                Last Updated
+                <UniversalSort sort={sort} value={'updated'} onClick={onChangeSort} />
+              </TableCell>
               <TableCell>Created by</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </thead>
 
           <TableBody>
-            {packs.cardPacks.map(raw => (
+            {packs.map(raw => (
               <TableRow key={raw._id}>
                 <TableCell>{raw.name}</TableCell>
                 <TableCell>{raw.cardsCount}</TableCell>
@@ -123,6 +161,12 @@ export const Packs = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <UniversalPagination
+        totalCount={totalCount}
+        page={page}
+        pageCount={pageCount}
+        onChange={onChangeCallback}
+      />
     </div>
   )
 }

@@ -1,18 +1,18 @@
 import { instance } from '../../../api/instance'
 
-import { PacksType, PackType } from './packs-reducer'
+import { PackType } from './packs-reducer'
 
 export const packsApi = {
   getPacks(
     userId: string,
+    page?: number,
+    pageCount?: number,
+    sortPacks?: string,
     packName?: string,
     min?: number,
-    max?: number,
-    sortPacks?: string,
-    pageCount?: number,
-    page?: number
+    max?: number
   ) {
-    return instance.get<PacksType>('cards/pack', {
+    return instance.get('cards/pack', {
       params: { user_id: userId, packName, min, max, sortPacks, pageCount, page },
     })
   },
@@ -26,7 +26,7 @@ export const packsApi = {
     return instance.put('cards/pack', data)
   },
 }
-//types
+
 export type createDataType = {
   cardsPack: {
     name?: string
