@@ -163,7 +163,7 @@ export const Packs = () => {
           <TableBody>
             {packs.map(raw => (
               <TableRow key={raw._id}>
-                <TableCell>{raw.name}</TableCell>
+                <TableCell onClick={() => learningPackHandler(raw._id)}>{raw.name}</TableCell>
                 <TableCell>{raw.cardsCount}</TableCell>
                 <TableCell>{editableDate(raw.updated)}</TableCell>
                 <TableCell>{raw.user_name}</TableCell>
