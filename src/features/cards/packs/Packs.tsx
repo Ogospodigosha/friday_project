@@ -50,8 +50,7 @@ export const Packs = () => {
 
   useEffect(() => {
     setSearchParams(params)
-    console.log(params)
-    dispatch(getPacksTC())
+    dispatch(getPacksTC(params))
   }, [isMyPack, page, pageCount, sortPacks, useDebounce(packName)])
 
   const onChangePagination = (newPage: number, newCountForPage: number) => {
@@ -86,7 +85,7 @@ export const Packs = () => {
   }
   const onChangeSortHandler = (newSort: string) => {
     dispatch(setSortAC(newSort))
-    searchParams.set('sort', newSort)
+    searchParams.set('sortPacks', newSort)
   }
   const onSearchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setPackNameAC(e.currentTarget.value))
