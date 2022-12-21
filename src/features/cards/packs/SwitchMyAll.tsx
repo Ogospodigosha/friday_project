@@ -1,22 +1,53 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { ToggleButton, ToggleButtonGroup } from '@mui/material'
+import { useDispatch } from 'react-redux'
 
-import { useAppDispatch } from '../../../app/store'
+import { useAppSelector } from '../../../app/store'
 
 import { setIsMyPackAC } from './packs-reducer'
+import { ParamsForGetPacks } from './packsApi'
 
-export const SwitchMyAll = () => {
-  const [alignment, setAlignment] = useState('all')
-  const dispatch = useAppDispatch()
+type Props = {
+  user_id: string
+  switchCallback: (my: boolean) => void
+  params: ParamsForGetPacks
+  test: null | string
+}
+export const SwitchMyAll = (props: Props) => {
+  const dispatch = useDispatch()
+  let isMyPack = useAppSelector(state => state.packs.isMyPack)
+  const [alignment, setAlignment] = useState(window.localStorage.getItem('alignment'))
+
+  useEffect(() => {
+    const data = window.localStorage.getItem('alignment')
+
+    if (data === 'my') {
+      debugger
+      dispatch(setIsMyPackAC(true))
+    }
+    console.log(data)
+    if (data !== null) {
+      setAlignment(JSON.parse(data))
+      dispatch(setIsMyPackAC(false))
+    }
+  }, [])
+
+  useEffect(() => {
+    window.localStorage.setItem('alignment', JSON.stringify(alignment))
+    window.localStorage.setItem('isMyPack', JSON.stringify(isMyPack))
+  }, [alignment, isMyPack])
   const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
     setAlignment(newAlignment)
   }
-  const myHandler = () => {
-    dispatch(setIsMyPackAC(true))
+  const myHandler = (event: React.MouseEvent<HTMLElement>) => {
+    setAlignment('my')
+    props.switchCallback(true)
   }
-  const AllHandler = () => {
-    dispatch(setIsMyPackAC(false))
+  const AllHandler = (event: React.MouseEvent<HTMLElement>) => {
+    debugger
+    setAlignment('all')
+    props.switchCallback(false)
   }
 
   return (

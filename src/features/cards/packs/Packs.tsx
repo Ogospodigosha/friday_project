@@ -30,7 +30,7 @@ import { deletePackTC } from './deletePackTC'
 import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
 // import { changePackNameAC } from './packs-reducer'
-import { setPackNameAC, setPageAC, setPageCountAC, setSortAC } from './packs-reducer'
+import { setIsMyPackAC, setPackNameAC, setPageAC, setPageCountAC, setSortAC } from './packs-reducer'
 import s from './packs.module.css'
 import { SwitchMyAll } from './SwitchMyAll'
 
@@ -45,14 +45,18 @@ export const Packs = () => {
   const sortPacks = useAppSelector(state => state.packs.sort)
   const packName = useAppSelector(state => state.packs.packName)
   const user_id = useAppSelector(state => state.app.user._id)
+
+  console.log('isMyPack', isMyPack)
   const [searchParams, setSearchParams] = useSearchParams()
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
+
   const params = Object.fromEntries(searchParams)
 
   useEffect(() => {
     setSearchParams(params)
+    console.log(params)
     dispatch(getPacksTC(params))
-  }, [isMyPack, page, pageCount, sortPacks, useDebounce(packName)])
+  }, [isMyPack, page, pageCount, sortPacks, useDebounce(packName), user_id])
 
   const onChangePagination = (newPage: number, newCountForPage: number) => {
     dispatch(setPageAC(newPage))
@@ -102,10 +106,23 @@ export const Packs = () => {
 
     return currentPack && currentPack.cardsCount === 0
   }
+  const switchCallback = (my: boolean) => {
+    if (my) {
+      searchParams.set('user_id', user_id.toString())
+      dispatch(setIsMyPackAC(my))
+    } else {
+      debugger
+      searchParams.delete('user_id')
+      dispatch(setIsMyPackAC(my))
+    }
+  }
 
   if (!isLoggedIn) {
     return <Navigate to={'/login'} />
   }
+  let test = searchParams.get('user_id')
+
+  console.log(test)
 
   return (
     <div>
@@ -140,7 +157,12 @@ export const Packs = () => {
             }}
           />
         </div>
-        <SwitchMyAll />
+        <SwitchMyAll
+          user_id={user_id}
+          switchCallback={switchCallback}
+          params={params}
+          test={test}
+        />
       </div>
       <UniversalPagination
         totalCount={totalCount}
