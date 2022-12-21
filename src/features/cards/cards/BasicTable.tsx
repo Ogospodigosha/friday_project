@@ -3,8 +3,9 @@ import { FC } from 'react'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
+import Rating from '@mui/material/Rating'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -12,9 +13,11 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
-import { useAppSelector } from '../../../app/store'
+import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { UniversalSort } from '../../../components/filtration/UniversalSort'
 
 import s from './BasicTable.module.css'
+import { setSortCardsValueAC } from './cardsReducer'
 import { style } from './styleSXForBasicTable'
 
 type BasicTableProps = {
@@ -23,12 +26,23 @@ type BasicTableProps = {
 }
 
 export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardOnClick }) => {
+  const dispatch = useAppDispatch()
   const cardPacks = useAppSelector(state => state.cards.cards)
+  const myId = useAppSelector(state => state.app.user._id)
+  const disabledDeleteButton = useAppSelector(state => state.app.status)
+  const currantPackUserId = useAppSelector(state => state.cards.packUserId)
+  const sort = useAppSelector(state => state.cards.sortCardsValue)
+
+  console.log(sort)
   const convertDataFormat = (value: string) => {
     return new Intl.DateTimeFormat('ru-RU').format(new Date(value))
   }
 
-  return cardPacks ? (
+  const onChangeSort = (newSort: string) => {
+    dispatch(setSortCardsValueAC(newSort))
+  }
+
+  return cardPacks?.length ? (
     <TableContainer component={Paper} sx={style.container}>
       <Table sx={style.table} aria-label="simple table">
         <TableHead sx={style.tableHead}>
@@ -39,11 +53,14 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
             </TableCell>
             <TableCell sx={style.tableHeadTableCell} align="right">
               Last Updated
+              <UniversalSort sort={sort} onClick={onChangeSort} value={'grade'} />
             </TableCell>
-            <TableCell sx={style.tableHeadTableCell} align="right">
+            <TableCell sx={style.tableHeadTableCell} align="center">
               Grade
             </TableCell>
-            <TableCell sx={style.tableHeadTableCell} align="right"></TableCell>
+            {myId === currantPackUserId ? (
+              <TableCell sx={style.tableHeadTableCell} align="right"></TableCell>
+            ) : null}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -58,13 +75,27 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
               <TableCell sx={style.tableRowTableCell} align="right">
                 {convertDataFormat(card.updated)}
               </TableCell>
-              <TableCell sx={style.tableRowTableCell} align="right">
-                {card.grade}
+              <TableCell align="center" sx={style.tableRowStars}>
+                <Rating
+                  name="half-rating"
+                  defaultValue={card.grade}
+                  precision={0.2}
+                  size="medium"
+                />
               </TableCell>
-              <TableCell sx={style.editDelete} align="right">
-                <EditIcon onClick={() => updateCardOnClick(card._id)} />
-                <DeleteIcon onClick={() => deleteCardOnClick(card._id)} />
-              </TableCell>
+              {myId === currantPackUserId ? (
+                <TableCell sx={style.editDelete} align="right">
+                  <IconButton onClick={() => updateCardOnClick(card._id)}>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    onClick={() => deleteCardOnClick(card._id)}
+                    disabled={disabledDeleteButton === 'loading'}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              ) : null}
             </TableRow>
           ))}
         </TableBody>
@@ -72,11 +103,9 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
     </TableContainer>
   ) : (
     <div className={s.wrappedEmptyPack}>
-      <div className={s.namePack}>Lorem ipsum</div>
-      <div className={s.title}>This pack is empty. Click add new card to fill this pack</div>
-      <Button variant="contained" sx={style.addNewCard}>
-        <span className={s.btnTitle}>Add new card</span>
-      </Button>
+      <div className={s.title}>
+        This pack is empty. Click add new card to fill this pack or created your own pack
+      </div>
     </div>
   )
 }

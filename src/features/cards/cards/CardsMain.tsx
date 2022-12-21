@@ -1,23 +1,50 @@
-import React, { useEffect } from 'react'
+import React, { ChangeEvent, useEffect } from 'react'
 
+import CloseIcon from '@mui/icons-material/Close'
+import SearchIcon from '@mui/icons-material/Search'
+import { IconButton, InputAdornment, TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
+import { CircularProgressSelf } from '../../../components/common/CircularProgress/CircularProgress'
+import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
+import { useDebounce } from '../../../utils/hookUseDebounce'
 
 import { BasicTable } from './BasicTable'
 import s from './CardsMain.module.css'
-import { createNewCardTC, deleteCardTC, getCardsTC, updateCardTC } from './cardsReducer'
+import {
+  createNewCardTC,
+  deleteCardTC,
+  getCardsTC,
+  setCurrentCardsPageAC,
+  setFilterCardsFromInputSearchAC,
+  setPageCardsCountAC,
+  updateCardTC,
+} from './cardsReducer'
 import { style } from './styleSXForBasicTable'
 
 export const CardsMain = () => {
   const dispatch = useAppDispatch()
-  // const myId = useAppSelector(state => state.app.user._id)
+  const myId = useAppSelector(state => state.app.user._id)
+  const pageCount = useAppSelector(state => state.cards.pageCount)
+  const page = useAppSelector(state => state.cards.page)
+  const totalCount = useAppSelector(state => state.cards.cardsTotalCount)
+  const packName = useAppSelector(state => state.cards.packName)
   const cardsPack_id = useAppSelector(state => state.cards.currentPackId)
+  const currantPackUserId = useAppSelector(state => state.cards.packUserId)
+  const cardPacks = useAppSelector(state => state.cards.cards)
+  const loading = useAppSelector(state => state.app.status)
+  const searchValue = useAppSelector(state => state.cards.filterSearchValue)
+  const sort = useAppSelector(state => state.cards.sortCardsValue)
 
   useEffect(() => {
     dispatch(getCardsTC())
-  }, [])
+  }, [pageCount, page, useDebounce(searchValue), sort])
+  const paginationOnChange = (page: number, countPage: number) => {
+    dispatch(setCurrentCardsPageAC(page))
+    dispatch(setPageCardsCountAC(countPage))
+  }
   const addNewCard = () => {
     dispatch(createNewCardTC({ cardsPack_id, question: 'qu1', answer: 'ans1' }))
   }
@@ -35,16 +62,70 @@ export const CardsMain = () => {
     )
   }
 
+  const learnToPack = () => {
+    alert('your desire to learn is commendable')
+  }
+
+  const inputSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setFilterCardsFromInputSearchAC(e.currentTarget.value))
+  }
+
+  const addNewCardOrLearnCards =
+    myId === currantPackUserId ? (
+      <Button variant="contained" sx={style.addNewCard} onClick={addNewCard}>
+        <span className={s.btnTitle}>Add new card</span>
+      </Button>
+    ) : (
+      <Button
+        variant="contained"
+        sx={style.addNewCard}
+        onClick={learnToPack}
+        disabled={cardPacks?.length === 0}
+      >
+        <span className={s.btnTitle}>Learn to pack</span>
+      </Button>
+    )
+
   return (
     <>
+      {loading === 'loading' ? <CircularProgressSelf /> : null}
       <BackToPackList />
       <div className={s.packName}>
-        <div className={s.packNameTitle}>Lorem Ipsum</div>
-        <Button variant="contained" sx={style.addNewCard} onClick={addNewCard}>
-          <span className={s.btnTitle}>Add new card</span>
-        </Button>
+        <div className={s.packNameTitle}>{packName}</div>
+        {addNewCardOrLearnCards}
+      </div>
+      <div className={s.search}>
+        <span className={s.searchSpan}>Search</span>
+        <TextField
+          className={s.input}
+          size="small"
+          value={searchValue}
+          onChange={inputSearch}
+          placeholder={'Provide your text'}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position={'start'}>
+                <SearchIcon />
+                <IconButton
+                  className={s.inputDelete}
+                  onClick={() => dispatch(setFilterCardsFromInputSearchAC(''))}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
       </div>
       <BasicTable deleteCardOnClick={deleteCard} updateCardOnClick={updateCard} />
+      {cardPacks?.length !== 0 ? (
+        <UniversalPagination
+          page={page}
+          pageCount={pageCount}
+          totalCount={totalCount}
+          onChange={paginationOnChange}
+        />
+      ) : null}
     </>
   )
 }

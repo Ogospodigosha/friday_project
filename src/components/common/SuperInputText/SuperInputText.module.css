@@ -7,7 +7,7 @@
   border-bottom: 2px solid #808080;
   outline: none;
 }
-label {
+.label {
   position: relative;
   top: -20px;
   left: 58px;

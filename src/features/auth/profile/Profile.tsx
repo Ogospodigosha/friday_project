@@ -54,6 +54,7 @@ export const Profile = () => {
             sendText={sendTextHandler}
           />
         </div>
+
         <div className={style.email}>{user.email}</div>
         <div className={style.logOut}>
           <Fab

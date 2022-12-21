@@ -23,6 +23,7 @@ import { UniversalSort } from '../../../components/filtration/UniversalSort'
 import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { useDebounce } from '../../../utils/hookUseDebounce'
+import { setCurrentPackIdAC } from '../cards/cardsReducer'
 
 import { createPackTC } from './createPackTC'
 import { deletePackTC } from './deletePackTC'
@@ -44,7 +45,6 @@ export const Packs = () => {
   const sort = useAppSelector(state => state.packs.sort)
   const packName = useAppSelector(state => state.packs.packName)
 
-  console.log(packs)
   useEffect(() => {
     dispatch(getPacksTC())
   }, [isMyPack, page, pageCount, sort, useDebounce(packName)])
@@ -83,7 +83,8 @@ export const Packs = () => {
   const handler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setPackNameAC(e.currentTarget.value))
   }
-  const SchoolIconHandler = (id: string) => {
+  const learningPackHandler = (id: string) => {
+    dispatch(setCurrentPackIdAC(id))
     navigate(PATH.CARDS)
   }
   const schoolHandler = (id: string) => {}
@@ -161,7 +162,7 @@ export const Packs = () => {
                   {isMyPack ? (
                     <div>
                       <IconButton
-                        onClick={() => schoolHandler(raw._id)}
+                        onClick={() => learningPackHandler(raw._id)}
                         disabled={disabledSchool(raw._id)}
                       >
                         <SchoolIcon />

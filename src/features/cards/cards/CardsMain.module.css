@@ -13,7 +13,24 @@
 .packNameTitle {
   font-size: 22px;
   font-weight: 600;
-  line-height: 27;
+  line-height: 27px;
+}
+.search {
+  margin-top: 30px;
+}
+.searchSpan {
+  display: inline-block;
+
+  margin-bottom: 12px;
+
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17px;
+}
+.input {
+  width: 100%;
+}
+.inputDelete {
 }
 .btnTitle {
   font-size: 16px;
