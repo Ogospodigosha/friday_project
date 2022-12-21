@@ -16,7 +16,7 @@ import {
   TextField,
 } from '@mui/material'
 import Button from '@mui/material/Button'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { UniversalSort } from '../../../components/filtration/UniversalSort'
@@ -42,16 +42,23 @@ export const Packs = () => {
   const page = useAppSelector(state => state.packs.packs.page)
   const pageCount = useAppSelector(state => state.packs.packs.pageCount)
   const totalCount = useAppSelector(state => state.packs.packs.cardPacksTotalCount)
-  const sort = useAppSelector(state => state.packs.sort)
+  const sortPacks = useAppSelector(state => state.packs.sort)
   const packName = useAppSelector(state => state.packs.packName)
 
-  useEffect(() => {
-    dispatch(getPacksTC())
-  }, [isMyPack, page, pageCount, sort, useDebounce(packName)])
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const onChangeCallback = (newPage: number, newCountForPage: number) => {
+  const params = Object.fromEntries(searchParams)
+
+  useEffect(() => {
+    setSearchParams(params)
+    dispatch(getPacksTC(params))
+  }, [isMyPack, page, pageCount, sortPacks, useDebounce(packName)])
+
+  const onChangePagination = (newPage: number, newCountForPage: number) => {
     dispatch(setPageAC(newPage))
     dispatch(setPageCountAC(newCountForPage))
+    searchParams.set('page', newPage.toString())
+    searchParams.set('pageCount', newCountForPage.toString())
   }
   const editableDate = (updated: string) => {
     let newUpdated = updated.split('T')[0].split('-')
@@ -77,11 +84,13 @@ export const Packs = () => {
   const editPack = (id: string) => {
     dispatch(editPackTC(id))
   }
-  const onChangeSort = (newSort: string) => {
+  const onChangeSortHandler = (newSort: string) => {
     dispatch(setSortAC(newSort))
+    searchParams.set('sortPacks', newSort)
   }
-  const handler = (e: ChangeEvent<HTMLInputElement>) => {
+  const onSearchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setPackNameAC(e.currentTarget.value))
+    searchParams.set('packName', e.currentTarget.value)
   }
   const learningPackHandler = (id: string) => {
     dispatch(setCurrentPackIdAC(id))
@@ -117,7 +126,7 @@ export const Packs = () => {
             className={s.input}
             size="small"
             value={packName}
-            onChange={handler}
+            onChange={onSearchInputHandler}
             placeholder={'Provide your text'}
             InputProps={{
               startAdornment: (
@@ -134,7 +143,7 @@ export const Packs = () => {
         totalCount={totalCount}
         page={page}
         pageCount={pageCount}
-        onChange={onChangeCallback}
+        onChange={onChangePagination}
       />
       <TableContainer component={Paper}>
         <Table>
@@ -144,7 +153,7 @@ export const Packs = () => {
               <TableCell>Cards</TableCell>
               <TableCell>
                 Last Updated
-                <UniversalSort sort={sort} value={'updated'} onClick={onChangeSort} />
+                <UniversalSort sort={sortPacks} value={'updated'} onClick={onChangeSortHandler} />
               </TableCell>
               <TableCell>Created by</TableCell>
               <TableCell>Actions</TableCell>
@@ -189,7 +198,7 @@ export const Packs = () => {
         totalCount={totalCount}
         page={page}
         pageCount={pageCount}
-        onChange={onChangeCallback}
+        onChange={onChangePagination}
       />
     </div>
   )
