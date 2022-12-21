@@ -83,7 +83,7 @@ export const Packs = () => {
   const handler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setPackNameAC(e.currentTarget.value))
   }
-  const SchoolIconHandler = (id: string) => {
+  const learningPackHandler = (id: string) => {
     dispatch(setCurrentPackIdAC(id))
     navigate(PATH.CARDS)
   }
@@ -152,7 +152,7 @@ export const Packs = () => {
                 <TableCell>{editableDate(raw.updated)}</TableCell>
                 <TableCell>{raw.user_name}</TableCell>
                 <TableCell sx={{ width: '150px' }}>
-                  <IconButton onClick={() => SchoolIconHandler(raw._id)}>
+                  <IconButton onClick={() => learningPackHandler(raw._id)}>
                     <SchoolIcon />
                   </IconButton>
                   <IconButton onClick={() => editPack(raw._id)}>

@@ -26,7 +26,7 @@ export const CardsMain = () => {
   const totalCount = useAppSelector(state => state.cards.cardsTotalCount)
   const packName = useAppSelector(state => state.cards.packName)
   const cardsPack_id = useAppSelector(state => state.cards.currentPackId)
-  const isMyPack = useAppSelector(state => state.cards.packUserId)
+  const currantPackUserId = useAppSelector(state => state.cards.packUserId)
 
   useEffect(() => {
     dispatch(getCardsTC())
@@ -52,14 +52,27 @@ export const CardsMain = () => {
     )
   }
 
+  const learnToPack = () => {
+    alert('your desire to learn is commendable')
+  }
+
+  const addNewCardOrLearnCards =
+    myId === currantPackUserId ? (
+      <Button variant="contained" sx={style.addNewCard} onClick={addNewCard}>
+        <span className={s.btnTitle}>Add new card</span>
+      </Button>
+    ) : (
+      <Button variant="contained" sx={style.addNewCard} onClick={learnToPack}>
+        <span className={s.btnTitle}>Learn to pack</span>
+      </Button>
+    )
+
   return (
     <>
       <BackToPackList />
       <div className={s.packName}>
         <div className={s.packNameTitle}>{packName}</div>
-        <Button variant="contained" sx={style.addNewCard} onClick={addNewCard}>
-          <span className={s.btnTitle}>Add new card</span>
-        </Button>
+        {addNewCardOrLearnCards}
       </div>
       <BasicTable deleteCardOnClick={deleteCard} updateCardOnClick={updateCard} />
       <UniversalPagination

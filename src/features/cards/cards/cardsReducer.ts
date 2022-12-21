@@ -126,8 +126,6 @@ export const getCardsTC =
     const cardQuestion = getState().cards.filterSearchValue
     const sortCards = getState().cards.sortCardsValue
 
-    console.log(cardsPack_id)
-
     try {
       const res = await cardsApi.getCards({
         cardsPack_id,
@@ -137,7 +135,6 @@ export const getCardsTC =
         cardQuestion,
       })
 
-      // dispatch(setCurrentPackIdAC(cardsPack_id))
       dispatch(setCardsAC(res.data))
       dispatch(setAppStatusAC('succeeded'))
     } catch (err) {
