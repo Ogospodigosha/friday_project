@@ -4,6 +4,7 @@ import Button from '@mui/material/Button'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
+import { CircularProgressSelf } from '../../../components/common/CircularProgress/CircularProgress'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 
 import { BasicTable } from './BasicTable'
@@ -27,6 +28,8 @@ export const CardsMain = () => {
   const packName = useAppSelector(state => state.cards.packName)
   const cardsPack_id = useAppSelector(state => state.cards.currentPackId)
   const currantPackUserId = useAppSelector(state => state.cards.packUserId)
+  const cardPacks = useAppSelector(state => state.cards.cards)
+  const loading = useAppSelector(state => state.app.status)
 
   useEffect(() => {
     dispatch(getCardsTC())
@@ -62,25 +65,33 @@ export const CardsMain = () => {
         <span className={s.btnTitle}>Add new card</span>
       </Button>
     ) : (
-      <Button variant="contained" sx={style.addNewCard} onClick={learnToPack}>
+      <Button
+        variant="contained"
+        sx={style.addNewCard}
+        onClick={learnToPack}
+        disabled={cardPacks?.length === 0}
+      >
         <span className={s.btnTitle}>Learn to pack</span>
       </Button>
     )
 
   return (
     <>
+      {loading === 'loading' ? <CircularProgressSelf /> : null}
       <BackToPackList />
       <div className={s.packName}>
         <div className={s.packNameTitle}>{packName}</div>
         {addNewCardOrLearnCards}
       </div>
       <BasicTable deleteCardOnClick={deleteCard} updateCardOnClick={updateCard} />
-      <UniversalPagination
-        page={page}
-        pageCount={pageCount}
-        totalCount={totalCount}
-        onChange={paginationOnChange}
-      />
+      {cardPacks?.length !== 0 ? (
+        <UniversalPagination
+          page={page}
+          pageCount={pageCount}
+          totalCount={totalCount}
+          onChange={paginationOnChange}
+        />
+      ) : null}
     </>
   )
 }

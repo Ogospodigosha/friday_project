@@ -26,6 +26,7 @@ type BasicTableProps = {
 export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardOnClick }) => {
   const cardPacks = useAppSelector(state => state.cards.cards)
   const myId = useAppSelector(state => state.app.user._id)
+  const disabledDeleteButton = useAppSelector(state => state.app.status)
   const currantPackUserId = useAppSelector(state => state.cards.packUserId)
 
   const convertDataFormat = (value: string) => {
@@ -68,7 +69,7 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
                 <Rating
                   name="half-rating"
                   defaultValue={card.grade}
-                  precision={0.1}
+                  precision={0.2}
                   size="medium"
                 />
               </TableCell>
@@ -77,7 +78,10 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
                   <IconButton onClick={() => updateCardOnClick(card._id)}>
                     <EditIcon />
                   </IconButton>
-                  <IconButton onClick={() => deleteCardOnClick(card._id)}>
+                  <IconButton
+                    onClick={() => deleteCardOnClick(card._id)}
+                    disabled={disabledDeleteButton === 'loading'}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -89,10 +93,9 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
     </TableContainer>
   ) : (
     <div className={s.wrappedEmptyPack}>
-      <div className={s.title}>This pack is empty. Click add new card to fill this pack</div>
-      {/*<Button variant="contained" sx={style.addNewCard}>*/}
-      {/*  <span className={s.btnTitle}>Add new card</span>*/}
-      {/*</Button>*/}
+      <div className={s.title}>
+        This pack is empty. Click add new card to fill this pack or created your own pack
+      </div>
     </div>
   )
 }

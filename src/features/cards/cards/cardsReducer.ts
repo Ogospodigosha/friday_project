@@ -135,8 +135,8 @@ export const getCardsTC =
         cardQuestion,
       })
 
-      dispatch(setCardsAC(res.data))
       dispatch(setAppStatusAC('succeeded'))
+      dispatch(setCardsAC(res.data))
     } catch (err) {
       console.log(err)
     }
