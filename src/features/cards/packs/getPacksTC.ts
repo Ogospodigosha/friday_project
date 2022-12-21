@@ -17,6 +17,5 @@ export const getPacksTC = () => (dispatch: AppThunkDispatch, getState: () => App
 
   packsApi.getPacks(userId, page, pageCount, sortPacks, packName).then(res => {
     dispatch(setPacksAC(res.data))
-    console.log(res.data)
   })
 }

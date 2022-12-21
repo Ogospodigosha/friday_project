@@ -1,15 +1,16 @@
 .pagination {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    height: 33px;
+  height: 33px;
+  margin-top: 30px;
 
-    /*background-color: red;*/
+  /*background-color: red;*/
 }
 .show {
-    margin-right: 5px;
-    margin-left: 15px;
+  margin-right: 5px;
+  margin-left: 15px;
 }
 .hint {
-    margin-left: 5px;
+  margin-left: 5px;
 }

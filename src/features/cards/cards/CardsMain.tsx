@@ -24,8 +24,9 @@ export const CardsMain = () => {
   const pageCount = useAppSelector(state => state.cards.pageCount)
   const page = useAppSelector(state => state.cards.page)
   const totalCount = useAppSelector(state => state.cards.cardsTotalCount)
-  const namePack = useAppSelector(state => state.cards.currentPackId)
+  const packName = useAppSelector(state => state.cards.packName)
   const cardsPack_id = useAppSelector(state => state.cards.currentPackId)
+  const isMyPack = useAppSelector(state => state.cards.packUserId)
 
   useEffect(() => {
     dispatch(getCardsTC())
@@ -55,7 +56,7 @@ export const CardsMain = () => {
     <>
       <BackToPackList />
       <div className={s.packName}>
-        <div className={s.packNameTitle}>{namePack ? namePack : 'Lorem ipsum'}</div>
+        <div className={s.packNameTitle}>{packName}</div>
         <Button variant="contained" sx={style.addNewCard} onClick={addNewCard}>
           <span className={s.btnTitle}>Add new card</span>
         </Button>

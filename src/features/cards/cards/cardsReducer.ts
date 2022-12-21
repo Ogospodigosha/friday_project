@@ -10,16 +10,17 @@ import {
 } from './CardsApi'
 
 const cardsInitialState = {
-  cards: null as CardType[] | null,
+  cards: [] as CardType[] | null,
   cardsTotalCount: 0,
   maxGrade: 0,
   minGrade: 0,
   page: 5,
   pageCount: 5,
-  packUserId: '5eb543f6bea3ad21480f1ee7',
-  currentPackId: '639e269ac7270c4efc6205a4',
+  packUserId: '',
+  currentPackId: '',
   sortCardsValue: '0updated',
   filterSearchValue: '',
+  packName: '',
 }
 
 export type CardsStateType = typeof cardsInitialState
@@ -46,8 +47,9 @@ export const cardsReducer = (
         page: action.data.page,
         pageCount: action.data.pageCount,
         packUserId: action.data.packUserId,
+        packName: action.data.packName,
       }
-    case 'CARDS/SET-CURRENT-PACK':
+    case 'CARDS/SET-CURRENT-PACK-ID':
       return {
         ...state,
         currentPackId: action.id,
@@ -85,7 +87,7 @@ export const setCardsAC = (data: GetCardsResponseType) => {
 }
 
 export const setCurrentPackIdAC = (id: string) => {
-  return { type: 'CARDS/SET-CURRENT-PACK', id } as const
+  return { type: 'CARDS/SET-CURRENT-PACK-ID', id } as const
 }
 export const setCurrentCardsPageAC = (page: number) => {
   return {
@@ -124,15 +126,18 @@ export const getCardsTC =
     const cardQuestion = getState().cards.filterSearchValue
     const sortCards = getState().cards.sortCardsValue
 
+    console.log(cardsPack_id)
+
     try {
       const res = await cardsApi.getCards({
         cardsPack_id,
         page,
         pageCount,
-        cardQuestion,
         sortCards,
+        cardQuestion,
       })
 
+      // dispatch(setCurrentPackIdAC(cardsPack_id))
       dispatch(setCardsAC(res.data))
       dispatch(setAppStatusAC('succeeded'))
     } catch (err) {

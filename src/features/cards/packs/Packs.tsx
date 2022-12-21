@@ -23,6 +23,7 @@ import { UniversalSort } from '../../../components/filtration/UniversalSort'
 import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { useDebounce } from '../../../utils/hookUseDebounce'
+import { setCurrentPackIdAC } from '../cards/cardsReducer'
 
 import { createPackTC } from './createPackTC'
 import { deletePackTC } from './deletePackTC'
@@ -83,6 +84,7 @@ export const Packs = () => {
     dispatch(setPackNameAC(e.currentTarget.value))
   }
   const SchoolIconHandler = (id: string) => {
+    dispatch(setCurrentPackIdAC(id))
     navigate(PATH.CARDS)
   }
 
