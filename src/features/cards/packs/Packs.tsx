@@ -16,7 +16,7 @@ import {
   TextField,
 } from '@mui/material'
 import Button from '@mui/material/Button'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { UniversalSort } from '../../../components/filtration/UniversalSort'
@@ -46,7 +46,7 @@ export const Packs = () => {
   const packName = useAppSelector(state => state.packs.packName)
   const user_id = useAppSelector(state => state.app.user._id)
   const [searchParams, setSearchParams] = useSearchParams()
-
+  const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
   const params = Object.fromEntries(searchParams)
 
   useEffect(() => {
@@ -101,6 +101,10 @@ export const Packs = () => {
     let currentPack = packs.find(el => el._id === id)
 
     return currentPack && currentPack.cardsCount === 0
+  }
+
+  if (!isLoggedIn) {
+    return <Navigate to={'/login'} />
   }
 
   return (
