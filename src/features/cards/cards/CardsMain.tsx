@@ -36,10 +36,11 @@ export const CardsMain = () => {
   const cardPacks = useAppSelector(state => state.cards.cards)
   const loading = useAppSelector(state => state.app.status)
   const searchValue = useAppSelector(state => state.cards.filterSearchValue)
+  const sort = useAppSelector(state => state.cards.sortCardsValue)
 
   useEffect(() => {
     dispatch(getCardsTC())
-  }, [pageCount, page, useDebounce(searchValue)])
+  }, [pageCount, page, useDebounce(searchValue), sort])
   const paginationOnChange = (page: number, countPage: number) => {
     dispatch(setCurrentCardsPageAC(page))
     dispatch(setPageCardsCountAC(countPage))
