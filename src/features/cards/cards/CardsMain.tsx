@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { ChangeEvent, useEffect } from 'react'
 
+import SearchIcon from '@mui/icons-material/Search'
+import { InputAdornment, TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
 import { CircularProgressSelf } from '../../../components/common/CircularProgress/CircularProgress'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
+import { useDebounce } from '../../../utils/hookUseDebounce'
 
 import { BasicTable } from './BasicTable'
 import s from './CardsMain.module.css'
@@ -14,6 +17,7 @@ import {
   deleteCardTC,
   getCardsTC,
   setCurrentCardsPageAC,
+  setFilterCardsFromInputSearchAC,
   setPageCardsCountAC,
   updateCardTC,
 } from './cardsReducer'
@@ -30,10 +34,11 @@ export const CardsMain = () => {
   const currantPackUserId = useAppSelector(state => state.cards.packUserId)
   const cardPacks = useAppSelector(state => state.cards.cards)
   const loading = useAppSelector(state => state.app.status)
+  const searchValue = useAppSelector(state => state.cards.filterSearchValue)
 
   useEffect(() => {
     dispatch(getCardsTC())
-  }, [pageCount, page])
+  }, [pageCount, page, useDebounce(searchValue)])
   const paginationOnChange = (page: number, countPage: number) => {
     dispatch(setCurrentCardsPageAC(page))
     dispatch(setPageCardsCountAC(countPage))
@@ -57,6 +62,10 @@ export const CardsMain = () => {
 
   const learnToPack = () => {
     alert('your desire to learn is commendable')
+  }
+
+  const inputSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setFilterCardsFromInputSearchAC(e.currentTarget.value))
   }
 
   const addNewCardOrLearnCards =
@@ -83,6 +92,25 @@ export const CardsMain = () => {
         <div className={s.packNameTitle}>{packName}</div>
         {addNewCardOrLearnCards}
       </div>
+      {cardPacks?.length !== 0 ? (
+        <div className={s.search}>
+          <span className={s.search}>Search</span>
+          <TextField
+            className={s.input}
+            size="small"
+            value={searchValue}
+            onChange={inputSearch}
+            placeholder={'Provide your text'}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position={'start'}>
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </div>
+      ) : null}
       <BasicTable deleteCardOnClick={deleteCard} updateCardOnClick={updateCard} />
       {cardPacks?.length !== 0 ? (
         <UniversalPagination
