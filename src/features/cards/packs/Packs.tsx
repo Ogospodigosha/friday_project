@@ -44,7 +44,7 @@ export const Packs = () => {
   const totalCount = useAppSelector(state => state.packs.packs.cardPacksTotalCount)
   const sortPacks = useAppSelector(state => state.packs.sort)
   const packName = useAppSelector(state => state.packs.packName)
-
+  const user_id = useAppSelector(state => state.app.user._id)
   const [searchParams, setSearchParams] = useSearchParams()
 
   const params = Object.fromEntries(searchParams)
@@ -98,7 +98,6 @@ export const Packs = () => {
   }
   const schoolHandler = (id: string) => {}
   const disabledSchool = (id: string) => {
-    debugger
     let currentPack = packs.find(el => el._id === id)
 
     return currentPack && currentPack.cardsCount === 0
@@ -168,7 +167,7 @@ export const Packs = () => {
                 <TableCell>{editableDate(raw.updated)}</TableCell>
                 <TableCell>{raw.user_name}</TableCell>
                 <TableCell sx={{ width: '150px' }}>
-                  {isMyPack ? (
+                  {user_id === raw.user_id ? (
                     <div>
                       <IconButton
                         onClick={() => learningPackHandler(raw._id)}
@@ -184,9 +183,11 @@ export const Packs = () => {
                       </IconButton>
                     </div>
                   ) : (
-                    <IconButton disabled={disabledSchool(raw._id)}>
-                      <SchoolIcon />
-                    </IconButton>
+                    <div>
+                      <IconButton disabled={disabledSchool(raw._id)}>
+                        <SchoolIcon />
+                      </IconButton>
+                    </div>
                   )}
                 </TableCell>
               </TableRow>
