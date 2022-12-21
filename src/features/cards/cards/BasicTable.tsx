@@ -3,8 +3,9 @@ import { FC } from 'react'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import { IconButton } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
+import Rating from '@mui/material/Rating'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -43,7 +44,7 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
             <TableCell sx={style.tableHeadTableCell} align="right">
               Last Updated
             </TableCell>
-            <TableCell sx={style.tableHeadTableCell} align="right">
+            <TableCell sx={style.tableHeadTableCell} align="center">
               Grade
             </TableCell>
             {myId === currantPackUserId ? (
@@ -63,8 +64,13 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
               <TableCell sx={style.tableRowTableCell} align="right">
                 {convertDataFormat(card.updated)}
               </TableCell>
-              <TableCell sx={style.tableRowTableCell} align="right">
-                {card.grade}
+              <TableCell align="center" sx={style.tableRowStars}>
+                <Rating
+                  name="half-rating"
+                  defaultValue={card.grade}
+                  precision={0.1}
+                  size="medium"
+                />
               </TableCell>
               {myId === currantPackUserId ? (
                 <TableCell sx={style.editDelete} align="right">

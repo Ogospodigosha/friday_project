@@ -35,4 +35,5 @@ export const style = {
     width: '110px',
     cursor: 'pointer',
   },
+  tableRowStars: {},
 }
