@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useEffect } from 'react'
 
+import CloseIcon from '@mui/icons-material/Close'
 import SearchIcon from '@mui/icons-material/Search'
-import { InputAdornment, TextField } from '@mui/material'
+import { IconButton, InputAdornment, TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
@@ -92,25 +93,29 @@ export const CardsMain = () => {
         <div className={s.packNameTitle}>{packName}</div>
         {addNewCardOrLearnCards}
       </div>
-      {cardPacks?.length !== 0 ? (
-        <div className={s.search}>
-          <span className={s.search}>Search</span>
-          <TextField
-            className={s.input}
-            size="small"
-            value={searchValue}
-            onChange={inputSearch}
-            placeholder={'Provide your text'}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position={'start'}>
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </div>
-      ) : null}
+      <div className={s.search}>
+        <span className={s.searchSpan}>Search</span>
+        <TextField
+          className={s.input}
+          size="small"
+          value={searchValue}
+          onChange={inputSearch}
+          placeholder={'Provide your text'}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position={'start'}>
+                <SearchIcon />
+                <IconButton
+                  className={s.inputDelete}
+                  onClick={() => dispatch(setFilterCardsFromInputSearchAC(''))}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </div>
       <BasicTable deleteCardOnClick={deleteCard} updateCardOnClick={updateCard} />
       {cardPacks?.length !== 0 ? (
         <UniversalPagination
