@@ -5,25 +5,24 @@ import { useDispatch } from 'react-redux'
 
 import { useAppSelector } from '../../../app/store'
 
-import { setIsMyPackAC } from './packs-reducer'
+import { changeIsMyPack } from './IsMyPackReducer-reducer'
 
 type Props = {
   switchCallback: (my: boolean) => void
 }
 export const SwitchMyAll = React.memo((props: Props) => {
   const dispatch = useDispatch()
-  let isMyPack = useAppSelector(state => state.packs.isMyPack)
-  const [alignment, setAlignment] = useState(JSON.parse(localStorage.getItem('alignment') || 'all'))
+  const isMyPack1 = useAppSelector(state => state.isMyPack.isMyPack1)
+  const [alignment, setAlignment] = useState(
+    JSON.parse(localStorage.getItem('alignment') as string) || 'all'
+  )
 
+  //для сброса фильтров
   useEffect(() => {
-    if (isMyPack === null) {
+    if (!isMyPack1) {
       setAlignment('all')
-      // dispatch(setIsMyPackAC(false))
     }
-    if (alignment !== 'all' && isMyPack === false) {
-      dispatch(setIsMyPackAC(true))
-    }
-  }, [isMyPack])
+  }, [isMyPack1])
 
   useEffect(() => {
     window.localStorage.setItem('alignment', JSON.stringify(alignment))
@@ -33,10 +32,12 @@ export const SwitchMyAll = React.memo((props: Props) => {
   }
   const myHandler = () => {
     setAlignment('my')
+    dispatch(changeIsMyPack(true))
     props.switchCallback(true)
   }
   const AllHandler = () => {
     setAlignment('all')
+    dispatch(changeIsMyPack(false))
     props.switchCallback(false)
   }
 

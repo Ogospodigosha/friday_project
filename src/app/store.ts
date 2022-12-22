@@ -8,6 +8,7 @@ import { loginReducer } from '../features/auth/login/loginReducer'
 import { profileReducer } from '../features/auth/profile/profileReducer'
 import { registrationReducer } from '../features/auth/registration/registration-reducer'
 import { cardsReducer } from '../features/cards/cards/cardsReducer'
+import { IsMyPackReducer } from '../features/cards/packs/IsMyPackReducer-reducer'
 import { packsReducer } from '../features/cards/packs/packs-reducer'
 
 import { appReducer } from './appReducer'
@@ -21,13 +22,22 @@ export const RootReducer = combineReducers({
   forgotPassword: forgotPasswordReducer,
   cards: cardsReducer,
   packs: packsReducer,
+  isMyPack: IsMyPackReducer,
 })
 
-export const store = createStore(RootReducer, applyMiddleware(thunk))
+let preloadedState
+const persistedIsMyPack = localStorage.getItem('isMyPack1')
+
+if (persistedIsMyPack) {
+  preloadedState = JSON.parse(persistedIsMyPack)
+}
+
+export const store = createStore(RootReducer, preloadedState, applyMiddleware(thunk))
 
 store.subscribe(() => {
   localStorage.setItem('state', JSON.stringify(store.getState()))
-  localStorage.setItem('isMyPack', JSON.stringify(store.getState().packs.isMyPack))
+  // localStorage.setItem('isMyPack', JSON.stringify({ isMyPack: store.getState().packs.isMyPack }))
+  window.localStorage.setItem('isMyPack1', JSON.stringify(store.getState().isMyPack.isMyPack1))
 })
 
 // create custom hook

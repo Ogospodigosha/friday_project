@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect } from 'react'
+import React, { ChangeEvent, useEffect } from 'react'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
@@ -31,6 +31,7 @@ import { createPackTC } from './createPackTC'
 import { deletePackTC } from './deletePackTC'
 import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
+import { changeIsMyPack } from './IsMyPackReducer-reducer'
 import { setIsMyPackAC, setPackNameAC, setPageAC, setPageCountAC, setSortAC } from './packs-reducer'
 import s from './packs.module.css'
 import { SwitchMyAll } from './SwitchMyAll'
@@ -39,6 +40,7 @@ export const Packs = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const isMyPack = useAppSelector(state => state.packs.isMyPack)
+  const isMyPack1 = useAppSelector(state => state.isMyPack.isMyPack1)
   const packs = useAppSelector(state => state.packs.packs.cardPacks)
   const page = useAppSelector(state => state.packs.packs.page)
   const pageCount = useAppSelector(state => state.packs.packs.pageCount)
@@ -53,10 +55,17 @@ export const Packs = () => {
 
   const params = Object.fromEntries(searchParams)
 
+  //стартовые параметры для тогл баттон: не мой пак и стейт кнопки олл
+  useEffect(() => {
+    if (isMyPack1) {
+      return
+    }
+    window.localStorage.setItem('alignment', JSON.stringify('all'))
+  }, [])
   useEffect(() => {
     setSearchParams(params)
     dispatch(getPacksTC(params))
-  }, [isMyPack, page, pageCount, sortPacks, useDebounce(packName), user_id])
+  }, [isMyPack, page, pageCount, sortPacks, useDebounce(packName), user_id, isMyPack1])
   const deleteAllQwery = () => {
     searchParams.delete('page')
     searchParams.delete('pageCount')
@@ -68,8 +77,7 @@ export const Packs = () => {
     dispatch(setPageAC(1))
     dispatch(setSortAC('0updated'))
     dispatch(setPackNameAC(''))
-    dispatch(setIsMyPackAC(null))
-    console.log(isMyPack)
+    dispatch(changeIsMyPack(false))
   }
 
   const onChangePagination = (newPage: number, newCountForPage: number) => {
@@ -120,17 +128,15 @@ export const Packs = () => {
 
     return currentPack && currentPack.cardsCount === 0
   }
-  const switchCallback = useCallback((my: boolean) => {
+  const switchCallback = (my: boolean) => {
     if (my) {
-      debugger
       searchParams.set('user_id', user_id.toString())
       dispatch(setIsMyPackAC(my))
     } else {
-      debugger
       searchParams.delete('user_id')
       dispatch(setIsMyPackAC(my))
     }
-  }, [])
+  }
 
   if (!isLoggedIn) {
     return <Navigate to={'/login'} />
