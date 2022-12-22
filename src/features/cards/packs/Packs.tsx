@@ -90,7 +90,7 @@ export const Packs = () => {
   }
   const data = {
     cardsPack: {
-      name: '55',
+      name: 'ffffffffffffffffffffffffffffffff sasfadsfas               sdafsdfasdfasdfasdfsdafasdfffffffffffffffffffffffffffffffffffffffffffff',
     },
   }
   const createPack = () => {
