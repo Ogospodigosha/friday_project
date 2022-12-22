@@ -23,13 +23,7 @@ export const RootReducer = combineReducers({
   packs: packsReducer,
 })
 
-let preloadedState
-const persistedIsMyPackString = localStorage.getItem('isMyPack')
-
-if (persistedIsMyPackString) {
-  preloadedState = JSON.parse(persistedIsMyPackString)
-}
-export const store = createStore(RootReducer, preloadedState, applyMiddleware(thunk))
+export const store = createStore(RootReducer, applyMiddleware(thunk))
 
 store.subscribe(() => {
   localStorage.setItem('state', JSON.stringify(store.getState()))

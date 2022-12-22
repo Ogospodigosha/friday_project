@@ -29,7 +29,6 @@ import { createPackTC } from './createPackTC'
 import { deletePackTC } from './deletePackTC'
 import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
-// import { changePackNameAC } from './packs-reducer'
 import { setIsMyPackAC, setPackNameAC, setPageAC, setPageCountAC, setSortAC } from './packs-reducer'
 import s from './packs.module.css'
 import { SwitchMyAll } from './SwitchMyAll'
@@ -105,16 +104,19 @@ export const Packs = () => {
 
     return currentPack && currentPack.cardsCount === 0
   }
-  const switchCallback = (my: boolean) => {
-    if (my) {
-      searchParams.set('user_id', user_id.toString())
-      dispatch(setIsMyPackAC(my))
-    } else {
-      debugger
-      searchParams.delete('user_id')
-      dispatch(setIsMyPackAC(my))
-    }
-  }
+  const switchCallback = useCallback(
+    (my: boolean) => {
+      if (my) {
+        searchParams.set('user_id', user_id.toString())
+        dispatch(setIsMyPackAC(my))
+      } else {
+        debugger
+        searchParams.delete('user_id')
+        dispatch(setIsMyPackAC(my))
+      }
+    },
+    [isMyPack]
+  )
 
   if (!isLoggedIn) {
     return <Navigate to={'/login'} />
@@ -156,12 +158,7 @@ export const Packs = () => {
             }}
           />
         </div>
-        <SwitchMyAll
-          user_id={user_id}
-          switchCallback={switchCallback}
-          params={params}
-          test={test}
-        />
+        <SwitchMyAll switchCallback={switchCallback} />
       </div>
       <UniversalPagination
         totalCount={totalCount}

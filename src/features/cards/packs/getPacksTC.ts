@@ -15,10 +15,7 @@ export const getPacksTC =
     const packName = getState().packs.packName
 
     if (!isMyPack) {
-      console.log('user_id', user_id)
-
       user_id = ''
-      console.log('user_id', user_id)
     }
     const params = {
       user_id,
