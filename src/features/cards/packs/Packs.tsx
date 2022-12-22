@@ -25,6 +25,7 @@ import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { useDebounce } from '../../../utils/hookUseDebounce'
 import { setCurrentPackIdAC } from '../cards/cardsReducer'
+import { style } from '../cards/styleSXForBasicTable'
 
 import { createPackTC } from './createPackTC'
 import { deletePackTC } from './deletePackTC'
@@ -115,6 +116,7 @@ export const Packs = () => {
   }
   const schoolHandler = (id: string) => {}
   const disabledSchool = (id: string) => {
+    debugger
     let currentPack = packs.find(el => el._id === id)
 
     return currentPack && currentPack.cardsCount === 0
@@ -199,8 +201,9 @@ export const Packs = () => {
             {packs.map(raw => (
               <TableRow key={raw._id}>
                 <TableCell
-                  onClick={() => learningPackHandler(raw._id)}
+                  sx={style.tableRowTableCell}
                   style={{ cursor: 'pointer' }}
+                  onClick={() => learningPackHandler(raw._id)}
                 >
                   {raw.name}
                 </TableCell>

@@ -41,12 +41,13 @@ export const CardsMain = () => {
   useEffect(() => {
     dispatch(getCardsTC())
   }, [pageCount, page, useDebounce(searchValue), sort])
-  const paginationOnChange = (page: number, countPage: number) => {
-    dispatch(setCurrentCardsPageAC(page))
+
+  const onChangePagination = (page: number, countPage: number) => {
     dispatch(setPageCardsCountAC(countPage))
+    dispatch(setCurrentCardsPageAC(page))
   }
   const addNewCard = () => {
-    dispatch(createNewCardTC({ cardsPack_id, question: 'qu1', answer: 'ans1' }))
+    dispatch(createNewCardTC({ cardsPack_id, question: 'question1', answer: 'answer' }))
   }
   const deleteCard = (cardId: string) => {
     dispatch(deleteCardTC(cardId))
@@ -56,8 +57,10 @@ export const CardsMain = () => {
     dispatch(
       updateCardTC({
         _id: cardId,
-        question: 'What are you think about it',
-        answer: 'I know it',
+        question:
+          'What are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
+        answer:
+          'I know itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
       })
     )
   }
@@ -106,13 +109,12 @@ export const CardsMain = () => {
             startAdornment: (
               <InputAdornment position={'start'}>
                 <SearchIcon />
-                <IconButton
-                  className={s.inputDelete}
-                  onClick={() => dispatch(setFilterCardsFromInputSearchAC(''))}
-                >
-                  <CloseIcon />
-                </IconButton>
               </InputAdornment>
+            ),
+            endAdornment: (
+              <IconButton onClick={() => dispatch(setFilterCardsFromInputSearchAC(''))}>
+                <CloseIcon />
+              </IconButton>
             ),
           }}
         />
@@ -123,7 +125,7 @@ export const CardsMain = () => {
           page={page}
           pageCount={pageCount}
           totalCount={totalCount}
-          onChange={paginationOnChange}
+          onChange={onChangePagination}
         />
       ) : null}
     </>
