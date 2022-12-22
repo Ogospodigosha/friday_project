@@ -26,6 +26,10 @@ export const style = {
     lineHeight: '17px',
   },
   tableRowTableCell: {
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    maxWidth: '200px',
     fontFamily: 'Montserrat, sans-serif',
     fontWeight: '400',
     fontSize: '13px',
