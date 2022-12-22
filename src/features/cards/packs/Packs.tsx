@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent, useCallback, useEffect } from 'react'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
@@ -54,7 +54,6 @@ export const Packs = () => {
 
   useEffect(() => {
     setSearchParams(params)
-    console.log(params)
     dispatch(getPacksTC(params))
   }, [isMyPack, page, pageCount, sortPacks, useDebounce(packName), user_id])
 

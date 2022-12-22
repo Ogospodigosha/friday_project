@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 
 import { ToggleButton, ToggleButtonGroup } from '@mui/material'
 import { useDispatch } from 'react-redux'
@@ -14,37 +14,44 @@ type Props = {
   params: ParamsForGetPacks
   test: null | string
 }
-export const SwitchMyAll = (props: Props) => {
+export const SwitchMyAll = memo((props: Props) => {
   const dispatch = useDispatch()
   let isMyPack = useAppSelector(state => state.packs.isMyPack)
   const [alignment, setAlignment] = useState(window.localStorage.getItem('alignment'))
 
   useEffect(() => {
     const data = window.localStorage.getItem('alignment')
+    // const isMyPack = window.localStorage.getItem('isMyPack')
 
-    if (data === 'my') {
-      debugger
+    if (alignment !== 'all' && !isMyPack) {
       dispatch(setIsMyPackAC(true))
     }
-    console.log(data)
-    if (data !== null) {
+    if (data === 'my') {
+      // debugger
       setAlignment(JSON.parse(data))
-      dispatch(setIsMyPackAC(false))
+      // dispatch(setIsMyPackAC(true))
+    }
+    console.log(data)
+    if (data === 'all') {
+      setAlignment(JSON.parse(data))
+      // dispatch(setIsMyPackAC(false))
     }
   }, [])
 
   useEffect(() => {
     window.localStorage.setItem('alignment', JSON.stringify(alignment))
-    window.localStorage.setItem('isMyPack', JSON.stringify(isMyPack))
-  }, [alignment, isMyPack])
+    // window.localStorage.setItem('isMyPack', JSON.stringify(isMyPack))
+  }, [alignment])
   const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
     setAlignment(newAlignment)
   }
   const myHandler = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault()
     setAlignment('my')
     props.switchCallback(true)
   }
   const AllHandler = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault()
     debugger
     setAlignment('all')
     props.switchCallback(false)
@@ -66,4 +73,4 @@ export const SwitchMyAll = (props: Props) => {
       </ToggleButton>
     </ToggleButtonGroup>
   )
-}
+})

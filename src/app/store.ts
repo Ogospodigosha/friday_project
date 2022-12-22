@@ -1,5 +1,5 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { AnyAction, applyMiddleware, combineReducers, legacy_createStore } from 'redux'
+import { AnyAction, applyMiddleware, combineReducers, createStore } from 'redux'
 import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk'
 
 import { createNewPasswordReducer } from '../features/auth/createNewPassword/createNewPassword-reducer'
@@ -22,7 +22,19 @@ export const RootReducer = combineReducers({
   cards: cardsReducer,
   packs: packsReducer,
 })
-export const store = legacy_createStore(RootReducer, applyMiddleware(thunk))
+
+let preloadedState
+const persistedIsMyPackString = localStorage.getItem('isMyPack')
+
+if (persistedIsMyPackString) {
+  preloadedState = JSON.parse(persistedIsMyPackString)
+}
+export const store = createStore(RootReducer, preloadedState, applyMiddleware(thunk))
+
+store.subscribe(() => {
+  localStorage.setItem('state', JSON.stringify(store.getState()))
+  localStorage.setItem('isMyPack', JSON.stringify(store.getState().packs.isMyPack))
+})
 
 // create custom hook
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>()

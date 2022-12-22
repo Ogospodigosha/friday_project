@@ -34,6 +34,7 @@ export const logInTC =
       dispatch(setUserAC(res.data))
       // dispatch(setAppStatusAC('succeeded'))
       dispatch(setIsLoggedInAC(true))
+      dispatch(setAppStatusAC('succeeded'))
     } catch (e) {
       const err = e as Error | AxiosError<{ error: string }>
 
@@ -41,6 +42,7 @@ export const logInTC =
       if (axios.isAxiosError(err)) {
         const error = err.response?.data ? err.response.data.error : err.message
 
+        dispatch(setAppStatusAC('failed'))
         dispatch(setAppErrorAC(error))
       } else {
         dispatch(setAppErrorAC(`Native error ${err.message}`))

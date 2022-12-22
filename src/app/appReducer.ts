@@ -46,6 +46,7 @@ export const setInitializedAC = (isInitialized: boolean) =>
 export const setAppStatusAC = (status: RequestStatusType) =>
   ({ type: 'APP/SET-STATUS', status } as const)
 export const setUserAC = (user: ProfileType) => ({ type: 'APP/SET-USER', user } as const)
+export const clearIdAC = (user: ProfileType) => ({ type: 'APP/SET-USER', user } as const)
 //thunk creator
 export const authMeTC = () => (dispatch: Dispatch) => {
   authAPI
