@@ -47,7 +47,9 @@ export const Packs = () => {
   const packName = useAppSelector(state => state.packs.packName)
   let user_id = useAppSelector(state => state.app.user._id)
 
-  console.log('isMyPack', isMyPack)
+  console.log(totalCount, pageCount, page)
+  console.log(packs)
+
   const [searchParams, setSearchParams] = useSearchParams()
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
 
@@ -57,6 +59,10 @@ export const Packs = () => {
     setSearchParams(params)
     dispatch(getPacksTC(params))
   }, [isMyPack, page, pageCount, sortPacks, useDebounce(packName), user_id])
+
+  // useEffect(() => {
+  //   !packs?.length && dispatch(setPageAC(page - 1))
+  // }, [packs])
   const deleteAllQwery = () => {
     searchParams.delete('page')
     searchParams.delete('pageCount')
@@ -122,7 +128,6 @@ export const Packs = () => {
   }
   const switchCallback = useCallback((my: boolean) => {
     if (my) {
-      debugger
       searchParams.set('user_id', user_id.toString())
       dispatch(setIsMyPackAC(my))
     } else {

@@ -42,6 +42,10 @@ export const CardsMain = () => {
     dispatch(getCardsTC())
   }, [pageCount, page, useDebounce(searchValue), sort])
 
+  useEffect(() => {
+    !cardPacks?.length && dispatch(setCurrentCardsPageAC(page - 1))
+  }, [cardPacks])
+
   const onChangePagination = (page: number, countPage: number) => {
     dispatch(setPageCardsCountAC(countPage))
     dispatch(setCurrentCardsPageAC(page))
