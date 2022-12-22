@@ -44,6 +44,8 @@
     line-height: 17px;
     color: #000000;
 }
-.cell:hover {
-    background-color: indianred;
+.filter {
+    /*padding: 4px 4px;*/
+    background: white;
+    border: 2px solid #E8E8E8
 }

@@ -116,13 +116,13 @@ export const Packs = () => {
   }
   const schoolHandler = (id: string) => {}
   const disabledSchool = (id: string) => {
-    debugger
     let currentPack = packs.find(el => el._id === id)
 
     return currentPack && currentPack.cardsCount === 0
   }
   const switchCallback = useCallback((my: boolean) => {
     if (my) {
+      debugger
       searchParams.set('user_id', user_id.toString())
       dispatch(setIsMyPackAC(my))
     } else {
@@ -172,20 +172,16 @@ export const Packs = () => {
         <div style={{ marginRight: '335px' }}>
           <SwitchMyAll switchCallback={switchCallback} />
         </div>
-        <IconButton onClick={deleteAllQwery}>
-          <FilterAltOffIcon />
-        </IconButton>
+        <div className={s.filter}>
+          <IconButton onClick={deleteAllQwery}>
+            <FilterAltOffIcon />
+          </IconButton>
+        </div>
       </div>
-      <UniversalPagination
-        totalCount={totalCount}
-        page={page}
-        pageCount={pageCount}
-        onChange={onChangePagination}
-      />
       <TableContainer component={Paper}>
         <Table>
           <thead>
-            <TableRow>
+            <TableRow style={{ background: '#EFEFEF' }}>
               <TableCell>Name</TableCell>
               <TableCell>Cards</TableCell>
               <TableCell>
@@ -199,7 +195,7 @@ export const Packs = () => {
 
           <TableBody>
             {packs.map(raw => (
-              <TableRow key={raw._id}>
+              <TableRow key={raw._id} hover={true}>
                 <TableCell
                   sx={style.tableRowTableCell}
                   style={{ cursor: 'pointer' }}
