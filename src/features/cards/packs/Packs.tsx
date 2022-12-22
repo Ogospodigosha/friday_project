@@ -2,6 +2,7 @@ import React, { ChangeEvent, useCallback, useEffect } from 'react'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff'
 import SchoolIcon from '@mui/icons-material/School'
 import SearchIcon from '@mui/icons-material/Search'
 import {
@@ -43,7 +44,7 @@ export const Packs = () => {
   const totalCount = useAppSelector(state => state.packs.packs.cardPacksTotalCount)
   const sortPacks = useAppSelector(state => state.packs.sort)
   const packName = useAppSelector(state => state.packs.packName)
-  const user_id = useAppSelector(state => state.app.user._id)
+  let user_id = useAppSelector(state => state.app.user._id)
 
   console.log('isMyPack', isMyPack)
   const [searchParams, setSearchParams] = useSearchParams()
@@ -55,6 +56,20 @@ export const Packs = () => {
     setSearchParams(params)
     dispatch(getPacksTC(params))
   }, [isMyPack, page, pageCount, sortPacks, useDebounce(packName), user_id])
+  const deleteAllQwery = () => {
+    searchParams.delete('page')
+    searchParams.delete('pageCount')
+    searchParams.delete('sortPacks')
+    searchParams.delete('packName')
+    searchParams.delete('user_id')
+    console.log(params)
+    dispatch(setPageCountAC(10))
+    dispatch(setPageAC(1))
+    dispatch(setSortAC('0updated'))
+    dispatch(setPackNameAC(''))
+    dispatch(setIsMyPackAC(null))
+    console.log(isMyPack)
+  }
 
   const onChangePagination = (newPage: number, newCountForPage: number) => {
     dispatch(setPageAC(newPage))
@@ -104,26 +119,20 @@ export const Packs = () => {
 
     return currentPack && currentPack.cardsCount === 0
   }
-  const switchCallback = useCallback(
-    (my: boolean) => {
-      if (my) {
-        searchParams.set('user_id', user_id.toString())
-        dispatch(setIsMyPackAC(my))
-      } else {
-        debugger
-        searchParams.delete('user_id')
-        dispatch(setIsMyPackAC(my))
-      }
-    },
-    [isMyPack]
-  )
+  const switchCallback = useCallback((my: boolean) => {
+    if (my) {
+      searchParams.set('user_id', user_id.toString())
+      dispatch(setIsMyPackAC(my))
+    } else {
+      debugger
+      searchParams.delete('user_id')
+      dispatch(setIsMyPackAC(my))
+    }
+  }, [])
 
   if (!isLoggedIn) {
     return <Navigate to={'/login'} />
   }
-  let test = searchParams.get('user_id')
-
-  console.log(test)
 
   return (
     <div>
@@ -158,7 +167,12 @@ export const Packs = () => {
             }}
           />
         </div>
-        <SwitchMyAll switchCallback={switchCallback} />
+        <div style={{ marginRight: '335px' }}>
+          <SwitchMyAll switchCallback={switchCallback} />
+        </div>
+        <IconButton onClick={deleteAllQwery}>
+          <FilterAltOffIcon />
+        </IconButton>
       </div>
       <UniversalPagination
         totalCount={totalCount}

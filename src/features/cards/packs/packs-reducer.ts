@@ -39,7 +39,7 @@ export const packsReducer = (
 
 //action creator
 export const setPacksAC = (packs: PacksType) => ({ type: 'packs/SET-PACKS', packs } as const)
-export const setIsMyPackAC = (isMyPack: boolean) =>
+export const setIsMyPackAC = (isMyPack: boolean | null) =>
   ({ type: 'packs/SET-IS-MY-PACK', isMyPack } as const)
 export const setPageAC = (page: number) => ({ type: 'packs/SET-PAGE', page } as const)
 export const setPageCountAC = (pageCount: number) =>
@@ -49,7 +49,8 @@ export const setSortAC = (newSort: string) => ({ type: 'packs/SET-SORT', newSort
 //
 export const setPackNameAC = (packName: string) =>
   ({ type: 'packs/SET-PACK-NAME', packName } as const)
-
+export const deleteParamsAC = (packName: string) =>
+  ({ type: 'packs/SET-PACK-NAME', packName } as const)
 //types
 type ActionsType =
   | ReturnType<typeof setPacksAC>
@@ -63,7 +64,7 @@ export type InitialStateType = {
   packs: PacksType
   sort: string
   packName: string
-  isMyPack: boolean
+  isMyPack: boolean | null
   localMinRage: number
   localMaxRage: number
   resultMessageAddPack: string
