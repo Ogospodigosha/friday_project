@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios'
+
 import { authAPI, LoginDataType } from '../../../api/AuthAPi'
 import { setAppStatusAC, setUserAC } from '../../../app/appReducer'
 import { AppThunk } from '../../../app/store'
@@ -35,7 +37,9 @@ export const logInTC =
       dispatch(setIsLoggedInAC(true))
       dispatch(setAppStatusAC('succeeded'))
     } catch (e) {
-      handleError(e, dispatch)
+      const err = e as Error | AxiosError<{ error: string }>
+
+      handleError(err, dispatch)
     } finally {
       dispatch(setAppStatusAC('idle'))
     }
