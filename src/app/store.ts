@@ -27,11 +27,6 @@ export const RootReducer = combineReducers({
 
 export const store = legacy_createStore(RootReducer, applyMiddleware(thunk))
 
-store.subscribe(() => {
-  localStorage.setItem('state', JSON.stringify(store.getState()))
-  // localStorage.setItem('isMyPack', JSON.stringify({ isMyPack: store.getState().packs.isMyPack }))
-})
-
 // create custom hook
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>()
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
