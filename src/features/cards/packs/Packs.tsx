@@ -24,8 +24,8 @@ import { UniversalSort } from '../../../components/filtration/UniversalSort'
 import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { useDebounce } from '../../../utils/hookUseDebounce'
+import { style } from '../cards/BasicTable/styleSXForBasicTable'
 import { setCurrentPackIdAC } from '../cards/cardsReducer'
-import { style } from '../cards/styleSXForBasicTable'
 
 import { createPackTC } from './createPackTC'
 import { deletePackTC } from './deletePackTC'
@@ -47,8 +47,6 @@ export const Packs = () => {
   const packName = useAppSelector(state => state.packs.packName)
   let user_id = useAppSelector(state => state.app.user._id)
 
-  console.log(totalCount, packs, page)
-
   const [searchParams, setSearchParams] = useSearchParams()
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
 
@@ -60,7 +58,7 @@ export const Packs = () => {
   }, [isMyPack, page, pageCount, sortPacks, useDebounce(packName), user_id])
 
   useEffect(() => {
-    !packs?.length && dispatch(setPageAC(page - 1))
+    !packs?.length && dispatch(setPageAC(page - 1)) && searchParams.delete('page')
   }, [totalCount])
 
   const deleteAllQwery = () => {
