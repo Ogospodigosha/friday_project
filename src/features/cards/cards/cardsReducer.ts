@@ -1,15 +1,14 @@
 import axios, { AxiosError } from 'axios'
 
-import { setAppErrorAC, setAppStatusAC } from '../../../app/appReducer'
-import { AppRootStateType, AppThunkDispatch } from '../../../app/store'
-
 import {
   cardsApi,
   CardType,
   CreateCardRequestType,
   GetCardsResponseType,
   UpdateCardType,
-} from './CardsApi'
+} from '../../../api/CardsApi'
+import { setAppErrorAC, setAppStatusAC } from '../../../app/appReducer'
+import { AppRootStateType, AppThunkDispatch } from '../../../app/store'
 
 const cardsInitialState = {
   cards: [] as CardType[] | null,

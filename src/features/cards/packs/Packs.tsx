@@ -33,7 +33,6 @@ import { deletePackTC } from './deletePackTC'
 import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
 import { changeIsMyPack } from './IsMyPackReducer-reducer'
-import { setIsMyPackAC, setPackNameAC, setPageAC, setPageCountAC, setSortAC } from './packs-reducer'
 import {
   setIsMyPackAC,
   setLocalRangeAC,
@@ -76,20 +75,23 @@ export const Packs = () => {
   useEffect(() => {
     setSearchParams(params)
     dispatch(getPacksTC(params))
-  }, [useDebounce(localRange), isMyPack, page, pageCount, sortPacks, useDebounce(packName), user_id, isMyPack1])
+  }, [
+    useDebounce(localRange),
+    isMyPack,
+    page,
+    pageCount,
+    sortPacks,
+    useDebounce(packName),
+    user_id,
+    isMyPack1,
+  ])
 
   useEffect(() => {
     !packs?.length && dispatch(setPageAC(page - 1)) && searchParams.delete('page')
   }, [totalCount])
 
   const deleteAllQwery = () => {
-    searchParams.delete('page')
-    searchParams.delete('pageCount')
-    searchParams.delete('sortPacks')
-    searchParams.delete('packName')
-    searchParams.delete('user_id')
-    searchParams.delete('min')
-    searchParams.delete('max')
+    setSearchParams({})
     dispatch(setPageCountAC(10))
     dispatch(setPageAC(1))
     dispatch(setSortAC('0updated'))
@@ -201,12 +203,6 @@ export const Packs = () => {
           </IconButton>
         </div>
       </div>
-      <UniversalPagination
-        totalCount={totalCount}
-        page={page}
-        pageCount={pageCount}
-        onChange={onChangePagination}
-      />
       <TableContainer component={Paper}>
         <Table>
           <thead>
