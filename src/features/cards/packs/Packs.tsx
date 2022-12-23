@@ -47,8 +47,7 @@ export const Packs = () => {
   const packName = useAppSelector(state => state.packs.packName)
   let user_id = useAppSelector(state => state.app.user._id)
 
-  console.log(totalCount, pageCount, page)
-  console.log(packs)
+  console.log(totalCount, packs, page)
 
   const [searchParams, setSearchParams] = useSearchParams()
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
@@ -60,9 +59,10 @@ export const Packs = () => {
     dispatch(getPacksTC(params))
   }, [isMyPack, page, pageCount, sortPacks, useDebounce(packName), user_id])
 
-  // useEffect(() => {
-  //   !packs?.length && dispatch(setPageAC(page - 1))
-  // }, [packs])
+  useEffect(() => {
+    !packs?.length && dispatch(setPageAC(page - 1))
+  }, [totalCount])
+
   const deleteAllQwery = () => {
     searchParams.delete('page')
     searchParams.delete('pageCount')
@@ -120,7 +120,6 @@ export const Packs = () => {
     dispatch(setCurrentPackIdAC(id))
     navigate(PATH.CARDS)
   }
-  const schoolHandler = (id: string) => {}
   const disabledSchool = (id: string) => {
     let currentPack = packs.find(el => el._id === id)
 
@@ -131,7 +130,6 @@ export const Packs = () => {
       searchParams.set('user_id', user_id.toString())
       dispatch(setIsMyPackAC(my))
     } else {
-      debugger
       searchParams.delete('user_id')
       dispatch(setIsMyPackAC(my))
     }

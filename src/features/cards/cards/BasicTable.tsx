@@ -33,7 +33,6 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
   const currantPackUserId = useAppSelector(state => state.cards.packUserId)
   const sort = useAppSelector(state => state.cards.sortCardsValue)
 
-  console.log(sort)
   const convertDataFormat = (value: string) => {
     return new Intl.DateTimeFormat('ru-RU').format(new Date(value))
   }
