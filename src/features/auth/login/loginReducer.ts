@@ -1,8 +1,7 @@
-import axios, { AxiosError } from 'axios'
-
 import { authAPI, LoginDataType } from '../../../api/AuthAPi'
-import { setAppErrorAC, setAppStatusAC, setUserAC } from '../../../app/appReducer'
+import { setAppStatusAC, setUserAC } from '../../../app/appReducer'
 import { AppThunk } from '../../../app/store'
+import { handleError } from '../../../utils/error-utils'
 
 const initialState = {
   isLoggedIn: false,
@@ -36,17 +35,7 @@ export const logInTC =
       dispatch(setIsLoggedInAC(true))
       dispatch(setAppStatusAC('succeeded'))
     } catch (e) {
-      const err = e as Error | AxiosError<{ error: string }>
-
-      // dispatch(setAppStatusAC('failed'))
-      if (axios.isAxiosError(err)) {
-        const error = err.response?.data ? err.response.data.error : err.message
-
-        dispatch(setAppStatusAC('failed'))
-        dispatch(setAppErrorAC(error))
-      } else {
-        dispatch(setAppErrorAC(`Native error ${err.message}`))
-      }
+      handleError(e, dispatch)
     } finally {
       dispatch(setAppStatusAC('idle'))
     }
