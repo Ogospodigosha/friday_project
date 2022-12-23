@@ -32,7 +32,14 @@ import { createPackTC } from './createPackTC'
 import { deletePackTC } from './deletePackTC'
 import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
-import { setIsMyPackAC, setPackNameAC, setPageAC, setPageCountAC, setSortAC } from './packs-reducer'
+import {
+  setIsMyPackAC,
+  setLocalRangeAC,
+  setPackNameAC,
+  setPageAC,
+  setPageCountAC,
+  setSortAC,
+} from './packs-reducer'
 import s from './packs.module.css'
 import { SwitchMyAll } from './SwitchMyAll'
 
@@ -52,26 +59,36 @@ export const Packs = () => {
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
   const min = useAppSelector(state => state.packs.packs.minCardsCount)
   const max = useAppSelector(state => state.packs.packs.maxCardsCount)
+  const localRange = useAppSelector(state => state.packs.localRange)
 
   const params = Object.fromEntries(searchParams)
 
   useEffect(() => {
     setSearchParams(params)
     dispatch(getPacksTC(params))
-  }, [isMyPack, page, pageCount, sortPacks, useDebounce(packName), user_id])
+  }, [
+    isMyPack,
+    page,
+    pageCount,
+    sortPacks,
+    useDebounce(packName),
+    user_id,
+    useDebounce(localRange),
+  ])
   const deleteAllQwery = () => {
     searchParams.delete('page')
     searchParams.delete('pageCount')
     searchParams.delete('sortPacks')
     searchParams.delete('packName')
     searchParams.delete('user_id')
-    console.log(params)
+    searchParams.delete('min')
+    searchParams.delete('max')
     dispatch(setPageCountAC(10))
     dispatch(setPageAC(1))
     dispatch(setSortAC('0updated'))
     dispatch(setPackNameAC(''))
     dispatch(setIsMyPackAC(null))
-    console.log(isMyPack)
+    dispatch(setLocalRangeAC([min, max]))
   }
 
   const onChangePagination = (newPage: number, newCountForPage: number) => {

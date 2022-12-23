@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Slider from '@mui/material/Slider/Slider'
 import { useSearchParams } from 'react-router-dom'
+
+import { useAppDispatch } from '../../app/store'
+import { setLocalRangeAC } from '../../features/cards/packs/packs-reducer'
 
 import s from './UniversalDoubleRange.module.css'
 
@@ -12,6 +15,7 @@ type PropsType = {
 
 export const UniversalDoubleRange = ({ min, max }: PropsType) => {
   const [searchParams, setSearchParams] = useSearchParams()
+  const dispatch = useAppDispatch()
 
   const [value, setValue] = useState<Array<number>>([
     Number(searchParams.get('min')) || min,
@@ -37,7 +41,12 @@ export const UniversalDoubleRange = ({ min, max }: PropsType) => {
       ...Object.fromEntries(searchParams),
       ...queryParams,
     })
+    dispatch(setLocalRangeAC([min, max]))
   }
+
+  useEffect(() => {
+    setValue([Number(searchParams.get('min')) || min, Number(searchParams.get('max')) || max])
+  }, [max, max, searchParams])
 
   return (
     <div className={s.wrapper}>

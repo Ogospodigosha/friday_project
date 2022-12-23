@@ -1,4 +1,6 @@
-import { setAppStatusAC } from '../../../app/appReducer'
+import axios, { AxiosError } from 'axios'
+
+import { setAppErrorAC, setAppStatusAC } from '../../../app/appReducer'
 import { AppRootStateType, AppThunkDispatch } from '../../../app/store'
 
 import {
@@ -137,8 +139,18 @@ export const getCardsTC =
 
       dispatch(setAppStatusAC('succeeded'))
       dispatch(setCardsAC(res.data))
-    } catch (err) {
-      console.log(err)
+    } catch (e) {
+      const err = e as Error | AxiosError<{ error: string }>
+
+      // dispatch(setAppStatusAC('failed'))
+      if (axios.isAxiosError(err)) {
+        const error = err.response?.data ? err.response.data.error : err.message
+
+        dispatch(setAppStatusAC('failed'))
+        dispatch(setAppErrorAC(error))
+      } else {
+        dispatch(setAppErrorAC(`Native error ${err.message}`))
+      }
     }
   }
 
