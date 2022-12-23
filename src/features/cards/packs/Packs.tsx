@@ -32,7 +32,6 @@ import { createPackTC } from './createPackTC'
 import { deletePackTC } from './deletePackTC'
 import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
-import { changeIsMyPack } from './IsMyPackReducer-reducer'
 import {
   setIsMyPackAC,
   setLocalRangeAC,
@@ -65,16 +64,7 @@ export const Packs = () => {
   const params = Object.fromEntries(searchParams)
   let aligmentState = JSON.parse(localStorage.getItem('alignment') as string)
 
-  // if (!isMyPack) {
-  //   user_id = ''
-  //   searchParams.delete('user_id')
-  // }
-  // useEffect(() => {
-  //   if (!isMyPack) {
-  //     user_id = ''
-  //     // searchParams.delete('user_id')
-  //   }
-  // }, [isMyPack])
+  console.log(params)
   useEffect(() => {
     if (aligmentState === 'my' && !isMyPack) {
       dispatch(setIsMyPackAC(true))
@@ -104,8 +94,9 @@ export const Packs = () => {
     dispatch(setPageAC(1))
     dispatch(setSortAC('0updated'))
     dispatch(setPackNameAC(''))
-    dispatch(changeIsMyPack(false))
+    dispatch(setIsMyPackAC(false))
     dispatch(setLocalRangeAC([min, max]))
+    window.localStorage.setItem('alignment', JSON.stringify('all'))
   }
 
   const onChangePagination = (newPage: number, newCountForPage: number) => {
@@ -203,7 +194,7 @@ export const Packs = () => {
             }}
           />
         </div>
-        <SwitchMyAll switchCallback={switchCallback} />
+        <SwitchMyAll switchCallback={switchCallback} params={params} />
         <UniversalDoubleRange min={min} max={max} />
         <div className={s.filter}>
           <IconButton onClick={deleteAllQwery}>
