@@ -11,7 +11,8 @@ import { CircularProgressSelf } from '../../../components/common/CircularProgres
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { useDebounce } from '../../../utils/hookUseDebounce'
 
-import { BasicTable } from './BasicTable'
+import { BasicTable } from './BasicTable/BasicTable'
+import { style } from './BasicTable/styleSXForBasicTable'
 import s from './CardsMain.module.css'
 import {
   createNewCardTC,
@@ -22,7 +23,6 @@ import {
   setPageCardsCountAC,
   updateCardTC,
 } from './cardsReducer'
-import { style } from './styleSXForBasicTable'
 
 export const CardsMain = () => {
   const dispatch = useAppDispatch()
@@ -41,6 +41,10 @@ export const CardsMain = () => {
   useEffect(() => {
     dispatch(getCardsTC())
   }, [pageCount, page, useDebounce(searchValue), sort])
+
+  useEffect(() => {
+    !cardPacks?.length && dispatch(setCurrentCardsPageAC(page - 1))
+  }, [totalCount])
 
   const onChangePagination = (page: number, countPage: number) => {
     dispatch(setPageCardsCountAC(countPage))

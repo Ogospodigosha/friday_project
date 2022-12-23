@@ -1,13 +1,12 @@
-import { setAppStatusAC } from '../../../app/appReducer'
-import { AppRootStateType, AppThunkDispatch } from '../../../app/store'
-
 import {
   cardsApi,
   CardType,
   CreateCardRequestType,
   GetCardsResponseType,
   UpdateCardType,
-} from './CardsApi'
+} from '../../../api/CardsApi'
+import { setAppStatusAC } from '../../../app/appReducer'
+import { AppRootStateType, AppThunkDispatch } from '../../../app/store'
 
 const cardsInitialState = {
   cards: [] as CardType[] | null,

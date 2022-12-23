@@ -13,11 +13,11 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
-import { useAppDispatch, useAppSelector } from '../../../app/store'
-import { UniversalSort } from '../../../components/filtration/UniversalSort'
+import { useAppDispatch, useAppSelector } from '../../../../app/store'
+import { UniversalSort } from '../../../../components/filtration/UniversalSort'
+import { setSortCardsValueAC } from '../cardsReducer'
 
 import s from './BasicTable.module.css'
-import { setSortCardsValueAC } from './cardsReducer'
 import { style } from './styleSXForBasicTable'
 
 type BasicTableProps = {
@@ -33,7 +33,6 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
   const currantPackUserId = useAppSelector(state => state.cards.packUserId)
   const sort = useAppSelector(state => state.cards.sortCardsValue)
 
-  console.log(sort)
   const convertDataFormat = (value: string) => {
     return new Intl.DateTimeFormat('ru-RU').format(new Date(value))
   }

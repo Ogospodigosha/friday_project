@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { MenuItem, Pagination, Select } from '@mui/material'
 
@@ -12,12 +12,7 @@ type PaginationPropsType = {
 }
 
 export const UniversalPagination = (props: PaginationPropsType) => {
-  const totalPages = props.totalCount / props.pageCount
-
-  useEffect(() => {
-    console.log(props.totalCount, props.pageCount)
-    props.onChange(props.page, props.pageCount)
-  }, [totalPages])
+  const totalPages = Math.ceil(props.totalCount / props.pageCount)
 
   const onChangePagination = (event: React.ChangeEvent<unknown>, page: number) => {
     props.onChange(page, props.pageCount)
@@ -27,14 +22,12 @@ export const UniversalPagination = (props: PaginationPropsType) => {
     props.onChange(1, event.target.value)
   }
 
-  // console.log(totalPages)
-
   return (
     <>
       <div className={s.pagination}>
         <Pagination
           page={props.page}
-          count={Math.ceil(totalPages)}
+          count={totalPages}
           onChange={onChangePagination}
           color="primary"
           shape="rounded"
