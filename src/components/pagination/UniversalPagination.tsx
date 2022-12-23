@@ -15,7 +15,6 @@ export const UniversalPagination = (props: PaginationPropsType) => {
   const totalPages = props.totalCount / props.pageCount
 
   useEffect(() => {
-    console.log(props.totalCount, props.pageCount)
     props.onChange(props.page, props.pageCount)
   }, [totalPages])
 

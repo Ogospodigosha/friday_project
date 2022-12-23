@@ -20,6 +20,7 @@ import Button from '@mui/material/Button'
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { UniversalDoubleRange } from '../../../components/doubleRange/UniversalDoubleRange'
 import { UniversalSort } from '../../../components/filtration/UniversalSort'
 import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
@@ -38,6 +39,8 @@ import { SwitchMyAll } from './SwitchMyAll'
 export const Packs = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const [searchParams, setSearchParams] = useSearchParams()
+
   const isMyPack = useAppSelector(state => state.packs.isMyPack)
   const packs = useAppSelector(state => state.packs.packs.cardPacks)
   const page = useAppSelector(state => state.packs.packs.page)
@@ -46,10 +49,9 @@ export const Packs = () => {
   const sortPacks = useAppSelector(state => state.packs.sort)
   const packName = useAppSelector(state => state.packs.packName)
   let user_id = useAppSelector(state => state.app.user._id)
-
-  console.log('isMyPack', isMyPack)
-  const [searchParams, setSearchParams] = useSearchParams()
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
+  const min = useAppSelector(state => state.packs.packs.minCardsCount)
+  const max = useAppSelector(state => state.packs.packs.maxCardsCount)
 
   const params = Object.fromEntries(searchParams)
 
@@ -90,7 +92,7 @@ export const Packs = () => {
   }
   const data = {
     cardsPack: {
-      name: 'ffffffffffffffffffffffffffffffff sasfadsfas               sdafsdfasdfasdfasdfsdafasdfffffffffffffffffffffffffffffffffffffffffffff',
+      name: 'fffffffffffffffffffffffffffffffffffffffffffff',
     },
   }
   const createPack = () => {
@@ -116,7 +118,6 @@ export const Packs = () => {
   }
   const schoolHandler = (id: string) => {}
   const disabledSchool = (id: string) => {
-    debugger
     let currentPack = packs.find(el => el._id === id)
 
     return currentPack && currentPack.cardsCount === 0
@@ -169,9 +170,8 @@ export const Packs = () => {
             }}
           />
         </div>
-        <div style={{ marginRight: '335px' }}>
-          <SwitchMyAll switchCallback={switchCallback} />
-        </div>
+        <SwitchMyAll switchCallback={switchCallback} />
+        <UniversalDoubleRange min={min} max={max} />
         <IconButton onClick={deleteAllQwery}>
           <FilterAltOffIcon />
         </IconButton>
