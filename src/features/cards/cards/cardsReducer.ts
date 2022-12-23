@@ -1,12 +1,15 @@
+import axios, { AxiosError } from 'axios'
+
+import { setAppErrorAC, setAppStatusAC } from '../../../app/appReducer'
+import { AppRootStateType, AppThunkDispatch } from '../../../app/store'
+
 import {
   cardsApi,
   CardType,
   CreateCardRequestType,
   GetCardsResponseType,
   UpdateCardType,
-} from '../../../api/CardsApi'
-import { setAppStatusAC } from '../../../app/appReducer'
-import { AppRootStateType, AppThunkDispatch } from '../../../app/store'
+} from './CardsApi'
 
 const cardsInitialState = {
   cards: [] as CardType[] | null,
@@ -136,8 +139,18 @@ export const getCardsTC =
 
       dispatch(setAppStatusAC('succeeded'))
       dispatch(setCardsAC(res.data))
-    } catch (err) {
-      console.log(err)
+    } catch (e) {
+      const err = e as Error | AxiosError<{ error: string }>
+
+      // dispatch(setAppStatusAC('failed'))
+      if (axios.isAxiosError(err)) {
+        const error = err.response?.data ? err.response.data.error : err.message
+
+        dispatch(setAppStatusAC('failed'))
+        dispatch(setAppErrorAC(error))
+      } else {
+        dispatch(setAppErrorAC(`Native error ${err.message}`))
+      }
     }
   }
 

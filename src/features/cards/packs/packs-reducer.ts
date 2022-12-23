@@ -1,7 +1,7 @@
 const initState: InitialStateType = {
   packs: {
     minCardsCount: 0,
-    maxCardsCount: 10,
+    maxCardsCount: 50,
     pageCount: 10,
     page: 1,
     cardPacksTotalCount: 100,
@@ -10,8 +10,7 @@ const initState: InitialStateType = {
   sort: '0updated',
   packName: '',
   isMyPack: false,
-  localMinRage: 0,
-  localMaxRage: 30,
+  localRange: [0, 50],
   resultMessageAddPack: '',
 }
 
@@ -32,6 +31,8 @@ export const packsReducer = (
       return { ...state, sort: action.newSort }
     case 'packs/SET-PACK-NAME':
       return { ...state, packName: action.packName }
+    case 'packs/SET-LOCAL-RANGE':
+      return { ...state, localRange: action.localRange }
     default:
       return state
   }
@@ -44,11 +45,11 @@ export const setIsMyPackAC = (isMyPack: boolean | null) =>
 export const setPageAC = (page: number) => ({ type: 'packs/SET-PAGE', page } as const)
 export const setPageCountAC = (pageCount: number) =>
   ({ type: 'packs/SET-PAGE-COUNT', pageCount } as const)
-
 export const setSortAC = (newSort: string) => ({ type: 'packs/SET-SORT', newSort } as const)
-//
 export const setPackNameAC = (packName: string) =>
   ({ type: 'packs/SET-PACK-NAME', packName } as const)
+export const setLocalRangeAC = (localRange: number[]) =>
+  ({ type: 'packs/SET-LOCAL-RANGE', localRange } as const)
 export const deleteParamsAC = (packName: string) =>
   ({ type: 'packs/SET-PACK-NAME', packName } as const)
 //types
@@ -59,14 +60,14 @@ type ActionsType =
   | ReturnType<typeof setPageCountAC>
   | ReturnType<typeof setSortAC>
   | ReturnType<typeof setPackNameAC>
+  | ReturnType<typeof setLocalRangeAC>
 
 export type InitialStateType = {
   packs: PacksType
   sort: string
   packName: string
   isMyPack: boolean | null
-  localMinRage: number
-  localMaxRage: number
+  localRange: number[]
   resultMessageAddPack: string
 }
 export type PacksType = {

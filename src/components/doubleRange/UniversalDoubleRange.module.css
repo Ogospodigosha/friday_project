@@ -1,0 +1,23 @@
+.wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 250px;
+}
+.value{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  background-color: #ffffff;
+  border: 1px solid #D9D9D9;
+  border-radius: 2px;
+
+}

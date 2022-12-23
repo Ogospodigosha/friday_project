@@ -20,6 +20,7 @@ import Button from '@mui/material/Button'
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
+import { UniversalDoubleRange } from '../../../components/doubleRange/UniversalDoubleRange'
 import { UniversalSort } from '../../../components/filtration/UniversalSort'
 import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
@@ -33,12 +34,22 @@ import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
 import { changeIsMyPack } from './IsMyPackReducer-reducer'
 import { setIsMyPackAC, setPackNameAC, setPageAC, setPageCountAC, setSortAC } from './packs-reducer'
+import {
+  setIsMyPackAC,
+  setLocalRangeAC,
+  setPackNameAC,
+  setPageAC,
+  setPageCountAC,
+  setSortAC,
+} from './packs-reducer'
 import s from './packs.module.css'
 import { SwitchMyAll } from './SwitchMyAll'
 
 export const Packs = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const [searchParams, setSearchParams] = useSearchParams()
+
   const isMyPack = useAppSelector(state => state.packs.isMyPack)
   const isMyPack1 = useAppSelector(state => state.isMyPack.isMyPack1)
   const packs = useAppSelector(state => state.packs.packs.cardPacks)
@@ -48,10 +59,10 @@ export const Packs = () => {
   const sortPacks = useAppSelector(state => state.packs.sort)
   const packName = useAppSelector(state => state.packs.packName)
   let user_id = useAppSelector(state => state.app.user._id)
-
-  console.log('isMyPack', isMyPack)
-  const [searchParams, setSearchParams] = useSearchParams()
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
+  const min = useAppSelector(state => state.packs.packs.minCardsCount)
+  const max = useAppSelector(state => state.packs.packs.maxCardsCount)
+  const localRange = useAppSelector(state => state.packs.localRange)
 
   const params = Object.fromEntries(searchParams)
 
@@ -65,7 +76,7 @@ export const Packs = () => {
   useEffect(() => {
     setSearchParams(params)
     dispatch(getPacksTC(params))
-  }, [isMyPack, page, pageCount, sortPacks, useDebounce(packName), user_id, isMyPack1])
+  }, [useDebounce(localRange), isMyPack, page, pageCount, sortPacks, useDebounce(packName), user_id, isMyPack1])
 
   useEffect(() => {
     !packs?.length && dispatch(setPageAC(page - 1)) && searchParams.delete('page')
@@ -77,12 +88,14 @@ export const Packs = () => {
     searchParams.delete('sortPacks')
     searchParams.delete('packName')
     searchParams.delete('user_id')
-    console.log(params)
+    searchParams.delete('min')
+    searchParams.delete('max')
     dispatch(setPageCountAC(10))
     dispatch(setPageAC(1))
     dispatch(setSortAC('0updated'))
     dispatch(setPackNameAC(''))
     dispatch(changeIsMyPack(false))
+    dispatch(setLocalRangeAC([min, max]))
   }
 
   const onChangePagination = (newPage: number, newCountForPage: number) => {
@@ -180,15 +193,20 @@ export const Packs = () => {
             }}
           />
         </div>
-        <div style={{ marginRight: '335px' }}>
-          <SwitchMyAll switchCallback={switchCallback} />
-        </div>
+        <SwitchMyAll switchCallback={switchCallback} />
+        <UniversalDoubleRange min={min} max={max} />
         <div className={s.filter}>
           <IconButton onClick={deleteAllQwery}>
             <FilterAltOffIcon />
           </IconButton>
         </div>
       </div>
+      <UniversalPagination
+        totalCount={totalCount}
+        page={page}
+        pageCount={pageCount}
+        onChange={onChangePagination}
+      />
       <TableContainer component={Paper}>
         <Table>
           <thead>
