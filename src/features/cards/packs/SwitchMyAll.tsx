@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { ToggleButton, ToggleButtonGroup } from '@mui/material'
 import { useDispatch } from 'react-redux'
 
-import { useAppSelector } from '../../../app/store'
-
 import { changeIsMyPack } from './IsMyPackReducer-reducer'
 
 type Props = {
@@ -12,17 +10,16 @@ type Props = {
 }
 export const SwitchMyAll = React.memo((props: Props) => {
   const dispatch = useDispatch()
-  const isMyPack1 = useAppSelector(state => state.isMyPack.isMyPack1)
   const [alignment, setAlignment] = useState(
     JSON.parse(localStorage.getItem('alignment') as string) || 'all'
   )
 
   //для сброса фильтров
-  useEffect(() => {
-    if (!isMyPack1) {
-      setAlignment('all')
-    }
-  }, [isMyPack1])
+  // useEffect(() => {
+  //   if (!isMyPack1) {
+  //     setAlignment('all')
+  //   }
+  // }, [isMyPack1])
 
   useEffect(() => {
     window.localStorage.setItem('alignment', JSON.stringify(alignment))

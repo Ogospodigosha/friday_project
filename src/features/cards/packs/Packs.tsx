@@ -50,7 +50,6 @@ export const Packs = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const isMyPack = useAppSelector(state => state.packs.isMyPack)
-  const isMyPack1 = useAppSelector(state => state.isMyPack.isMyPack1)
   const packs = useAppSelector(state => state.packs.packs.cardPacks)
   const page = useAppSelector(state => state.packs.packs.page)
   const pageCount = useAppSelector(state => state.packs.packs.pageCount)
@@ -64,14 +63,24 @@ export const Packs = () => {
   const localRange = useAppSelector(state => state.packs.localRange)
 
   const params = Object.fromEntries(searchParams)
+  let aligmentState = JSON.parse(localStorage.getItem('alignment') as string)
 
-  //стартовые параметры для тогл баттон: не мой пак и стейт кнопки олл
+  // if (!isMyPack) {
+  //   user_id = ''
+  //   searchParams.delete('user_id')
+  // }
+  // useEffect(() => {
+  //   if (!isMyPack) {
+  //     user_id = ''
+  //     // searchParams.delete('user_id')
+  //   }
+  // }, [isMyPack])
   useEffect(() => {
-    if (isMyPack1) {
-      return
+    if (aligmentState === 'my' && !isMyPack) {
+      dispatch(setIsMyPackAC(true))
     }
-    window.localStorage.setItem('alignment', JSON.stringify('all'))
   }, [])
+  console.log('isMyPack', isMyPack)
   useEffect(() => {
     setSearchParams(params)
     dispatch(getPacksTC(params))
@@ -83,7 +92,6 @@ export const Packs = () => {
     sortPacks,
     useDebounce(packName),
     user_id,
-    isMyPack1,
   ])
 
   useEffect(() => {
