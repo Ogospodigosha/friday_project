@@ -3,16 +3,12 @@ import React, { useEffect, useState } from 'react'
 import { ToggleButton, ToggleButtonGroup } from '@mui/material'
 import { useDispatch } from 'react-redux'
 
-import { useAppSelector } from '../../../app/store'
-
 import { changeIsMyPack } from './IsMyPackReducer-reducer'
 
 type Props = {
   switchCallback: (my: boolean) => void
-  params: Object
 }
 export const SwitchMyAll = React.memo((props: Props) => {
-  const isMyPack = useAppSelector(state => state.packs.isMyPack)
   const dispatch = useDispatch()
   const [alignment, setAlignment] = useState(
     JSON.parse(localStorage.getItem('alignment') as string) || 'all'

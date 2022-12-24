@@ -49,7 +49,6 @@ export const Packs = () => {
   const dispatch = useAppDispatch()
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const isMyPack = useAppSelector(state => state.packs.isMyPack)
   const packs = useAppSelector(state => state.packs.packs.cardPacks)
   const page = useAppSelector(state => state.packs.packs.page)
   const pageCount = useAppSelector(state => state.packs.packs.pageCount)
@@ -69,11 +68,9 @@ export const Packs = () => {
   console.log(params)
   useEffect(() => {
     if (aligmentState === 'my' && isMyPack1 === 'false') {
-      // dispatch(setIsMyPackAC(true))
       dispatch(changeIsMyPack('true'))
     }
   }, [])
-  console.log('isMyPack', isMyPack)
   useEffect(() => {
     setSearchParams(params)
     dispatch(getPacksTC(params))
@@ -145,7 +142,6 @@ export const Packs = () => {
     dispatch(setCurrentPackIdAC(id))
     navigate(PATH.CARDS)
   }
-  const schoolHandler = (id: string) => {}
   const disabledSchool = (id: string) => {
     let currentPack = packs.find(el => el._id === id)
 
@@ -154,10 +150,8 @@ export const Packs = () => {
   const switchCallback = (my: boolean) => {
     if (my) {
       searchParams.set('user_id', user_id.toString())
-      // dispatch(setIsMyPackAC(my))
     } else {
       searchParams.delete('user_id')
-      // dispatch(setIsMyPackAC(my))
     }
   }
 
@@ -198,7 +192,7 @@ export const Packs = () => {
             }}
           />
         </div>
-        <SwitchMyAll switchCallback={switchCallback} params={params} />
+        <SwitchMyAll switchCallback={switchCallback} />
         <UniversalDoubleRange min={min} max={max} />
         <div className={s.filter}>
           <IconButton onClick={deleteAllQwery}>

@@ -7,18 +7,11 @@ export const getPacksTC =
   (paramsForSend: ParamsForGetPacks = {}) =>
   (dispatch: AppThunkDispatch, getState: () => AppRootStateType) => {
     let user_id = getState().app.user._id
-    const isMyPack = getState().packs.isMyPack
-    const isMyPack1 = getState().isMyPack.isMyPack1
     const page = getState().packs.packs.page
     const pageCount = getState().packs.packs.pageCount
     const sortPacks = getState().packs.sort
     const packName = getState().packs.packName
 
-    // if (aligmentState === 'all') {
-    //   debugger
-    //   // user_id = ''
-    //   searchParams.delete('user_id')
-    // }
     if (localStorage.getItem('isMyPack1') === 'false') {
       user_id = ''
     }
