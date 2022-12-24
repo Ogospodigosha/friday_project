@@ -19,7 +19,7 @@ export const getPacksTC =
     //   // user_id = ''
     //   searchParams.delete('user_id')
     // }
-    if (!isMyPack) {
+    if (localStorage.getItem('isMyPack1') === 'false') {
       user_id = ''
     }
     const params = {

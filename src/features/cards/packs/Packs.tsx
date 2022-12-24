@@ -32,6 +32,7 @@ import { createPackTC } from './createPackTC'
 import { deletePackTC } from './deletePackTC'
 import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
+import { changeIsMyPack } from './IsMyPackReducer-reducer'
 import {
   setIsMyPackAC,
   setLocalRangeAC,
@@ -60,14 +61,16 @@ export const Packs = () => {
   const min = useAppSelector(state => state.packs.packs.minCardsCount)
   const max = useAppSelector(state => state.packs.packs.maxCardsCount)
   const localRange = useAppSelector(state => state.packs.localRange)
+  const isMyPack1 = useAppSelector(state => state.isMyPack.isMyPack1)
 
   const params = Object.fromEntries(searchParams)
   let aligmentState = JSON.parse(localStorage.getItem('alignment') as string)
 
   console.log(params)
   useEffect(() => {
-    if (aligmentState === 'my' && !isMyPack) {
-      dispatch(setIsMyPackAC(true))
+    if (aligmentState === 'my' && isMyPack1 === 'false') {
+      // dispatch(setIsMyPackAC(true))
+      dispatch(changeIsMyPack('true'))
     }
   }, [])
   console.log('isMyPack', isMyPack)
@@ -76,7 +79,7 @@ export const Packs = () => {
     dispatch(getPacksTC(params))
   }, [
     useDebounce(localRange),
-    isMyPack,
+    localStorage.getItem('isMyPack1'),
     page,
     pageCount,
     sortPacks,
@@ -84,9 +87,9 @@ export const Packs = () => {
     user_id,
   ])
 
-  useEffect(() => {
-    !packs?.length && dispatch(setPageAC(page - 1)) && searchParams.delete('page')
-  }, [totalCount])
+  // useEffect(() => {
+  //   !packs?.length && dispatch(setPageAC(page - 1)) && searchParams.delete('page')
+  // }, [totalCount])
 
   const deleteAllQwery = () => {
     setSearchParams({})
@@ -97,6 +100,7 @@ export const Packs = () => {
     dispatch(setIsMyPackAC(false))
     dispatch(setLocalRangeAC([min, max]))
     window.localStorage.setItem('alignment', JSON.stringify('all'))
+    dispatch(changeIsMyPack('false'))
   }
 
   const onChangePagination = (newPage: number, newCountForPage: number) => {
@@ -150,10 +154,10 @@ export const Packs = () => {
   const switchCallback = (my: boolean) => {
     if (my) {
       searchParams.set('user_id', user_id.toString())
-      dispatch(setIsMyPackAC(my))
+      // dispatch(setIsMyPackAC(my))
     } else {
       searchParams.delete('user_id')
-      dispatch(setIsMyPackAC(my))
+      // dispatch(setIsMyPackAC(my))
     }
   }
 

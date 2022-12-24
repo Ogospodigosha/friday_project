@@ -24,9 +24,16 @@ export const RootReducer = combineReducers({
   packs: packsReducer,
   isMyPack: IsMyPackReducer,
 })
+let preloadedState
+const persistedIsMyPack1 = localStorage.getItem('isMyPack1')
 
-export const store = legacy_createStore(RootReducer, applyMiddleware(thunk))
-
+if (persistedIsMyPack1) {
+  preloadedState = JSON.parse(persistedIsMyPack1)
+}
+export const store = legacy_createStore(RootReducer, preloadedState, applyMiddleware(thunk))
+store.subscribe(() => {
+  localStorage.setItem('isMyPack1', store.getState().isMyPack.isMyPack1)
+})
 // create custom hook
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>()
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector

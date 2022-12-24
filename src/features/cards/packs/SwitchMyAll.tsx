@@ -31,12 +31,12 @@ export const SwitchMyAll = React.memo((props: Props) => {
   }
   const myHandler = () => {
     setAlignment('my')
-    dispatch(changeIsMyPack(true))
+    dispatch(changeIsMyPack('true'))
     props.switchCallback(true)
   }
   const AllHandler = () => {
     setAlignment('all')
-    dispatch(changeIsMyPack(false))
+    dispatch(changeIsMyPack('false'))
     props.switchCallback(false)
   }
 
