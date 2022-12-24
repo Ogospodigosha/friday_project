@@ -9,21 +9,20 @@ import { changeIsMyPack } from './IsMyPackReducer-reducer'
 
 type Props = {
   switchCallback: (my: boolean) => void
+  params: Object
 }
 export const SwitchMyAll = React.memo((props: Props) => {
+  const isMyPack = useAppSelector(state => state.packs.isMyPack)
   const dispatch = useDispatch()
-  const isMyPack1 = useAppSelector(state => state.isMyPack.isMyPack1)
   const [alignment, setAlignment] = useState(
     JSON.parse(localStorage.getItem('alignment') as string) || 'all'
   )
 
-  //для сброса фильтров
   useEffect(() => {
-    if (!isMyPack1) {
+    if (JSON.parse(localStorage.getItem('alignment') as string) === 'all') {
       setAlignment('all')
     }
-  }, [isMyPack1])
-
+  }, [JSON.parse(localStorage.getItem('alignment') as string)])
   useEffect(() => {
     window.localStorage.setItem('alignment', JSON.stringify(alignment))
   }, [alignment])

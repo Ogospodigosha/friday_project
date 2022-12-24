@@ -14,7 +14,12 @@ export const getPacksTC =
     const sortPacks = getState().packs.sort
     const packName = getState().packs.packName
 
-    if (!isMyPack1) {
+    // if (aligmentState === 'all') {
+    //   debugger
+    //   // user_id = ''
+    //   searchParams.delete('user_id')
+    // }
+    if (!isMyPack) {
       user_id = ''
     }
     const params = {

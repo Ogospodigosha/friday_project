@@ -32,7 +32,6 @@ import { createPackTC } from './createPackTC'
 import { deletePackTC } from './deletePackTC'
 import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
-import { changeIsMyPack } from './IsMyPackReducer-reducer'
 import {
   setIsMyPackAC,
   setLocalRangeAC,
@@ -50,7 +49,6 @@ export const Packs = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const isMyPack = useAppSelector(state => state.packs.isMyPack)
-  const isMyPack1 = useAppSelector(state => state.isMyPack.isMyPack1)
   const packs = useAppSelector(state => state.packs.packs.cardPacks)
   const page = useAppSelector(state => state.packs.packs.page)
   const pageCount = useAppSelector(state => state.packs.packs.pageCount)
@@ -64,14 +62,15 @@ export const Packs = () => {
   const localRange = useAppSelector(state => state.packs.localRange)
 
   const params = Object.fromEntries(searchParams)
+  let aligmentState = JSON.parse(localStorage.getItem('alignment') as string)
 
-  //стартовые параметры для тогл баттон: не мой пак и стейт кнопки олл
+  console.log(params)
   useEffect(() => {
-    if (isMyPack1) {
-      return
+    if (aligmentState === 'my' && !isMyPack) {
+      dispatch(setIsMyPackAC(true))
     }
-    window.localStorage.setItem('alignment', JSON.stringify('all'))
   }, [])
+  console.log('isMyPack', isMyPack)
   useEffect(() => {
     setSearchParams(params)
     dispatch(getPacksTC(params))
@@ -83,7 +82,6 @@ export const Packs = () => {
     sortPacks,
     useDebounce(packName),
     user_id,
-    isMyPack1,
   ])
 
   useEffect(() => {
@@ -96,8 +94,9 @@ export const Packs = () => {
     dispatch(setPageAC(1))
     dispatch(setSortAC('0updated'))
     dispatch(setPackNameAC(''))
-    dispatch(changeIsMyPack(false))
+    dispatch(setIsMyPackAC(false))
     dispatch(setLocalRangeAC([min, max]))
+    window.localStorage.setItem('alignment', JSON.stringify('all'))
   }
 
   const onChangePagination = (newPage: number, newCountForPage: number) => {
@@ -195,7 +194,7 @@ export const Packs = () => {
             }}
           />
         </div>
-        <SwitchMyAll switchCallback={switchCallback} />
+        <SwitchMyAll switchCallback={switchCallback} params={params} />
         <UniversalDoubleRange min={min} max={max} />
         <div className={s.filter}>
           <IconButton onClick={deleteAllQwery}>
