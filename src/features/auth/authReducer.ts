@@ -1,5 +1,4 @@
-import axios, { AxiosError } from 'axios'
-import { Dispatch } from 'redux'
+import { AxiosError } from 'axios'
 
 import {
   authAPI,
@@ -7,8 +6,8 @@ import {
   LoginDataType,
   UpdateProfileModelType,
 } from '../../api/AuthAPi'
-import { setAppErrorAC, setAppStatusAC, setUserAC } from '../../app/appReducer'
-import { AppRootStateType, AppThunk, AppThunkDispatch } from '../../app/store'
+import { setAppStatusAC, setUserAC } from '../../app/appReducer'
+import { AppThunk } from '../../app/store'
 import { handleError } from '../../utils/error-utils'
 
 const initialState = {
@@ -63,9 +62,9 @@ export const logInTC =
     try {
       const res = await authAPI.login(data)
 
+      dispatch(setAppStatusAC('succeeded'))
       dispatch(setUserAC(res.data))
       dispatch(setIsLoggedInAC(true))
-      dispatch(setAppStatusAC('succeeded'))
     } catch (e) {
       const err = e as Error | AxiosError<{ error: string }>
 
@@ -81,26 +80,20 @@ export const forgotPassTC =
     try {
       const res = await authAPI.forgotPassword(email)
 
+      dispatch(setAppStatusAC('succeeded'))
       dispatch(setEmailAC(email))
       dispatch(setSentAC(true))
     } catch (e) {
       const err = e as Error | AxiosError<{ error: string }>
 
-      if (axios.isAxiosError(err)) {
-        const error = err.response?.data ? err.response.data.error : err.message
-
-        dispatch(setAppErrorAC(error))
-      } else {
-        dispatch(setAppErrorAC(`Native error ${err.message}`))
-      }
+      handleError(err, dispatch)
     } finally {
-      // dispatch(setSendAC(false))
       dispatch(setAppStatusAC('idle'))
     }
   }
 export const updateProfileTC =
   (userModel: UpdateProfileModelType): AppThunk =>
-  (dispatch, getState: () => AppRootStateType) => {
+  async (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'))
     const user = getState().app.user
     const model = {
@@ -108,56 +101,68 @@ export const updateProfileTC =
       ...userModel,
     }
 
-    authAPI
-      .updateUser(model)
-      .then(res => {
-        console.log(res.data.updatedUser)
-        dispatch(setUserAC(res.data.updatedUser))
-        dispatch(setAppStatusAC('succeeded'))
-      })
-      .catch(() => {})
+    try {
+      const res = await authAPI.updateUser(model)
+
+      dispatch(setUserAC(res.data.updatedUser))
+      dispatch(setAppStatusAC('succeeded'))
+    } catch (e) {
+      const err = e as Error | AxiosError<{ error: string }>
+
+      handleError(err, dispatch)
+    } finally {
+      dispatch(setAppStatusAC('idle'))
+    }
   }
-export const logOutTC = () => async (dispatch: AppThunkDispatch) => {
+export const logOutTC = (): AppThunk => async dispatch => {
   dispatch(setAppStatusAC('loading'))
   try {
-    await authAPI.logOut()
+    const res = await authAPI.logOut()
 
     dispatch(setIsLoggedInAC(false))
     dispatch(setAppStatusAC('succeeded'))
-  } catch (err) {
-    console.log(err)
+  } catch (e) {
+    const err = e as Error | AxiosError<{ error: string }>
+
+    handleError(err, dispatch)
+  } finally {
+    dispatch(setAppStatusAC('idle'))
   }
 }
-export const RegistrationTC = (email: string, password: string) => (dispatch: Dispatch) => {
-  dispatch(setAppStatusAC('loading'))
-  authAPI
-    .registration(email, password)
-    .then(res => {
+export const RegistrationTC =
+  (email: string, password: string): AppThunk =>
+  async dispatch => {
+    dispatch(setAppStatusAC('loading'))
+    try {
+      const res = await authAPI.registration(email, password)
+
       dispatch(isRegisteredAC(true))
       dispatch(setAppStatusAC('succeeded'))
-    })
-    .catch((err: AxiosError) => {
-      const error = err.response ? (err.response.data as { error: string }).error : err.message
+    } catch (e) {
+      const err = e as Error | AxiosError<{ error: string }>
 
-      dispatch(setAppErrorAC(error))
-      dispatch(setAppStatusAC('failed'))
-    })
-}
-export const createNewPasswordTC = (data: CreatePasswordDataType) => (dispatch: Dispatch) => {
-  dispatch(setAppStatusAC('loading'))
+      handleError(err, dispatch)
+    } finally {
+      dispatch(setAppStatusAC('idle'))
+    }
+  }
+export const createNewPasswordTC =
+  (data: CreatePasswordDataType): AppThunk =>
+  async dispatch => {
+    dispatch(setAppStatusAC('loading'))
+    try {
+      const res = await authAPI.createPassword(data)
 
-  authAPI
-    .createPassword(data)
-    .then(res => {
-      console.log(res)
       dispatch(setIsPasswordChangedAC(true))
       dispatch(setAppStatusAC('succeeded'))
-    })
-    .catch(e => {
-      dispatch(setAppErrorAC(e.message))
-      dispatch(setAppStatusAC('failed'))
-    })
-}
+    } catch (e) {
+      const err = e as Error | AxiosError<{ error: string }>
+
+      handleError(err, dispatch)
+    } finally {
+      dispatch(setAppStatusAC('idle'))
+    }
+  }
 
 // types
 export type AuthReducerActionType =
