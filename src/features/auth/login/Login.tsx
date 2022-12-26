@@ -12,14 +12,14 @@ import { LoadingButtonForm } from '../../../components/LoadingButtonForm'
 import { PATH } from '../../../components/pages/Pages'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
+import { logInTC } from '../authReducer'
 
 import styles from './Login.module.css'
-import { logInTC } from './loginReducer'
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
   const dispatch = useAppDispatch()
-  const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
+  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
   const appStatus = useAppSelector(state => state.app.status)
 
   const formik = useFormik({

@@ -1,7 +1,7 @@
 import { authAPI } from '../../../api/AuthAPi'
 import { setAppStatusAC, setUserAC } from '../../../app/appReducer'
 import { AppRootStateType, AppThunk, AppThunkDispatch } from '../../../app/store'
-import { setIsLoggedInAC } from '../login/loginReducer'
+import { setIsLoggedInAC } from '../authReducer'
 
 const initialState = {
   name: 'Ivan',

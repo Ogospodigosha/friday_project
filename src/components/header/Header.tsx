@@ -9,7 +9,7 @@ import logo from './assets/logo.svg'
 import styles from './Header.module.css'
 
 export const Header = () => {
-  const isLoginIn = useAppSelector(state => state.login.isLoggedIn)
+  const isLoginIn = useAppSelector(state => state.auth.isLoggedIn)
   const name = useAppSelector(state => state.app.user.name)
   const ava = useAppSelector(state => state.app.user.avatar)
 

@@ -1,20 +1,20 @@
 import { AxiosError } from 'axios'
 
-import { authAPI, LoginDataType } from '../../../api/AuthAPi'
-import { setAppStatusAC, setUserAC } from '../../../app/appReducer'
-import { AppThunk } from '../../../app/store'
-import { handleError } from '../../../utils/error-utils'
+import { authAPI, LoginDataType } from '../../api/AuthAPi'
+import { setAppStatusAC, setUserAC } from '../../app/appReducer'
+import { AppThunk } from '../../app/store'
+import { handleError } from '../../utils/error-utils'
 
 const initialState = {
   isLoggedIn: false,
 }
 
-export const loginReducer = (
-  state: LoginInitialStateType = initialState,
-  action: LoginReducerType
-): LoginInitialStateType => {
+export const authReducer = (
+  state: AuthInitialStateType = initialState,
+  action: AuthReducerActionType
+): AuthInitialStateType => {
   switch (action.type) {
-    case 'login/SET-IS-LOGGED-IN':
+    case 'auth/SET-IS-LOGGED-IN':
       return { ...state, isLoggedIn: action.value }
     default:
       return state
@@ -22,7 +22,7 @@ export const loginReducer = (
 }
 // actions
 export const setIsLoggedInAC = (value: boolean) =>
-  ({ type: 'login/SET-IS-LOGGED-IN', value } as const)
+  ({ type: 'auth/SET-IS-LOGGED-IN', value } as const)
 
 // thunks
 export const logInTC =
@@ -45,5 +45,5 @@ export const logInTC =
   }
 
 // types
-export type LoginReducerType = ReturnType<typeof setIsLoggedInAC>
-type LoginInitialStateType = typeof initialState
+export type AuthReducerActionType = ReturnType<typeof setIsLoggedInAC>
+type AuthInitialStateType = typeof initialState

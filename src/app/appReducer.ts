@@ -2,7 +2,7 @@ import { AxiosError } from 'axios'
 import { Dispatch } from 'redux'
 
 import { authAPI, ProfileType } from '../api/AuthAPi'
-import { setIsLoggedInAC } from '../features/auth/login/loginReducer'
+import { setIsLoggedInAC } from '../features/auth/authReducer'
 
 const initialAppState = {
   error: null as RequestErrorType,

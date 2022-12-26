@@ -58,7 +58,7 @@ export const Packs = () => {
   const sortPacks = useAppSelector(state => state.packs.sort)
   const packName = useAppSelector(state => state.packs.packName)
   let user_id = useAppSelector(state => state.app.user._id)
-  const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
+  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
   const min = useAppSelector(state => state.packs.packs.minCardsCount)
   const max = useAppSelector(state => state.packs.packs.maxCardsCount)
   const localRange = useAppSelector(state => state.packs.localRange)

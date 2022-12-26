@@ -21,7 +21,7 @@ export const Profile = () => {
   const avatar = useAppSelector(state => state.app.user.avatar)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn)
+  const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
   const [text, setText] = useState(user.name)
   const updateTitleHandler = (name: string) => {
     setText(name)
