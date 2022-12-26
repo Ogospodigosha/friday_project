@@ -3,7 +3,7 @@ import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk'
 
 import { authReducer } from '../features/auth/authReducer'
 import { createNewPasswordReducer } from '../features/auth/createNewPassword/createNewPassword-reducer'
-import { forgotPasswordReducer } from '../features/auth/forgotPassword/forgotPasswordReducer'
+// import { forgotPasswordReducer } from '../features/auth/forgotPassword/forgotPasswordReducer'
 // import { loginReducer } from '../features/auth/login/loginReducer'
 import { profileReducer } from '../features/auth/profile/profileReducer'
 import { registrationReducer } from '../features/auth/registration/registration-reducer'
@@ -20,7 +20,7 @@ export const RootReducer = combineReducers({
   // login: loginReducer,
   profile: profileReducer,
   createNewPassword: createNewPasswordReducer,
-  forgotPassword: forgotPasswordReducer,
+  // forgotPassword: forgotPasswordReducer,
   cards: cardsReducer,
   packs: packsReducer,
   isMyPack: IsMyPackReducer,

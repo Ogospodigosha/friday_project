@@ -8,15 +8,15 @@ import { LoadingButtonForm } from '../../../components/LoadingButtonForm'
 import { PATH } from '../../../components/pages/Pages'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
+import { forgotPassTC } from '../authReducer'
 import { FormikErrorType } from '../registration/RegistrationTypes'
 
 import styles from './ForgotPassword.module.css'
-import { forgotPassTC } from './forgotPasswordReducer'
 
 export const ForgotPassword = () => {
   const dispatch = useAppDispatch()
   const appStatus = useAppSelector(state => state.app.status)
-  const send = useAppSelector(state => state.forgotPassword.send)
+  const send = useAppSelector(state => state.auth.send)
   const formik = useFormik({
     initialValues: {
       email: '',
