@@ -1,5 +1,3 @@
-import { FormikErrorType } from './RegistrationTypes'
-
 export const validateRegistrationForm = (values: FormikErrorType): FormikErrorType => {
   const errors: FormikErrorType = {}
 
@@ -19,4 +17,9 @@ export const validateRegistrationForm = (values: FormikErrorType): FormikErrorTy
     errors.email = 'Invalid email address'
 
   return errors
+}
+export type FormikErrorType = {
+  email?: string
+  password?: string
+  confirmPassword?: string
 }

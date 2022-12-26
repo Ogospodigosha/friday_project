@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { CheckEmail } from '../../features/auth/checkEmail/CheckEmail'

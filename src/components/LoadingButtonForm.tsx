@@ -1,3 +1,5 @@
+import { FC } from 'react'
+
 import LoadingButton from '@mui/lab/LoadingButton'
 
 import { RequestStatusType } from '../app/appReducer'
@@ -7,10 +9,7 @@ type LoadingButtonTransitionPropsType = {
   IsLoading: RequestStatusType
   title: string
 }
-export const LoadingButtonForm: React.FC<LoadingButtonTransitionPropsType> = ({
-  IsLoading,
-  title,
-}) => {
+export const LoadingButtonForm: FC<LoadingButtonTransitionPropsType> = ({ IsLoading, title }) => {
   return (
     <>
       <LoadingButton

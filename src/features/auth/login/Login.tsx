@@ -14,7 +14,7 @@ import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { logInTC } from '../authReducer'
 
-import styles from './Login.module.css'
+import s from './Login.module.css'
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -58,14 +58,14 @@ export const Login = () => {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.page}>
-        <h1 className={styles.h1}>Sing in</h1>
+    <div className={s.wrapper}>
+      <div className={s.page}>
+        <h1 className={s.h1}>Sing in</h1>
         <form onSubmit={formik.handleSubmit}>
           <FormGroup>
             <div>
               <TextField
-                className={styles.field}
+                className={s.field}
                 label={'Email'}
                 variant={'standard'}
                 margin={'normal'}
@@ -73,12 +73,12 @@ export const Login = () => {
                 {...formik.getFieldProps('email')}
               />
               {formik.touched.email && formik.errors.email && (
-                <div className={styles.error}>{formik.errors.email}</div>
+                <div className={s.error}>{formik.errors.email}</div>
               )}
             </div>
             <div>
               <TextField
-                className={styles.field}
+                className={s.field}
                 label={'Password'}
                 variant={'standard'}
                 margin={'normal'}
@@ -100,10 +100,10 @@ export const Login = () => {
                 }}
               />
               {formik.touched.password && formik.errors.password && (
-                <div className={styles.error}>{formik.errors.password}</div>
+                <div className={s.error}>{formik.errors.password}</div>
               )}
             </div>
-            <div className={styles.container}>
+            <div className={s.container}>
               <FormControlLabel
                 label={'Remember me'}
                 sx={{ left: '0' }}
@@ -112,15 +112,15 @@ export const Login = () => {
                 control={<Checkbox />}
               />
             </div>
-            <NavLink to={'/forgot_password'} className={styles.passRecovery}>
+            <NavLink to={'/forgot_password'} className={s.passRecovery}>
               Forgot Password?
             </NavLink>
-            <div className={styles.submitButton}>
+            <div className={s.submitButton}>
               <LoadingButtonForm IsLoading={appStatus} title={'Sign In'} />
             </div>
           </FormGroup>
-          <p className={styles.question}>Have no account?</p>
-          <NavLink to={'/registration'} className={styles.link}>
+          <p className={s.question}>Have no account?</p>
+          <NavLink to={'/registration'} className={s.link}>
             Sign Up
           </NavLink>
         </form>
@@ -130,7 +130,6 @@ export const Login = () => {
 }
 
 // types
-
 type FormikErrorType = {
   email?: string
   password?: string

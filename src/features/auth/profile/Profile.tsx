@@ -14,14 +14,15 @@ import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { logOutTC, updateProfileTC } from '../authReducer'
 
-import style from './Profile.module.css'
+import s from './Profile.module.css'
 
 export const Profile = () => {
+  const dispatch = useAppDispatch()
   const user = useAppSelector<ProfileType>(state => state.app.user)
   const avatar = useAppSelector(state => state.app.user.avatar)
+  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
   const [text, setText] = useState(user.name)
   const updateTitleHandler = (name: string) => {
     setText(name)
@@ -43,12 +44,12 @@ export const Profile = () => {
   return (
     <>
       <BackToPackList />
-      <div className={style.main}>
-        <div className={style.title}>Personal Information</div>
-        <div className={style.avatar}>
+      <div className={s.main}>
+        <div className={s.title}>Personal Information</div>
+        <div className={s.avatar}>
           <Avatar alt="your ava" src={avatar || ava} sx={{ width: 96, height: 96 }} />
         </div>
-        <div className={style.editSpan}>
+        <div className={s.editSpan}>
           <SuperEditableSpan
             value={text}
             onChangeText={updateTitleHandler}
@@ -56,8 +57,8 @@ export const Profile = () => {
           />
         </div>
 
-        <div className={style.email}>{user.email}</div>
-        <div className={style.logOut}>
+        <div className={s.email}>{user.email}</div>
+        <div className={s.logOut}>
           <Fab
             sx={{ background: '#FCFCFC' }}
             variant="extended"
@@ -67,7 +68,7 @@ export const Profile = () => {
             <span>
               <img src={logOut} alt="logout1" />
             </span>
-            <span className={style.logoutSpan}>
+            <span className={s.logoutSpan}>
               Log <span>out</span>
             </span>
           </Fab>

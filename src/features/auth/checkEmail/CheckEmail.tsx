@@ -9,26 +9,26 @@ import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { setSentAC } from '../authReducer'
 
-import style from './CheckEmail.module.css'
+import s from './CheckEmail.module.css'
 
 export const CheckEmail = () => {
   const dispatch = useAppDispatch()
-  const email = useAppSelector<string>(state => state.auth.email)
   const navigate = useNavigate()
+  const email = useAppSelector(state => state.auth.email)
   const navigateToLogin = () => {
     dispatch(setSentAC(false))
     navigate(PATH.LOGIN)
   }
 
   return (
-    <div className={style.wrapper}>
-      <div className={style.title}>Check Email</div>
+    <div className={s.wrapper}>
+      <div className={s.title}>Check Email</div>
       <img src={checkEmail} alt="letter" />
-      <div className={style.body}>
+      <div className={s.body}>
         <div>We’ve sent an Email with instructions to</div>
         <div>{email}</div>
       </div>
-      <div className={style.btn}>
+      <div className={s.btn}>
         <Button
           variant="contained"
           onClick={navigateToLogin}

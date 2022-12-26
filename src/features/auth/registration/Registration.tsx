@@ -2,26 +2,24 @@ import React from 'react'
 
 import { FormGroup } from '@mui/material'
 import { Form, Formik } from 'formik'
-import { useSelector } from 'react-redux'
 import { Navigate, NavLink } from 'react-router-dom'
 
-import { RequestStatusType } from '../../../app/appReducer'
-import { AppRootStateType } from '../../../app/store'
 import { ConfirmPasswordInputForm } from '../../../components/ConfirmPasswordInputForm'
 import { EmailInputForm } from '../../../components/EmailInputForm'
 import { LoadingButtonForm } from '../../../components/LoadingButtonForm'
 import { PATH } from '../../../components/pages/Pages'
 import { PasswordInputForm } from '../../../components/PasswordInputForm'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
-import { RegistrationTC } from '../authReducer'
+import { useAppSelector } from '../../../utils/hooks/useAppSelector'
+import { registrationTC } from '../authReducer'
 
 import s from './Registration.module.css'
 import { validateRegistrationForm } from './validateRegistrationForm'
 
 export const Registration = () => {
   const dispatch = useAppDispatch()
-  const IsLoading = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-  const isRegistered = useSelector<AppRootStateType, boolean>(state => state.auth.isRegistered)
+  const IsLoading = useAppSelector(state => state.app.status)
+  const isRegistered = useAppSelector(state => state.auth.isRegistered)
 
   const registerInitValues = { email: '', password: '', confirmPassword: '' }
 
@@ -40,8 +38,7 @@ export const Registration = () => {
           validate={validateRegistrationForm}
           onSubmit={(values, actions) => {
             if (values.email && values.password)
-              dispatch(RegistrationTC(values.email, values.password))
-            actions.resetForm()
+              dispatch(registrationTC(values.email, values.password))
           }}
         >
           <Form>

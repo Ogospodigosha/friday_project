@@ -2,11 +2,11 @@ import React from 'react'
 
 import { NavLink } from 'react-router-dom'
 
+import logo from '../../assets/icons/logo.svg'
 import defaultAva from '../../assets/img/avatarFish.png'
 import { useAppSelector } from '../../utils/hooks/useAppSelector'
 
-import logo from './assets/logo.svg'
-import styles from './Header.module.css'
+import s from './Header.module.css'
 
 export const Header = () => {
   const isLoginIn = useAppSelector(state => state.auth.isLoggedIn)
@@ -14,18 +14,18 @@ export const Header = () => {
   const ava = useAppSelector(state => state.app.user.avatar)
 
   return (
-    <header className={styles.container}>
+    <header className={s.container}>
       <NavLink to={'/'}>
         <img src={logo} alt={'logo'} />
       </NavLink>
       {!isLoginIn ? (
-        <NavLink to={'/login'} className={styles.btn}>
+        <NavLink to={'/login'} className={s.btn}>
           Sign in
         </NavLink>
       ) : (
-        <NavLink to={'/profile'} className={styles.userInfo}>
-          <span className={styles.userName}>{name}</span>
-          <img src={ava || defaultAva} alt="ava" className={styles.userAva} />
+        <NavLink to={'/profile'} className={s.userInfo}>
+          <span className={s.userName}>{name}</span>
+          <img src={ava || defaultAva} alt="ava" className={s.userAva} />
         </NavLink>
       )}
     </header>

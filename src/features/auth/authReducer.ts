@@ -11,8 +11,8 @@ import { AppThunk } from '../../app/store'
 import { handleError } from '../../utils/error-utils'
 
 const initialState = {
-  name: 'name',
-  email: 'test@mail.com',
+  name: '',
+  email: '',
   isLoggedIn: false,
   isSent: false,
   isPasswordChanged: false,
@@ -129,7 +129,7 @@ export const logOutTC = (): AppThunk => async dispatch => {
     dispatch(setAppStatusAC('idle'))
   }
 }
-export const RegistrationTC =
+export const registrationTC =
   (email: string, password: string): AppThunk =>
   async dispatch => {
     dispatch(setAppStatusAC('loading'))

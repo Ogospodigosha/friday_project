@@ -1,11 +1,8 @@
 import React from 'react'
 
 import { Form, Formik } from 'formik'
-import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { RequestStatusType } from '../../../app/appReducer'
-import { AppRootStateType } from '../../../app/store'
 import { LoadingButtonForm } from '../../../components/LoadingButtonForm'
 import { PATH } from '../../../components/pages/Pages'
 import { PasswordInputForm } from '../../../components/PasswordInputForm'
@@ -19,11 +16,12 @@ import { validateNewPasswordForm } from './validateNewPasswordForm'
 
 export const CreateNewPassword = () => {
   const dispatch = useAppDispatch()
-  const { token } = useParams()
+  const isLoading = useAppSelector(state => state.app.status)
+  const passwordChanged = useAppSelector(state => state.auth.isPasswordChanged)
   const navigate = useNavigate()
-  const IsLoading = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+  const { token } = useParams()
+
   const newPasswordInitValues = { password: '' }
-  const passwordChanged = useAppSelector<boolean>(state => state.auth.isPasswordChanged)
 
   if (passwordChanged) {
     navigate(PATH.LOGIN)
@@ -46,13 +44,13 @@ export const CreateNewPassword = () => {
         >
           <Form>
             <div style={{ position: 'relative', marginBottom: '18px' }}>
-              <PasswordInputForm name={'password'} label={'password'} IsLoading={IsLoading} />
+              <PasswordInputForm name={'password'} label={'password'} IsLoading={isLoading} />
             </div>
             <div className={style.description}>
               Create new password and we will send you further instructions to email
             </div>
             <div className={s.submitButton}>
-              <LoadingButtonForm IsLoading={IsLoading} title={'create new password'} />
+              <LoadingButtonForm IsLoading={isLoading} title={'create new password'} />
             </div>
           </Form>
         </Formik>

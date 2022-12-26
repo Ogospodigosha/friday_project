@@ -1,8 +1,7 @@
-import { AxiosError } from 'axios'
-import { Dispatch } from 'redux'
-
 import { authAPI, ProfileType } from '../api/AuthAPi'
 import { setIsLoggedInAC } from '../features/auth/authReducer'
+
+import { AppThunk } from './store'
 
 const initialAppState = {
   error: null as RequestErrorType,
@@ -16,16 +15,40 @@ export const appReducer = (
   action: AppActionType
 ): AppStateType => {
   switch (action.type) {
-    case 'APP/SET-ERROR':
+    case 'app/SET-ERROR':
       return { ...state, error: action.error }
-    case 'APP/SET-INITIALIZED':
+    case 'app/SET-INITIALIZED':
       return { ...state, isInitialized: action.isInitialized }
-    case 'APP/SET-STATUS':
+    case 'app/SET-STATUS':
       return { ...state, status: action.status }
-    case 'APP/SET-USER':
+    case 'app/SET-USER':
       return { ...state, user: action.user }
     default:
       return state
+  }
+}
+//action creator
+export const setAppErrorAC = (error: string | null) => ({ type: 'app/SET-ERROR', error } as const)
+export const setInitializedAC = (isInitialized: boolean) =>
+  ({ type: 'app/SET-INITIALIZED', isInitialized } as const)
+export const setAppStatusAC = (status: RequestStatusType) =>
+  ({ type: 'app/SET-STATUS', status } as const)
+export const setUserAC = (user: ProfileType) => ({ type: 'app/SET-USER', user } as const)
+
+//thunk
+export const authMeTC = (): AppThunk => async dispatch => {
+  try {
+    const res = await authAPI.me()
+
+    dispatch(setUserAC(res.data))
+    dispatch(setIsLoggedInAC(true))
+  } catch (e) {
+    // const err = e as Error | AxiosError<{ error: string }>
+    //
+    // handleError(err, dispatch)
+    dispatch(setIsLoggedInAC(false))
+  } finally {
+    dispatch(setInitializedAC(true))
   }
 }
 //types
@@ -37,26 +60,3 @@ export type AppActionType =
   | ReturnType<typeof setUserAC>
 export type RequestErrorType = null | string
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-
-//action creator
-export const setAppErrorAC = (error: string | null) => ({ type: 'APP/SET-ERROR', error } as const)
-export const setInitializedAC = (isInitialized: boolean) =>
-  ({ type: 'APP/SET-INITIALIZED', isInitialized } as const)
-export const setAppStatusAC = (status: RequestStatusType) =>
-  ({ type: 'APP/SET-STATUS', status } as const)
-export const setUserAC = (user: ProfileType) => ({ type: 'APP/SET-USER', user } as const)
-//thunk creator
-export const authMeTC = () => (dispatch: Dispatch) => {
-  authAPI
-    .me()
-    .then(res => {
-      dispatch(setUserAC(res.data))
-      dispatch(setIsLoggedInAC(true))
-    })
-    .catch((e: AxiosError) => {
-      dispatch(setIsLoggedInAC(false))
-    })
-    .finally(() => {
-      dispatch(setInitializedAC(true))
-    })
-}
