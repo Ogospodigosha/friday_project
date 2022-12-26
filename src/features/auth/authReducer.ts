@@ -1,13 +1,14 @@
 import axios, { AxiosError } from 'axios'
 
-import { authAPI, LoginDataType } from '../../api/AuthAPi'
+import { authAPI, LoginDataType, UpdateProfileModelType } from '../../api/AuthAPi'
 import { setAppErrorAC, setAppStatusAC, setUserAC } from '../../app/appReducer'
-import { AppThunk } from '../../app/store'
+import { AppRootStateType, AppThunk, AppThunkDispatch } from '../../app/store'
 import { handleError } from '../../utils/error-utils'
 
 const initialState = {
   isLoggedIn: false,
   send: false,
+  name: 'Ivan',
   email: 'test@mail.com',
 }
 
@@ -22,6 +23,8 @@ export const authReducer = (
       return { ...state, send: action.value }
     case 'auth/SET-EMAIL':
       return { ...state, email: action.email }
+    case 'auth/CHANGE-NAME':
+      return { ...state, name: action.name }
     default:
       return state
   }
@@ -31,6 +34,7 @@ export const setIsLoggedInAC = (value: boolean) =>
   ({ type: 'auth/SET-IS-LOGGED-IN', value } as const)
 export const setSendAC = (value: boolean) => ({ type: 'auth/SET-SEND', value } as const)
 export const setEmailAC = (email: string) => ({ type: 'auth/SET-EMAIL', email } as const)
+export const changeNameAC = (name: string) => ({ type: 'auth/CHANGE-NAME', name } as const)
 
 // thunks
 export const logInTC =
@@ -75,10 +79,41 @@ export const forgotPassTC =
       dispatch(setAppStatusAC('idle'))
     }
   }
+export const updateProfileTC =
+  (userModel: UpdateProfileModelType): AppThunk =>
+  (dispatch, getState: () => AppRootStateType) => {
+    dispatch(setAppStatusAC('loading'))
+    const user = getState().app.user
+    const model = {
+      name: user.name,
+      ...userModel,
+    }
+
+    authAPI
+      .updateUser(model)
+      .then(res => {
+        console.log(res.data.updatedUser)
+        dispatch(setUserAC(res.data.updatedUser))
+        dispatch(setAppStatusAC('succeeded'))
+      })
+      .catch(() => {})
+  }
+export const logOutTC = () => async (dispatch: AppThunkDispatch) => {
+  dispatch(setAppStatusAC('loading'))
+  try {
+    await authAPI.logOut()
+
+    dispatch(setIsLoggedInAC(false))
+    dispatch(setAppStatusAC('succeeded'))
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 // types
 export type AuthReducerActionType =
   | ReturnType<typeof setIsLoggedInAC>
   | ReturnType<typeof setSendAC>
   | ReturnType<typeof setEmailAC>
+  | ReturnType<typeof changeNameAC>
 type AuthInitialStateType = typeof initialState

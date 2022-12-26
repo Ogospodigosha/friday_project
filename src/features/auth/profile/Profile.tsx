@@ -12,9 +12,9 @@ import SuperEditableSpan from '../../../components/common/SuperEditableSpan/Supe
 import { PATH } from '../../../components/pages/Pages'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
+import { logOutTC, updateProfileTC } from '../authReducer'
 
 import style from './Profile.module.css'
-import { logOutTC, updateProfileTC } from './profileReducer'
 
 export const Profile = () => {
   const user = useAppSelector<ProfileType>(state => state.app.user)
