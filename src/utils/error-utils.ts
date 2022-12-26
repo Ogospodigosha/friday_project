@@ -3,9 +3,10 @@ import axios, { AxiosError } from 'axios'
 import { setAppErrorAC, setAppStatusAC } from '../app/appReducer'
 import { AppThunkDispatch } from '../app/store'
 
-export const handleError = (e: unknown, dispatch: AppThunkDispatch) => {
-  const err = e as Error | AxiosError<{ error: string }>
-
+export const handleError = (
+  err: Error | AxiosError<{ error: string }>,
+  dispatch: AppThunkDispatch
+) => {
   if (axios.isAxiosError(err)) {
     const error = err.response?.data ? err.response.data.error : err.message
 
