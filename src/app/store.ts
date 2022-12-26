@@ -2,7 +2,7 @@ import { AnyAction, applyMiddleware, combineReducers, createStore } from 'redux'
 import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk'
 
 import { authReducer } from '../features/auth/authReducer'
-import { createNewPasswordReducer } from '../features/auth/createNewPassword/createNewPassword-reducer'
+// import { createNewPasswordReducer } from '../features/auth/createNewPassword/createNewPassword-reducer'
 // import { forgotPasswordReducer } from '../features/auth/forgotPassword/forgotPasswordReducer'
 // import { loginReducer } from '../features/auth/login/loginReducer'
 // import { profileReducer } from '../features/auth/profile/profileReducer'
@@ -19,7 +19,7 @@ export const RootReducer = combineReducers({
   app: appReducer,
   // login: loginReducer,
   // profile: profileReducer,
-  createNewPassword: createNewPasswordReducer,
+  // createNewPassword: createNewPasswordReducer,
   // forgotPassword: forgotPasswordReducer,
   cards: cardsReducer,
   packs: packsReducer,

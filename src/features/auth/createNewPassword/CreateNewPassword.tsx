@@ -11,10 +11,10 @@ import { PATH } from '../../../components/pages/Pages'
 import { PasswordInputForm } from '../../../components/PasswordInputForm'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
+import { createNewPasswordTC } from '../authReducer'
 import s from '../registration/registration.module.css'
 
-import style from './createNewPassword.module.css'
-import { createNewPasswordTC } from './createNewPasswordTC'
+import style from './CreateNewPassword.module.css'
 import { validateNewPasswordForm } from './validateNewPasswordForm'
 
 export const CreateNewPassword = () => {
@@ -23,7 +23,7 @@ export const CreateNewPassword = () => {
   const navigate = useNavigate()
   const IsLoading = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
   const newPasswordInitValues = { password: '' }
-  const passwordChanged = useAppSelector<boolean>(state => state.createNewPassword.passwordChanged)
+  const passwordChanged = useAppSelector<boolean>(state => state.auth.passwordChanged)
 
   if (passwordChanged) {
     navigate(PATH.LOGIN)

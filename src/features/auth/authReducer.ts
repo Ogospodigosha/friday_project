@@ -1,6 +1,12 @@
 import axios, { AxiosError } from 'axios'
+import { Dispatch } from 'redux'
 
-import { authAPI, LoginDataType, UpdateProfileModelType } from '../../api/AuthAPi'
+import {
+  authAPI,
+  CreatePasswordDataType,
+  LoginDataType,
+  UpdateProfileModelType,
+} from '../../api/AuthAPi'
 import { setAppErrorAC, setAppStatusAC, setUserAC } from '../../app/appReducer'
 import { AppRootStateType, AppThunk, AppThunkDispatch } from '../../app/store'
 import { handleError } from '../../utils/error-utils'
@@ -10,6 +16,7 @@ const initialState = {
   send: false,
   name: 'Ivan',
   email: 'test@mail.com',
+  passwordChanged: false,
 }
 
 export const authReducer = (
@@ -25,6 +32,8 @@ export const authReducer = (
       return { ...state, email: action.email }
     case 'auth/CHANGE-NAME':
       return { ...state, name: action.name }
+    case 'auth/CHANGE-PASSWORD':
+      return { ...state, passwordChanged: action.passwordChanged }
     default:
       return state
   }
@@ -35,6 +44,11 @@ export const setIsLoggedInAC = (value: boolean) =>
 export const setSendAC = (value: boolean) => ({ type: 'auth/SET-SEND', value } as const)
 export const setEmailAC = (email: string) => ({ type: 'auth/SET-EMAIL', email } as const)
 export const changeNameAC = (name: string) => ({ type: 'auth/CHANGE-NAME', name } as const)
+export const passwordChangedAC = (passwordChanged: boolean) =>
+  ({
+    type: 'auth/CHANGE-PASSWORD',
+    passwordChanged,
+  } as const)
 
 // thunks
 export const logInTC =
@@ -109,6 +123,21 @@ export const logOutTC = () => async (dispatch: AppThunkDispatch) => {
     console.log(err)
   }
 }
+export const createNewPasswordTC = (data: CreatePasswordDataType) => (dispatch: Dispatch) => {
+  dispatch(setAppStatusAC('loading'))
+
+  authAPI
+    .createPassword(data)
+    .then(res => {
+      console.log(res)
+      dispatch(passwordChangedAC(true))
+      dispatch(setAppStatusAC('succeeded'))
+    })
+    .catch(e => {
+      dispatch(setAppErrorAC(e.message))
+      dispatch(setAppStatusAC('failed'))
+    })
+}
 
 // types
 export type AuthReducerActionType =
@@ -116,4 +145,5 @@ export type AuthReducerActionType =
   | ReturnType<typeof setSendAC>
   | ReturnType<typeof setEmailAC>
   | ReturnType<typeof changeNameAC>
+  | ReturnType<typeof passwordChangedAC>
 type AuthInitialStateType = typeof initialState
