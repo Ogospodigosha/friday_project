@@ -1,12 +1,14 @@
 import * as React from 'react'
 import { ReactNode } from 'react'
 
-import Box from '@mui/material/Box'
+import { IconButton, Typography } from '@mui/material'
 import Modal from '@mui/material/Modal'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
+import closeIcon from '../../../assets/icons/iconClose.svg'
 
 import { openModal } from './modalReducer'
+import s from './packsModal.module.css'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -28,13 +30,20 @@ export const BasicModal: React.FC<PropsType> = ({ children }) => {
   const title = useAppSelector(state => state.modal.title)
 
   const handleClose = () => {
-    debugger
     dispatch(openModal(null))
   }
 
   return (
     <Modal open={!!title} onClose={handleClose}>
-      <Box sx={style}>{children}</Box>
+      <div className={s.main}>
+        <div className={s.header}>
+          <Typography className={s.title}>{title}</Typography>
+          <IconButton onClick={handleClose}>
+            <img src={closeIcon} alt="close" />
+          </IconButton>
+        </div>
+        <div className={s.body}>{children}</div>
+      </div>
     </Modal>
   )
 }
