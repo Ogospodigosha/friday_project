@@ -27,8 +27,9 @@ import { UniversalPagination } from '../../../components/pagination/UniversalPag
 import { useDebounce } from '../../../utils/hookUseDebounce'
 import { style } from '../cards/BasicTable/styleSXForBasicTable'
 import { setCurrentPackIdAC } from '../cards/cardsReducer'
+import { openModal } from '../modals/modalReducer'
+import { PackModal } from '../modals/PackModal'
 
-import { createPackTC } from './createPackTC'
 import { deletePackTC } from './deletePackTC'
 import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
@@ -64,6 +65,9 @@ export const Packs = () => {
 
   const params = Object.fromEntries(searchParams)
   let aligmentState = JSON.parse(localStorage.getItem('alignment') as string)
+  // const [open, setOpen] = React.useState(false)
+  // const handleOpen = () => setOpen(true)
+  // const handleClose = () => setOpen(false)
 
   console.log(params)
   useEffect(() => {
@@ -118,11 +122,14 @@ export const Packs = () => {
   }
   const data = {
     cardsPack: {
-      name: 'ffffffffffffffffffffffffffffffff sasfadsfas               sdafsdfasdfasdfasdfsdafasdfffffffffffffffffffffffffffffffffffffffffffff',
+      name: 'l',
     },
   }
   const createPack = () => {
-    dispatch(createPackTC(data))
+    // dispatch(createPackTC(data))
+    // setOpen(true)
+
+    dispatch(openModal('Add new Pack'))
   }
   const deletePack = (id: string) => {
     dispatch(deletePackTC(id))
@@ -162,6 +169,11 @@ export const Packs = () => {
   return (
     <div>
       <div className={s.header}>
+        {/*<BasicModal>*/}
+        {/*  <div>1322131</div>*/}
+        {/*</BasicModal>*/}
+        <PackModal />
+
         <div className={s.description}>Packs list</div>
         <Button
           onClick={createPack}

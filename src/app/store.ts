@@ -8,6 +8,7 @@ import { loginReducer } from '../features/auth/login/loginReducer'
 import { profileReducer } from '../features/auth/profile/profileReducer'
 import { registrationReducer } from '../features/auth/registration/registration-reducer'
 import { cardsReducer } from '../features/cards/cards/cardsReducer'
+import { modalReducer } from '../features/cards/modals/modalReducer'
 import { IsMyPackReducer } from '../features/cards/packs/IsMyPackReducer-reducer'
 import { packsReducer } from '../features/cards/packs/packs-reducer'
 
@@ -23,6 +24,7 @@ export const RootReducer = combineReducers({
   cards: cardsReducer,
   packs: packsReducer,
   isMyPack: IsMyPackReducer,
+  modal: modalReducer,
 })
 let preloadedState
 const persistedIsMyPack1 = localStorage.getItem('isMyPack1')
