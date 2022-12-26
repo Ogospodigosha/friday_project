@@ -21,11 +21,11 @@ import { validateRegistrationForm } from './validateRegistrationForm'
 export const Registration = () => {
   const dispatch = useAppDispatch()
   const IsLoading = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-  const IsRegistrated = useSelector<AppRootStateType, boolean>(state => state.auth.IsRegistrated)
+  const isRegistered = useSelector<AppRootStateType, boolean>(state => state.auth.isRegistered)
 
   const registerInitValues = { email: '', password: '', confirmPassword: '' }
 
-  if (IsRegistrated) {
+  if (isRegistered) {
     return <Navigate to={PATH.LOGIN} />
   }
 

@@ -23,7 +23,7 @@ export const CreateNewPassword = () => {
   const navigate = useNavigate()
   const IsLoading = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
   const newPasswordInitValues = { password: '' }
-  const passwordChanged = useAppSelector<boolean>(state => state.auth.passwordChanged)
+  const passwordChanged = useAppSelector<boolean>(state => state.auth.isPasswordChanged)
 
   if (passwordChanged) {
     navigate(PATH.LOGIN)

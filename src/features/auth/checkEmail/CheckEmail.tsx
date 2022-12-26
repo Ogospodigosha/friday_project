@@ -7,7 +7,7 @@ import checkEmail from '../../../assets/icons/checkEmail.svg'
 import { PATH } from '../../../components/pages/Pages'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
-import { setSendAC } from '../authReducer'
+import { setSentAC } from '../authReducer'
 
 import style from './CheckEmail.module.css'
 
@@ -16,7 +16,7 @@ export const CheckEmail = () => {
   const email = useAppSelector<string>(state => state.auth.email)
   const navigate = useNavigate()
   const navigateToLogin = () => {
-    dispatch(setSendAC(false))
+    dispatch(setSentAC(false))
     navigate(PATH.LOGIN)
   }
 

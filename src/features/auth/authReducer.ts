@@ -12,13 +12,12 @@ import { AppRootStateType, AppThunk, AppThunkDispatch } from '../../app/store'
 import { handleError } from '../../utils/error-utils'
 
 const initialState = {
-  isLoggedIn: false,
-  send: false,
-  name: 'Ivan',
+  name: 'name',
   email: 'test@mail.com',
-  passwordChanged: false,
-  IsRegistrated: false,
-  // IsLoading: false,
+  isLoggedIn: false,
+  isSent: false,
+  isPasswordChanged: false,
+  isRegistered: false,
 }
 
 export const authReducer = (
@@ -28,16 +27,16 @@ export const authReducer = (
   switch (action.type) {
     case 'auth/SET-IS-LOGGED-IN':
       return { ...state, isLoggedIn: action.value }
-    case 'auth/SET-SEND':
-      return { ...state, send: action.value }
+    case 'auth/SET-SENT':
+      return { ...state, isSent: action.isSent }
     case 'auth/SET-EMAIL':
       return { ...state, email: action.email }
     case 'auth/CHANGE-NAME':
       return { ...state, name: action.name }
-    case 'auth/CHANGE-PASSWORD':
-      return { ...state, passwordChanged: action.passwordChanged }
+    case 'auth/IS-PASSWORD-CHANGED':
+      return { ...state, isPasswordChanged: action.isPasswordChanged }
     case 'auth/SET-REGISTRATION':
-      return { ...state, IsRegistrated: action.IsRegistrated }
+      return { ...state, isRegistered: action.isRegistered }
     default:
       return state
   }
@@ -45,16 +44,16 @@ export const authReducer = (
 // actions
 export const setIsLoggedInAC = (value: boolean) =>
   ({ type: 'auth/SET-IS-LOGGED-IN', value } as const)
-export const setSendAC = (value: boolean) => ({ type: 'auth/SET-SEND', value } as const)
+export const setSentAC = (isSent: boolean) => ({ type: 'auth/SET-SENT', isSent } as const)
 export const setEmailAC = (email: string) => ({ type: 'auth/SET-EMAIL', email } as const)
 export const changeNameAC = (name: string) => ({ type: 'auth/CHANGE-NAME', name } as const)
-export const passwordChangedAC = (passwordChanged: boolean) =>
+export const setIsPasswordChangedAC = (isPasswordChanged: boolean) =>
   ({
-    type: 'auth/CHANGE-PASSWORD',
-    passwordChanged,
+    type: 'auth/IS-PASSWORD-CHANGED',
+    isPasswordChanged,
   } as const)
-export const registratedAC = (IsRegistrated: boolean) =>
-  ({ type: 'auth/SET-REGISTRATION', IsRegistrated } as const)
+export const isRegisteredAC = (isRegistered: boolean) =>
+  ({ type: 'auth/SET-REGISTRATION', isRegistered } as const)
 
 // thunks
 export const logInTC =
@@ -83,7 +82,7 @@ export const forgotPassTC =
       const res = await authAPI.forgotPassword(email)
 
       dispatch(setEmailAC(email))
-      dispatch(setSendAC(true))
+      dispatch(setSentAC(true))
     } catch (e) {
       const err = e as Error | AxiosError<{ error: string }>
 
@@ -134,7 +133,7 @@ export const RegistrationTC = (email: string, password: string) => (dispatch: Di
   authAPI
     .registration(email, password)
     .then(res => {
-      dispatch(registratedAC(true))
+      dispatch(isRegisteredAC(true))
       dispatch(setAppStatusAC('succeeded'))
     })
     .catch((err: AxiosError) => {
@@ -151,7 +150,7 @@ export const createNewPasswordTC = (data: CreatePasswordDataType) => (dispatch: 
     .createPassword(data)
     .then(res => {
       console.log(res)
-      dispatch(passwordChangedAC(true))
+      dispatch(setIsPasswordChangedAC(true))
       dispatch(setAppStatusAC('succeeded'))
     })
     .catch(e => {
@@ -163,9 +162,9 @@ export const createNewPasswordTC = (data: CreatePasswordDataType) => (dispatch: 
 // types
 export type AuthReducerActionType =
   | ReturnType<typeof setIsLoggedInAC>
-  | ReturnType<typeof setSendAC>
+  | ReturnType<typeof setSentAC>
   | ReturnType<typeof setEmailAC>
   | ReturnType<typeof changeNameAC>
-  | ReturnType<typeof passwordChangedAC>
-  | ReturnType<typeof registratedAC>
+  | ReturnType<typeof setIsPasswordChangedAC>
+  | ReturnType<typeof isRegisteredAC>
 type AuthInitialStateType = typeof initialState

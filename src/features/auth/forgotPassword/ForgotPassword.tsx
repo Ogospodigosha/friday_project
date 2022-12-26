@@ -16,7 +16,7 @@ import styles from './ForgotPassword.module.css'
 export const ForgotPassword = () => {
   const dispatch = useAppDispatch()
   const appStatus = useAppSelector(state => state.app.status)
-  const send = useAppSelector(state => state.auth.send)
+  const isSent = useAppSelector(state => state.auth.isSent)
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -37,7 +37,7 @@ export const ForgotPassword = () => {
     },
   })
 
-  if (send) {
+  if (isSent) {
     return <Navigate to={PATH.CHECK_EMAIL} />
   }
 
