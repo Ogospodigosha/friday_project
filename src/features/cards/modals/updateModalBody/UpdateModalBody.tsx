@@ -6,32 +6,27 @@ import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
 import { useAppDispatch } from '../../../../app/store'
-import { createPackTC } from '../../packs/createPackTC'
+import { editPackTC } from '../../packs/editPackTC'
+import s from '../createPackModalBody/createPackModalBody.module.css'
 import { openModal } from '../modalReducer'
 
-import s from './createPackModalBody.module.css'
-
-export const CreatePackModalBody = () => {
+type PropsType = {
+  dataForUpdateModal: { id: string; name: string }
+}
+export const UpdateModalBody = (props: PropsType) => {
   const dispatch = useAppDispatch()
-  const [packName, setPackName] = useState('')
   const [checked, setChecked] = useState(false)
-
-  const createPackNameHandler = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    setPackName(e.currentTarget.value)
-  }
-  const data = {
-    cardsPack: {
-      name: packName,
-      deckCover: 'url or base64', // не обязателен
-      private: checked,
-    },
-  }
-  const saveHandler = () => {
-    dispatch(createPackTC(data))
-    dispatch(openModal(null))
+  const [UpdateValue, setUpdateValue] = useState(props.dataForUpdateModal.name)
+  const updatePackName = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    setUpdateValue(e.currentTarget.value)
   }
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setChecked(e.target.checked)
+  }
+
+  const saveUpdatedPackName = () => {
+    dispatch(editPackTC(props.dataForUpdateModal.id, UpdateValue))
+    dispatch(openModal(null))
   }
   const cancelHandler = () => {
     dispatch(openModal(null))
@@ -46,8 +41,8 @@ export const CreatePackModalBody = () => {
           fullWidth={true}
           size="small"
           variant="standard"
-          value={packName}
-          onChange={createPackNameHandler}
+          value={UpdateValue}
+          onChange={updatePackName}
           placeholder={'Provide pack name'}
         />
       </div>
@@ -60,9 +55,9 @@ export const CreatePackModalBody = () => {
       <div className={s.flex}>
         <div>
           <Button
+            onClick={cancelHandler}
             variant={'text'}
             className={s.button}
-            onClick={cancelHandler}
             style={{
               textTransform: 'none',
               borderRadius: '30px',
@@ -79,7 +74,7 @@ export const CreatePackModalBody = () => {
           <Button
             variant={'contained'}
             className={s.button}
-            onClick={saveHandler}
+            onClick={saveUpdatedPackName}
             style={{
               textTransform: 'none',
               borderRadius: '30px',

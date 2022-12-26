@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
@@ -31,7 +31,6 @@ import { openModal } from '../modals/modalReducer'
 import { PackModal } from '../modals/PackModal'
 
 import { deletePackTC } from './deletePackTC'
-import { editPackTC } from './editPackTC'
 import { getPacksTC } from './getPacksTC'
 import { changeIsMyPack } from './IsMyPackReducer-reducer'
 import {
@@ -65,9 +64,7 @@ export const Packs = () => {
 
   const params = Object.fromEntries(searchParams)
   let aligmentState = JSON.parse(localStorage.getItem('alignment') as string)
-  // const [open, setOpen] = React.useState(false)
-  // const handleOpen = () => setOpen(true)
-  // const handleClose = () => setOpen(false)
+  const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '' })
 
   console.log(params)
   useEffect(() => {
@@ -120,22 +117,16 @@ export const Packs = () => {
 
     return newUpdated.join('.')
   }
-  const data = {
-    cardsPack: {
-      name: 'l',
-    },
-  }
+  const openModalEditPack = (id: string) => {}
   const createPack = () => {
-    // dispatch(createPackTC(data))
-    // setOpen(true)
-
     dispatch(openModal('Add new Pack'))
   }
   const deletePack = (id: string) => {
     dispatch(deletePackTC(id))
   }
-  const editPack = (id: string) => {
-    dispatch(editPackTC(id))
+  const editPack = (id: string, name: string) => {
+    setDataForUpdateModal({ id: id, name: name })
+    dispatch(openModal('Edit pack'))
   }
   const onChangeSortHandler = (newSort: string) => {
     dispatch(setSortAC(newSort))
@@ -169,10 +160,7 @@ export const Packs = () => {
   return (
     <div>
       <div className={s.header}>
-        {/*<BasicModal>*/}
-        {/*  <div>1322131</div>*/}
-        {/*</BasicModal>*/}
-        <PackModal />
+        <PackModal dataForUpdateModal={dataForUpdateModal} />
 
         <div className={s.description}>Packs list</div>
         <Button
@@ -249,7 +237,7 @@ export const Packs = () => {
                       >
                         <SchoolIcon />
                       </IconButton>
-                      <IconButton onClick={() => editPack(raw._id)}>
+                      <IconButton onClick={() => editPack(raw._id, raw.name)}>
                         <EditIcon />
                       </IconButton>
                       <IconButton onClick={() => deletePack(raw._id)}>
