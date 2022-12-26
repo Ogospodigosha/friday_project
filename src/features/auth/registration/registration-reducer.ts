@@ -37,7 +37,6 @@ export const RegistrationTC = (email: string, password: string) => (dispatch: Di
     .registration(email, password)
     .then(res => {
       dispatch(registratedAC(true))
-      console.log(res.data.addedUser)
       dispatch(setAppStatusAC('succeeded'))
     })
     .catch((err: AxiosError) => {

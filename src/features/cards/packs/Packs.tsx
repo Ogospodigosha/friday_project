@@ -43,7 +43,6 @@ import {
   setSortAC,
 } from './packs-reducer'
 import s from './packs.module.css'
-import { SwitchMyAll } from './SwitchMyAll'
 
 export const Packs = () => {
   const navigate = useNavigate()
@@ -87,9 +86,9 @@ export const Packs = () => {
     isMyPack1,
   ])
 
-  useEffect(() => {
-    !packs?.length && dispatch(setPageAC(page - 1)) && searchParams.delete('page')
-  }, [totalCount])
+  // useEffect(() => {
+  //   !packs?.length && dispatch(setPageAC(page - 1)) && searchParams.delete('page')
+  // }, [totalCount])
 
   const deleteAllQwery = () => {
     setSearchParams({})
@@ -195,7 +194,7 @@ export const Packs = () => {
             }}
           />
         </div>
-        <SwitchMyAll switchCallback={switchCallback} />
+        {/*<SwitchMyAll switchCallback={switchCallback} />*/}
         <UniversalDoubleRange min={min} max={max} />
         <div className={s.filter}>
           <IconButton onClick={deleteAllQwery}>

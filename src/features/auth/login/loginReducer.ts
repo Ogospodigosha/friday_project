@@ -33,7 +33,6 @@ export const logInTC =
       const res = await authAPI.login(data)
 
       dispatch(setUserAC(res.data))
-      // dispatch(setAppStatusAC('succeeded'))
       dispatch(setIsLoggedInAC(true))
       dispatch(setAppStatusAC('succeeded'))
     } catch (e) {

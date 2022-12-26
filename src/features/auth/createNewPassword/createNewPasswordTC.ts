@@ -1,12 +1,12 @@
 //thunk creator
 import { Dispatch } from 'redux'
 
-import { authAPI, createPasswordDataType } from '../../../api/AuthAPi'
+import { authAPI, CreatePasswordDataType } from '../../../api/AuthAPi'
 import { setAppErrorAC, setAppStatusAC } from '../../../app/appReducer'
 
 import { passwordChangedAC } from './createNewPassword-reducer'
 
-export const createNewPasswordTC = (data: createPasswordDataType) => (dispatch: Dispatch) => {
+export const createNewPasswordTC = (data: CreatePasswordDataType) => (dispatch: Dispatch) => {
   dispatch(setAppStatusAC('loading'))
 
   authAPI

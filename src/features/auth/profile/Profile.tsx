@@ -4,6 +4,7 @@ import Avatar from '@mui/material/Avatar'
 import Fab from '@mui/material/Fab'
 import { useNavigate } from 'react-router-dom'
 
+import { ProfileType } from '../../../api/AuthAPi'
 import logOut from '../../../assets/icons/logout.svg'
 import ava from '../../../assets/img/avatarFish.png'
 import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
@@ -13,7 +14,6 @@ import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 
 import style from './Profile.module.css'
-import { ProfileType } from './profileApi'
 import { logOutTC, updateProfileTC } from './profileReducer'
 
 export const Profile = () => {

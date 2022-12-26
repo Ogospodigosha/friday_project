@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios'
 
-import { setAppErrorAC, setAppStatusAC } from '../app/appReducer'
+import { setAppErrorAC } from '../app/appReducer'
 import { AppThunkDispatch } from '../app/store'
 
 export const handleError = (
@@ -14,5 +14,4 @@ export const handleError = (
   } else {
     dispatch(setAppErrorAC(`Native error ${err.message}`))
   }
-  dispatch(setAppStatusAC('failed'))
 }
