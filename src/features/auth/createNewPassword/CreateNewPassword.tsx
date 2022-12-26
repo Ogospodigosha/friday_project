@@ -12,7 +12,7 @@ import { PasswordInputForm } from '../../../components/PasswordInputForm'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { createNewPasswordTC } from '../authReducer'
-import s from '../registration/registration.module.css'
+import s from '../registration/Registration.module.css'
 
 import style from './CreateNewPassword.module.css'
 import { validateNewPasswordForm } from './validateNewPasswordForm'

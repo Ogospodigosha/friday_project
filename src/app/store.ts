@@ -6,7 +6,7 @@ import { authReducer } from '../features/auth/authReducer'
 // import { forgotPasswordReducer } from '../features/auth/forgotPassword/forgotPasswordReducer'
 // import { loginReducer } from '../features/auth/login/loginReducer'
 // import { profileReducer } from '../features/auth/profile/profileReducer'
-import { registrationReducer } from '../features/auth/registration/registration-reducer'
+// import { registrationReducer } from '../features/auth/registration/registration-reducer'
 import { cardsReducer } from '../features/cards/cards/cardsReducer'
 import { IsMyPackReducer } from '../features/cards/packs/IsMyPackReducer-reducer'
 import { packsReducer } from '../features/cards/packs/packs-reducer'
@@ -15,7 +15,7 @@ import { appReducer } from './appReducer'
 
 export const RootReducer = combineReducers({
   auth: authReducer,
-  registration: registrationReducer,
+  // registration: registrationReducer,
   app: appReducer,
   // login: loginReducer,
   // profile: profileReducer,

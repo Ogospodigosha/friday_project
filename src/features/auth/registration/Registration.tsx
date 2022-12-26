@@ -13,17 +13,15 @@ import { LoadingButtonForm } from '../../../components/LoadingButtonForm'
 import { PATH } from '../../../components/pages/Pages'
 import { PasswordInputForm } from '../../../components/PasswordInputForm'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
+import { RegistrationTC } from '../authReducer'
 
-import { RegistrationTC } from './registration-reducer'
-import s from './registration.module.css'
+import s from './Registration.module.css'
 import { validateRegistrationForm } from './validateRegistrationForm'
 
 export const Registration = () => {
   const dispatch = useAppDispatch()
   const IsLoading = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-  const IsRegistrated = useSelector<AppRootStateType, boolean>(
-    state => state.registration.IsRegistrated
-  )
+  const IsRegistrated = useSelector<AppRootStateType, boolean>(state => state.auth.IsRegistrated)
 
   const registerInitValues = { email: '', password: '', confirmPassword: '' }
 

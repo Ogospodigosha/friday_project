@@ -1,7 +1,7 @@
 import LoadingButton from '@mui/lab/LoadingButton'
 
 import { RequestStatusType } from '../app/appReducer'
-import s from '../features/auth/registration/registration.module.css'
+import s from '../features/auth/registration/Registration.module.css'
 
 type LoadingButtonTransitionPropsType = {
   IsLoading: RequestStatusType

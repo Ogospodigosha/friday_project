@@ -17,6 +17,8 @@ const initialState = {
   name: 'Ivan',
   email: 'test@mail.com',
   passwordChanged: false,
+  IsRegistrated: false,
+  // IsLoading: false,
 }
 
 export const authReducer = (
@@ -34,6 +36,8 @@ export const authReducer = (
       return { ...state, name: action.name }
     case 'auth/CHANGE-PASSWORD':
       return { ...state, passwordChanged: action.passwordChanged }
+    case 'auth/SET-REGISTRATION':
+      return { ...state, IsRegistrated: action.IsRegistrated }
     default:
       return state
   }
@@ -49,6 +53,8 @@ export const passwordChangedAC = (passwordChanged: boolean) =>
     type: 'auth/CHANGE-PASSWORD',
     passwordChanged,
   } as const)
+export const registratedAC = (IsRegistrated: boolean) =>
+  ({ type: 'auth/SET-REGISTRATION', IsRegistrated } as const)
 
 // thunks
 export const logInTC =
@@ -123,6 +129,21 @@ export const logOutTC = () => async (dispatch: AppThunkDispatch) => {
     console.log(err)
   }
 }
+export const RegistrationTC = (email: string, password: string) => (dispatch: Dispatch) => {
+  dispatch(setAppStatusAC('loading'))
+  authAPI
+    .registration(email, password)
+    .then(res => {
+      dispatch(registratedAC(true))
+      dispatch(setAppStatusAC('succeeded'))
+    })
+    .catch((err: AxiosError) => {
+      const error = err.response ? (err.response.data as { error: string }).error : err.message
+
+      dispatch(setAppErrorAC(error))
+      dispatch(setAppStatusAC('failed'))
+    })
+}
 export const createNewPasswordTC = (data: CreatePasswordDataType) => (dispatch: Dispatch) => {
   dispatch(setAppStatusAC('loading'))
 
@@ -146,4 +167,5 @@ export type AuthReducerActionType =
   | ReturnType<typeof setEmailAC>
   | ReturnType<typeof changeNameAC>
   | ReturnType<typeof passwordChangedAC>
+  | ReturnType<typeof registratedAC>
 type AuthInitialStateType = typeof initialState
