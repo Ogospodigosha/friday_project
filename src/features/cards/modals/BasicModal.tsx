@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { ReactNode } from 'react'
 
-import { IconButton, Typography } from '@mui/material'
+import { IconButton } from '@mui/material'
 import Modal from '@mui/material/Modal'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
@@ -37,7 +37,7 @@ export const BasicModal: React.FC<PropsType> = ({ children }) => {
     <Modal open={!!title} onClose={handleClose}>
       <div className={s.main}>
         <div className={s.header}>
-          <Typography className={s.title}>{title}</Typography>
+          <div className={s.title}>{title}</div>
           <IconButton onClick={handleClose}>
             <img src={closeIcon} alt="close" />
           </IconButton>
