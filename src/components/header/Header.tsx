@@ -2,8 +2,8 @@ import React from 'react'
 
 import { NavLink } from 'react-router-dom'
 
-import { useAppSelector } from '../../app/store'
 import defaultAva from '../../assets/img/avatarFish.png'
+import { useAppSelector } from '../../utils/hooks/useAppSelector'
 
 import logo from './assets/logo.svg'
 import styles from './Header.module.css'

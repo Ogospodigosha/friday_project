@@ -3,9 +3,10 @@ import React from 'react'
 import Button from '@mui/material/Button'
 import { useNavigate } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from '../../../app/store'
 import checkEmail from '../../../assets/icons/checkEmail.svg'
 import { PATH } from '../../../components/pages/Pages'
+import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
+import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { setSendAC } from '../forgotPassword/forgotPasswordReducer'
 
 import style from './checkEmail.module.css'

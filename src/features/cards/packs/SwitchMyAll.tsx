@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { ToggleButton, ToggleButtonGroup } from '@mui/material'
 import { useDispatch } from 'react-redux'
 
-import { useAppSelector } from '../../../app/store'
+import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 
 import { changeIsMyPack } from './IsMyPackReducer-reducer'
 

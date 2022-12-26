@@ -1,4 +1,3 @@
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { AnyAction, applyMiddleware, combineReducers, createStore } from 'redux'
 import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk'
 
@@ -40,13 +39,8 @@ store.subscribe(() => {
   window.localStorage.setItem('isMyPack1', JSON.stringify(store.getState().isMyPack.isMyPack1))
 })
 
-// create custom hook
-export const useAppDispatch = () => useDispatch<AppThunkDispatch>()
-export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
-
 // types
 export type AppRootStateType = ReturnType<typeof RootReducer>
-// all action type
 
 // universal thunk type
 export type AppThunk<ReturnType = void> = ThunkAction<

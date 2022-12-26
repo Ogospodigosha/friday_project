@@ -54,24 +54,6 @@ type RegistrationResponseType = {
     __v: number
   }
 }
-type MeResponseType = {
-  _id: string
-  email: string
-  rememberMe: boolean
-  isAdmin: boolean
-  name: string
-  verified: boolean
-  publicCardPacksCount: number
-  created: string
-  updated: string
-  __v: number
-  token: string
-  tokenDeathTime: string
-  avatar: string
-}
-type UpdateProfileType = {
-  updatedUser: ProfileType
-}
 export type LoginDataType = {
   email: string
   password: string

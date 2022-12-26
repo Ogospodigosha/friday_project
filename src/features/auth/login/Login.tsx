@@ -8,9 +8,10 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import { useFormik } from 'formik'
 import { Navigate, NavLink } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { LoadingButtonForm } from '../../../components/LoadingButtonForm'
 import { PATH } from '../../../components/pages/Pages'
+import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
+import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 
 import styles from './Login.module.css'
 import { logInTC } from './loginReducer'

@@ -19,12 +19,13 @@ import {
 import Button from '@mui/material/Button'
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { UniversalDoubleRange } from '../../../components/doubleRange/UniversalDoubleRange'
 import { UniversalSort } from '../../../components/filtration/UniversalSort'
 import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
-import { useDebounce } from '../../../utils/hookUseDebounce'
+import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
+import { useAppSelector } from '../../../utils/hooks/useAppSelector'
+import { useDebounce } from '../../../utils/hooks/useDebounce'
 import { style } from '../cards/BasicTable/styleSXForBasicTable'
 import { setCurrentPackIdAC } from '../cards/cardsReducer'
 
@@ -142,7 +143,6 @@ export const Packs = () => {
     dispatch(setCurrentPackIdAC(id))
     navigate(PATH.CARDS)
   }
-  const schoolHandler = (id: string) => {}
   const disabledSchool = (id: string) => {
     let currentPack = packs.find(el => el._id === id)
 

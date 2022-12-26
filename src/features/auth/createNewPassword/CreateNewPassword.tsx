@@ -5,10 +5,12 @@ import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { RequestStatusType } from '../../../app/appReducer'
-import { AppRootStateType, useAppDispatch, useAppSelector } from '../../../app/store'
+import { AppRootStateType } from '../../../app/store'
 import { LoadingButtonForm } from '../../../components/LoadingButtonForm'
 import { PATH } from '../../../components/pages/Pages'
 import { PasswordInputForm } from '../../../components/PasswordInputForm'
+import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
+import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import s from '../registration/registration.module.css'
 
 import style from './createNewPassword.module.css'

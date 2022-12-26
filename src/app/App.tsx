@@ -6,9 +6,10 @@ import { CircularProgress } from '@mui/material'
 import { ErrorSnackbar } from '../components/ErrorSnackbar'
 import { Header } from '../components/header/Header'
 import { Pages } from '../components/pages/Pages'
+import { useAppDispatch } from '../utils/hooks/useAppDispatch'
+import { useAppSelector } from '../utils/hooks/useAppSelector'
 
 import { authMeTC } from './appReducer'
-import { useAppDispatch, useAppSelector } from './store'
 
 function App() {
   const dispatch = useAppDispatch()
