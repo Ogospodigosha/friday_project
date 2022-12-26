@@ -25,6 +25,7 @@ import { UniversalSort } from '../../../components/filtration/UniversalSort'
 import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { useDebounce } from '../../../utils/hookUseDebounce'
+import { setCardsPackIdToLearnAC } from '../../learn/learnReducer'
 import { style } from '../cards/BasicTable/styleSXForBasicTable'
 import { setCurrentPackIdAC } from '../cards/cardsReducer'
 
@@ -137,11 +138,15 @@ export const Packs = () => {
     dispatch(setPackNameAC(e.currentTarget.value))
     searchParams.set('packName', e.currentTarget.value)
   }
-  const learningPackHandler = (id: string) => {
+  const showCardsHandler = (id: string) => {
     dispatch(setCurrentPackIdAC(id))
     navigate(PATH.CARDS)
   }
-  const schoolHandler = (id: string) => {}
+
+  const learningPackHandler = (id: string) => {
+    dispatch(setCardsPackIdToLearnAC(id))
+    navigate(PATH.LEARN)
+  }
   const disabledSchool = (id: string) => {
     let currentPack = packs.find(el => el._id === id)
 
@@ -223,7 +228,7 @@ export const Packs = () => {
                 <TableCell
                   sx={style.tableRowTableCell}
                   style={{ cursor: 'pointer' }}
-                  onClick={() => learningPackHandler(raw._id)}
+                  onClick={() => showCardsHandler(raw._id)}
                 >
                   {raw.name}
                 </TableCell>

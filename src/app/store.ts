@@ -10,6 +10,7 @@ import { registrationReducer } from '../features/auth/registration/registration-
 import { cardsReducer } from '../features/cards/cards/cardsReducer'
 import { IsMyPackReducer } from '../features/cards/packs/IsMyPackReducer-reducer'
 import { packsReducer } from '../features/cards/packs/packs-reducer'
+import { learnReducer } from '../features/learn/learnReducer'
 
 import { appReducer } from './appReducer'
 
@@ -23,6 +24,7 @@ export const RootReducer = combineReducers({
   cards: cardsReducer,
   packs: packsReducer,
   isMyPack: IsMyPackReducer,
+  learn: learnReducer,
 })
 
 export const store = legacy_createStore(RootReducer, applyMiddleware(thunk))
