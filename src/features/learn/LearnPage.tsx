@@ -4,8 +4,9 @@ import { Radio } from '@mui/icons-material'
 import Button from '@mui/material/Button'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
-import { useAppDispatch, useAppSelector } from '../../app/store'
 import { BackToPackList } from '../../components/common/BackToPackList/BackToPackList'
+import { useAppDispatch } from '../../utils/hooks/useAppDispatch'
+import { useAppSelector } from '../../utils/hooks/useAppSelector'
 
 import s from './LearnPage.module.css'
 import { getCardsToLearnTC, showAnswerOnQuestionAC } from './learnReducer'

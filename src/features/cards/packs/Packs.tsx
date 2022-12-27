@@ -43,6 +43,7 @@ import {
   setSortAC,
 } from './packs-reducer'
 import s from './packs.module.css'
+import { SwitchMyAll } from './SwitchMyAll'
 
 export const Packs = () => {
   const navigate = useNavigate()
@@ -197,7 +198,7 @@ export const Packs = () => {
             }}
           />
         </div>
-        <SwitchMyAll switchCallback={switchCallback} params={params} />
+        <SwitchMyAll switchCallback={switchCallback} />
         <UniversalDoubleRange min={min} max={max} />
         <div className={s.filter}>
           <IconButton onClick={deleteAllQwery}>

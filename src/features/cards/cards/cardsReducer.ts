@@ -129,6 +129,7 @@ export const getCardsTC =
     const sortCards = getState().cards.sortCardsValue
 
     try {
+      debugger
       const res = await cardsApi.getCards({
         cardsPack_id,
         page,

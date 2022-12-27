@@ -44,12 +44,13 @@ export const CardsMain = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
+    debugger
     dispatch(getCardsTC())
   }, [pageCount, page, useDebounce(searchValue), sort])
 
-  useEffect(() => {
-    !cardPacks?.length && dispatch(setCurrentCardsPageAC(page - 1))
-  }, [totalCount])
+  // useEffect(() => {
+  //   !cardPacks?.length && dispatch(setCurrentCardsPageAC(page - 1))
+  // }, [totalCount])
 
   const onChangePagination = (page: number, countPage: number) => {
     dispatch(setPageCardsCountAC(countPage))
