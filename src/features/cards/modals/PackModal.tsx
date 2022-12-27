@@ -4,6 +4,7 @@ import { useAppSelector } from '../../../app/store'
 
 import { BasicModal } from './BasicModal'
 import { CreatePackModalBody } from './createPackModalBody/CreatePackModalBody'
+import { DeleteModalBody } from './deleteModalBody/DeleteModalBody'
 import { UpdateModalBody } from './updateModalBody/UpdateModalBody'
 
 type PropType = {
@@ -18,6 +19,10 @@ export const PackModal = (props: PropType) => {
       {title === 'Edit pack' && props.dataForUpdateModal && (
         <UpdateModalBody dataForUpdateModal={props.dataForUpdateModal} />
       )}
+      {title === 'Delete pack' && props.dataForUpdateModal && (
+        <DeleteModalBody dataForUpdateModal={props.dataForUpdateModal} />
+      )}
+      {title === 'Add new card' && <div>asdfdsf</div>}
     </BasicModal>
   )
 }

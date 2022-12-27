@@ -30,7 +30,6 @@ import { setCurrentPackIdAC } from '../cards/cardsReducer'
 import { openModal } from '../modals/modalReducer'
 import { PackModal } from '../modals/PackModal'
 
-import { deletePackTC } from './deletePackTC'
 import { getPacksTC } from './getPacksTC'
 import { changeIsMyPack } from './IsMyPackReducer-reducer'
 import {
@@ -121,8 +120,9 @@ export const Packs = () => {
   const createPack = () => {
     dispatch(openModal('Add new Pack'))
   }
-  const deletePack = (id: string) => {
-    dispatch(deletePackTC(id))
+  const deletePack = (id: string, name: string) => {
+    setDataForUpdateModal({ id: id, name: name })
+    dispatch(openModal('Delete pack'))
   }
   const editPack = (id: string, name: string) => {
     setDataForUpdateModal({ id: id, name: name })
@@ -240,7 +240,7 @@ export const Packs = () => {
                       <IconButton onClick={() => editPack(raw._id, raw.name)}>
                         <EditIcon />
                       </IconButton>
-                      <IconButton onClick={() => deletePack(raw._id)}>
+                      <IconButton onClick={() => deletePack(raw._id, raw.name)}>
                         <DeleteIcon />
                       </IconButton>
                     </div>
