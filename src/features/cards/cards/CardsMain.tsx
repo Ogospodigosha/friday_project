@@ -4,10 +4,12 @@ import CloseIcon from '@mui/icons-material/Close'
 import SearchIcon from '@mui/icons-material/Search'
 import { IconButton, InputAdornment, TextField } from '@mui/material'
 import Button from '@mui/material/Button'
+import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../../app/store'
 import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
 import { CircularProgressSelf } from '../../../components/common/CircularProgress/CircularProgress'
+import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { useDebounce } from '../../../utils/hookUseDebounce'
 
@@ -37,6 +39,8 @@ export const CardsMain = () => {
   const loading = useAppSelector(state => state.app.status)
   const searchValue = useAppSelector(state => state.cards.filterSearchValue)
   const sort = useAppSelector(state => state.cards.sortCardsValue)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(getCardsTC())
@@ -70,7 +74,7 @@ export const CardsMain = () => {
   }
 
   const learnToPack = () => {
-    alert('your desire to learn is commendable')
+    navigate(PATH.LEARN)
   }
 
   const inputSearch = (e: ChangeEvent<HTMLInputElement>) => {

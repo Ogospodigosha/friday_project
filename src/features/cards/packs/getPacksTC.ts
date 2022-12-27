@@ -32,7 +32,6 @@ export const getPacksTC =
     }
 
     packsApi.getPacks(params).then(res => {
-      console.log(res.data)
       dispatch(setPacksAC(res.data))
       dispatch(setSortAC(params.sortPacks))
       dispatch(setPackNameAC(params.packName))

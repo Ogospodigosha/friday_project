@@ -65,13 +65,11 @@ export const Packs = () => {
   const params = Object.fromEntries(searchParams)
   let aligmentState = JSON.parse(localStorage.getItem('alignment') as string)
 
-  console.log(params)
   useEffect(() => {
     if (aligmentState === 'my' && !isMyPack) {
       dispatch(setIsMyPackAC(true))
     }
   }, [])
-  console.log('isMyPack', isMyPack)
   useEffect(() => {
     setSearchParams(params)
     dispatch(getPacksTC(params))
@@ -118,7 +116,7 @@ export const Packs = () => {
   }
   const data = {
     cardsPack: {
-      name: 'ffffffffffffffffffffffffffffffff sasfadsfas               sdafsdfasdfasdfasdfsdafasdfffffffffffffffffffffffffffffffffffffffffffff',
+      name: 'ffffffffffffffffffffffffffffffff sasfas               sdafsdfasdfasdfasdfsdafasdfffffffffffffffffffffffffffffffffffffffffffff',
     },
   }
   const createPack = () => {
@@ -253,7 +251,10 @@ export const Packs = () => {
                     </div>
                   ) : (
                     <div>
-                      <IconButton disabled={disabledSchool(raw._id)}>
+                      <IconButton
+                        disabled={disabledSchool(raw._id)}
+                        onClick={() => learningPackHandler(raw._id)}
+                      >
                         <SchoolIcon />
                       </IconButton>
                     </div>

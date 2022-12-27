@@ -12,7 +12,7 @@ const learnInitialState = {
   cardsTotalCount: 0,
   pageCount: 150,
   packUserId: '',
-  qustionsCompleted: false,
+  showAnswer: false,
   learnLoading: true,
 }
 
@@ -20,6 +20,7 @@ export type LearnStateType = typeof learnInitialState
 export type LearnActionsType =
   | ReturnType<typeof setCardsToLearnAC>
   | ReturnType<typeof setCardsPackIdToLearnAC>
+  | ReturnType<typeof showAnswerOnQuestionAC>
 export const learnReducer = (
   state: LearnStateType = learnInitialState,
   action: LearnActionsType
@@ -37,6 +38,12 @@ export const learnReducer = (
         ...state,
         cardsPack_id: action.cardsPack_id,
       }
+    case 'LEARN/SHOW-ANSWER': {
+      return {
+        ...state,
+        showAnswer: action.show,
+      }
+    }
     default:
       return state
   }
@@ -53,6 +60,13 @@ export const setCardsPackIdToLearnAC = (cardsPack_id: string) => {
   return {
     type: 'LEARN/SET-CARDS-PACK-ID',
     cardsPack_id,
+  } as const
+}
+
+export const showAnswerOnQuestionAC = (show: boolean) => {
+  return {
+    type: 'LEARN/SHOW-ANSWER',
+    show,
   } as const
 }
 
