@@ -1,5 +1,6 @@
 .spanBlock {
   display: flex;
+  align-items: center;
 }
 
 .span {

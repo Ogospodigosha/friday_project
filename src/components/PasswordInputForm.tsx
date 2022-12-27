@@ -5,7 +5,7 @@ import { IconButton, InputAdornment, TextField } from '@mui/material'
 import { useField } from 'formik'
 
 import { RequestStatusType } from '../app/appReducer'
-import s from '../features/auth/registration/registration.module.css'
+import s from '../features/auth/registration/Registration.module.css'
 
 type PasswordInputFormType = {
   label: string

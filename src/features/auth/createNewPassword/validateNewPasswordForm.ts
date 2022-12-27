@@ -1,4 +1,4 @@
-import { FormikErrorType } from '../registration/RegistrationTypes'
+import { FormikErrorType } from '../registration/validateRegistrationForm'
 
 export const validateNewPasswordForm = (values: FormikErrorType): FormikErrorType => {
   const errors: FormikErrorType = {}

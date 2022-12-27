@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import Slider from '@mui/material/Slider/Slider'
 import { useSearchParams } from 'react-router-dom'
 
-import { useAppDispatch } from '../../app/store'
 import { setLocalRangeAC } from '../../features/cards/packs/packs-reducer'
+import { useAppDispatch } from '../../utils/hooks/useAppDispatch'
 
 import s from './UniversalDoubleRange.module.css'
 
