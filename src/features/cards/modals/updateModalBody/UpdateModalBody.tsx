@@ -5,7 +5,7 @@ import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
-import { useAppDispatch } from '../../../../app/store'
+import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
 import { editPackTC } from '../../packs/editPackTC'
 import s from '../createPackModalBody/createPackModalBody.module.css'
 import { openModal } from '../modalReducer'

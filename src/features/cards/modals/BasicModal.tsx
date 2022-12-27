@@ -4,8 +4,9 @@ import { ReactNode } from 'react'
 import { IconButton } from '@mui/material'
 import Modal from '@mui/material/Modal'
 
-import { useAppDispatch, useAppSelector } from '../../../app/store'
 import closeIcon from '../../../assets/icons/iconClose.svg'
+import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
+import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 
 import { openModal } from './modalReducer'
 import s from './packsModal.module.css'

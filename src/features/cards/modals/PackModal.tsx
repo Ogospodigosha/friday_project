@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useAppSelector } from '../../../app/store'
+import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 
 import { BasicModal } from './BasicModal'
 import { CreatePackModalBody } from './createPackModalBody/CreatePackModalBody'

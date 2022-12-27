@@ -1,5 +1,3 @@
-import { AnyAction, applyMiddleware, combineReducers, createStore } from 'redux'
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { AnyAction, applyMiddleware, combineReducers, legacy_createStore } from 'redux'
 import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk'
 

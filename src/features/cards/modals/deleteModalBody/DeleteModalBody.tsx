@@ -2,7 +2,7 @@ import React from 'react'
 
 import Button from '@mui/material/Button'
 
-import { useAppDispatch } from '../../../../app/store'
+import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
 import { deletePackTC } from '../../packs/deletePackTC'
 import { openModal } from '../modalReducer'
 
