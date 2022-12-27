@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios'
+import { AxiosError } from 'axios'
 
 import {
   cardsApi,
@@ -7,8 +7,9 @@ import {
   GetCardsResponseType,
   UpdateCardType,
 } from '../../../api/CardsApi'
-import { setAppErrorAC, setAppStatusAC } from '../../../app/appReducer'
+import { setAppStatusAC } from '../../../app/appReducer'
 import { AppRootStateType, AppThunkDispatch } from '../../../app/store'
+import { handleError } from '../../../utils/error-utils'
 
 const cardsInitialState = {
   cards: [] as CardType[] | null,
@@ -141,15 +142,7 @@ export const getCardsTC =
     } catch (e) {
       const err = e as Error | AxiosError<{ error: string }>
 
-      // dispatch(setAppStatusAC('failed'))
-      if (axios.isAxiosError(err)) {
-        const error = err.response?.data ? err.response.data.error : err.message
-
-        dispatch(setAppStatusAC('failed'))
-        dispatch(setAppErrorAC(error))
-      } else {
-        dispatch(setAppErrorAC(`Native error ${err.message}`))
-      }
+      handleError(err, dispatch)
     }
   }
 
@@ -158,8 +151,10 @@ export const createNewCardTC =
     try {
       await cardsApi.addCard(data)
       dispatch(getCardsTC())
-    } catch (err) {
-      console.log(err)
+    } catch (e) {
+      const err = e as Error | AxiosError<{ error: string }>
+
+      handleError(err, dispatch)
     }
   }
 
@@ -169,8 +164,10 @@ export const deleteCardTC = (id: string) => async (dispatch: AppThunkDispatch) =
     await cardsApi.deleteCard(id)
     dispatch(getCardsTC())
     dispatch(setAppStatusAC('succeeded'))
-  } catch (err) {
-    console.log(err)
+  } catch (e) {
+    const err = e as Error | AxiosError<{ error: string }>
+
+    handleError(err, dispatch)
   }
 }
 
@@ -180,7 +177,9 @@ export const updateCardTC = (data: UpdateCardType) => async (dispatch: AppThunkD
     await cardsApi.updateCard(data)
     dispatch(getCardsTC())
     dispatch(setAppStatusAC('succeeded'))
-  } catch (err) {
-    console.log(err)
+  } catch (e) {
+    const err = e as Error | AxiosError<{ error: string }>
+
+    handleError(err, dispatch)
   }
 }

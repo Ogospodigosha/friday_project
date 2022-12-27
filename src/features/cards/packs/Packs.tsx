@@ -26,6 +26,7 @@ import { UniversalPagination } from '../../../components/pagination/UniversalPag
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { useDebounce } from '../../../utils/hooks/useDebounce'
+import { setCardsPackIdToLearnAC } from '../../learn/learnReducer'
 import { style } from '../cards/BasicTable/styleSXForBasicTable'
 import { setCurrentPackIdAC } from '../cards/cardsReducer'
 import { openModal } from '../modals/modalReducer'
@@ -65,7 +66,6 @@ export const Packs = () => {
   let aligmentState = JSON.parse(localStorage.getItem('alignment') as string)
   const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '' })
 
-  console.log(params)
   useEffect(() => {
     if (aligmentState === 'my' && isMyPack1 === 'false') {
       dispatch(changeIsMyPack('true'))
@@ -136,9 +136,14 @@ export const Packs = () => {
     dispatch(setPackNameAC(e.currentTarget.value))
     searchParams.set('packName', e.currentTarget.value)
   }
-  const learningPackHandler = (id: string) => {
+  const showCardsHandler = (id: string) => {
     dispatch(setCurrentPackIdAC(id))
     navigate(PATH.CARDS)
+  }
+
+  const learningPackHandler = (id: string) => {
+    dispatch(setCardsPackIdToLearnAC(id))
+    navigate(PATH.LEARN)
   }
   const disabledSchool = (id: string) => {
     let currentPack = packs.find(el => el._id === id)
@@ -192,7 +197,7 @@ export const Packs = () => {
             }}
           />
         </div>
-        {/*<SwitchMyAll switchCallback={switchCallback} />*/}
+        <SwitchMyAll switchCallback={switchCallback} params={params} />
         <UniversalDoubleRange min={min} max={max} />
         <div className={s.filter}>
           <IconButton onClick={deleteAllQwery}>
@@ -221,7 +226,7 @@ export const Packs = () => {
                 <TableCell
                   sx={style.tableRowTableCell}
                   style={{ cursor: 'pointer' }}
-                  onClick={() => learningPackHandler(raw._id)}
+                  onClick={() => showCardsHandler(raw._id)}
                 >
                   {raw.name}
                 </TableCell>
@@ -246,7 +251,10 @@ export const Packs = () => {
                     </div>
                   ) : (
                     <div>
-                      <IconButton disabled={disabledSchool(raw._id)}>
+                      <IconButton
+                        disabled={disabledSchool(raw._id)}
+                        onClick={() => learningPackHandler(raw._id)}
+                      >
                         <SchoolIcon />
                       </IconButton>
                     </div>

@@ -6,6 +6,7 @@ import { cardsReducer } from '../features/cards/cards/cardsReducer'
 import { modalReducer } from '../features/cards/modals/modalReducer'
 import { IsMyPackReducer } from '../features/cards/packs/IsMyPackReducer-reducer'
 import { packsReducer } from '../features/cards/packs/packs-reducer'
+import { learnReducer } from '../features/learn/learnReducer'
 
 import { appReducer } from './appReducer'
 
@@ -16,6 +17,7 @@ export const RootReducer = combineReducers({
   packs: packsReducer,
   isMyPack: IsMyPackReducer,
   modal: modalReducer,
+  learn: learnReducer,
 })
 let preloadedState
 const persistedIsMyPack1 = localStorage.getItem('isMyPack1')

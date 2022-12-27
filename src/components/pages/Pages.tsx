@@ -8,6 +8,7 @@ import { Profile } from '../../features/auth/profile/Profile'
 import { Registration } from '../../features/auth/registration/Registration'
 import { CardsMain } from '../../features/cards/cards/CardsMain'
 import { Packs } from '../../features/cards/packs/Packs'
+import { LearnPage } from '../../features/learn/LearnPage'
 
 import { Error404 } from './error404/Error404'
 
@@ -20,6 +21,7 @@ export const PATH = {
   CHECK_EMAIL: '/check_email',
   PACKS: '/packs',
   CARDS: '/cards',
+  LEARN: '/learn',
 }
 export const Pages = () => {
   return (
@@ -34,6 +36,7 @@ export const Pages = () => {
       <Route path={PATH.CREATE_NEW_PASSWORD} element={<CreateNewPassword />}>
         <Route path=":token" element={<CreateNewPassword />} />
       </Route>
+      <Route path={PATH.LEARN} element={<LearnPage />} />
       <Route path={'*'} element={<Error404 />} />
       <Route path={PATH.CHECK_EMAIL} element={<CheckEmail />} />
     </Routes>
