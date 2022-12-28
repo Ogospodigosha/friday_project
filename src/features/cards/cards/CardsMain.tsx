@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent, useCallback, useEffect } from 'react'
 
 import Button from '@mui/material/Button'
 import { useNavigate, useSearchParams } from 'react-router-dom'
@@ -40,18 +40,12 @@ export const CardsMain = () => {
   const navigate = useNavigate()
 
   console.log(params)
-  useEffect(() => {
-    if (cardsPack_id) {
-      searchParams.set('cardsPack_id', cardsPack_id)
-    } else {
-      // @ts-ignore
-      searchParams.get('cardsPack_id')
-    }
-    setSearchParams(params)
-    console.log(params)
-  }, [])
+
   useEffect(() => {
     debugger
+    if (cardsPack_id) {
+      searchParams.set('cardsPack_id', cardsPack_id)
+    }
     console.log(params)
     setSearchParams(params)
     dispatch(getCardsTC(params))
@@ -61,18 +55,18 @@ export const CardsMain = () => {
   //   !cardPacks?.length && dispatch(setCurrentCardsPageAC(page - 1))
   // }, [totalCount])
 
-  const onChangePagination = (page: number, countPage: number) => {
+  const onChangePagination = useCallback((page: number, countPage: number) => {
     dispatch(setPageCardsCountAC(countPage))
     dispatch(setCurrentCardsPageAC(page))
-  }
-  const addNewCard = () => {
+  }, [])
+  const addNewCard = useCallback(() => {
     dispatch(createNewCardTC({ cardsPack_id, question: 'question1', answer: 'answer' }))
-  }
-  const deleteCard = (cardId: string) => {
+  }, [])
+  const deleteCard = useCallback((cardId: string) => {
     dispatch(deleteCardTC(cardId))
-  }
+  }, [])
 
-  const updateCard = (cardId: string) => {
+  const updateCard = useCallback((cardId: string) => {
     dispatch(
       updateCardTC({
         _id: cardId,
@@ -82,15 +76,15 @@ export const CardsMain = () => {
           'I know itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
       })
     )
-  }
+  }, [])
 
   const learnToPack = () => {
     navigate(PATH.LEARN)
   }
 
-  const inputSearch = (e: ChangeEvent<HTMLInputElement>) => {
+  const inputSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setFilterCardsFromInputSearchAC(e.currentTarget.value))
-  }
+  }, [])
 
   const addNewCardOrLearnCards =
     myId === currantPackUserId ? (

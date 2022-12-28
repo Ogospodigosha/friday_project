@@ -131,6 +131,7 @@ export const getCardsTC =
     const cardQuestion = getState().cards.filterSearchValue
     const sortCards = getState().cards.sortCardsValue
 
+    if (paramsForSend.cardsPack_id === undefined) return
     try {
       debugger
       const res = await cardsApi.getCards({

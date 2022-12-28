@@ -62,7 +62,7 @@ export const Packs = () => {
   const max = useAppSelector(state => state.packs.packs.maxCardsCount)
   const localRange = useAppSelector(state => state.packs.localRange)
   const isMyPack1 = useAppSelector(state => state.isMyPack.isMyPack1)
-
+  let cardsPack_id = useAppSelector(state => state.cards.currentPackId)
   const params = Object.fromEntries(searchParams)
   let aligmentState = JSON.parse(localStorage.getItem('alignment') as string)
   const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '' })
