@@ -35,9 +35,6 @@ export const getPacksTC =
   (paramsForSend: ParamsForGetPacks = {}): AppThunk =>
   dispatch => {
     packsApi.getPacks(paramsForSend).then(res => {
-      console.log(res.data)
       dispatch(setPacksAC(res.data))
-      // dispatch(setSortAC(params.sortPacks))
-      // dispatch(setPackNameAC(params.packName))
     })
   }

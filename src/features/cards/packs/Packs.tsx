@@ -4,25 +4,23 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff'
 import SchoolIcon from '@mui/icons-material/School'
-import SearchIcon from '@mui/icons-material/Search'
 import {
   IconButton,
-  InputAdornment,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
-  TextField,
 } from '@mui/material'
 import Button from '@mui/material/Button'
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 
-import { UniversalSort } from '../../../components/filtration/UniversalSort'
+import { Filtration } from '../../../components/filtration/Filtration'
 import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { RangeSlider } from '../../../components/rangeSliger/RangeSlider'
+import { Search } from '../../../components/Search/Search'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { useDebounce } from '../../../utils/hooks/useDebounce'
@@ -51,19 +49,14 @@ export const Packs = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const packs = useAppSelector(state => state.packs.packs.cardPacks)
-  const page = useAppSelector(state => state.packs.packs.page)
-  const pageCount = useAppSelector(state => state.packs.packs.pageCount)
   const totalCount = useAppSelector(state => state.packs.packs.cardPacksTotalCount)
   const sortPacks = useAppSelector(state => state.packs.sort)
-  const packName = useAppSelector(state => state.packs.packName)
   let user_id = useAppSelector(state => state.app.user._id)
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
   const min = useAppSelector(state => state.packs.packs.minCardsCount)
   const max = useAppSelector(state => state.packs.packs.maxCardsCount)
-  const localRange = useAppSelector(state => state.packs.localRange)
   const isMyPack1 = useAppSelector(state => state.isMyPack.isMyPack1)
 
-  const params = Object.fromEntries(searchParams)
   let aligmentState = JSON.parse(localStorage.getItem('alignment') as string)
   const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '' })
 
@@ -92,6 +85,9 @@ export const Packs = () => {
       min: +params.min || undefined,
       max: +params.max || undefined,
       sortPacks: params.sortPacks || undefined,
+      page: +params.page || undefined,
+      pageCount: +params.pageCount || 5,
+      packName: params.packName || undefined,
     }
 
     dispatch(getPacksTC(sendParams))
@@ -112,13 +108,6 @@ export const Packs = () => {
     window.localStorage.setItem('alignment', JSON.stringify('all'))
     dispatch(changeIsMyPack('false'))
   }
-
-  const onChangePagination = (newPage: number, newCountForPage: number) => {
-    dispatch(setPageAC(newPage))
-    dispatch(setPageCountAC(newCountForPage))
-    searchParams.set('page', newPage.toString())
-    searchParams.set('pageCount', newCountForPage.toString())
-  }
   const editableDate = (updated: string) => {
     let newUpdated = updated.split('T')[0].split('-')
     let years = newUpdated.shift()
@@ -129,7 +118,6 @@ export const Packs = () => {
 
     return newUpdated.join('.')
   }
-  const openModalEditPack = (id: string) => {}
   const createPack = () => {
     dispatch(openModal('Add new Pack'))
   }
@@ -166,10 +154,6 @@ export const Packs = () => {
       searchParams.delete('user_id')
     }
   }
-  // const onChangeSortHandler = (newSort: string) => {
-  //   dispatch(setSortAC(newSort))
-  //   searchParams.set('sortPacks', newSort)
-  // }
 
   if (!isLoggedIn) {
     return <Navigate to={'/login'} />
@@ -194,22 +178,23 @@ export const Packs = () => {
         <span>Search</span>
       </div>
       <div className={s.navigation}>
-        <div style={{ marginRight: '20px' }}>
-          <TextField
-            className={s.input}
-            size="small"
-            value={packName}
-            onChange={onSearchInputHandler}
-            placeholder={'Provide your text'}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position={'start'}>
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </div>
+        {/*<div style={{ marginRight: '20px' }}>*/}
+        {/*  <TextField*/}
+        {/*    className={s.input}*/}
+        {/*    size="small"*/}
+        {/*    value={packName}*/}
+        {/*    onChange={onSearchInputHandler}*/}
+        {/*    placeholder={'Provide your text'}*/}
+        {/*    InputProps={{*/}
+        {/*      startAdornment: (*/}
+        {/*        <InputAdornment position={'start'}>*/}
+        {/*          <SearchIcon />*/}
+        {/*        </InputAdornment>*/}
+        {/*      ),*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*</div>*/}
+        <Search />
         <SwitchMyAll switchCallback={switchCallback} />
         <RangeSlider min={min} max={max} />
         <div className={s.filter}>
@@ -226,7 +211,7 @@ export const Packs = () => {
               <TableCell>Cards</TableCell>
               <TableCell>
                 Last Updated
-                <UniversalSort sortPacks={sortPacks} />
+                <Filtration sortPacks={sortPacks} />
               </TableCell>
               <TableCell>Created by</TableCell>
               <TableCell>Actions</TableCell>
@@ -280,9 +265,9 @@ export const Packs = () => {
       </TableContainer>
       <UniversalPagination
         totalCount={totalCount}
-        page={page}
-        pageCount={pageCount}
-        onChange={onChangePagination}
+        // page={page}
+        // pageCount={pageCount}
+        // onChange={onChangePagination}
       />
     </div>
   )

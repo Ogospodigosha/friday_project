@@ -7,10 +7,6 @@ import { useSearchParams } from 'react-router-dom'
 import { setSortAC } from '../../features/cards/packs/packs-reducer'
 import { useAppDispatch } from '../../utils/hooks/useAppDispatch'
 
-// const onChangeSortHandler = (newSort: string) => {
-//   dispatch(setSortAC(newSort))
-// }
-
 type PropsType = {
   sortPacks: string
 }
@@ -18,7 +14,7 @@ export const changeSort = (sort: string, up: string, down: string) => {
   return sort === up ? down : up
 }
 
-export const UniversalSort = ({ sortPacks }: PropsType) => {
+export const Filtration = ({ sortPacks }: PropsType) => {
   const [searchParams, setSearchParams] = useSearchParams()
   const dispatch = useAppDispatch()
 

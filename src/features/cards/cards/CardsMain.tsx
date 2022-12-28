@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom'
 import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
 import { CircularProgressSelf } from '../../../components/common/CircularProgress/CircularProgress'
 import { PATH } from '../../../components/pages/Pages'
-import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { useDebounce } from '../../../utils/hooks/useDebounce'
@@ -130,14 +129,14 @@ export const CardsMain = () => {
         />
       </div>
       <BasicTable deleteCardOnClick={deleteCard} updateCardOnClick={updateCard} />
-      {cardPacks?.length !== 0 ? (
-        <UniversalPagination
-          page={page}
-          pageCount={pageCount}
-          totalCount={totalCount}
-          onChange={onChangePagination}
-        />
-      ) : null}
+      {/*{cardPacks?.length !== 0 ? (*/}
+      {/*  <UniversalPagination*/}
+      {/*    page={page}*/}
+      {/*    pageCount={pageCount}*/}
+      {/*    totalCount={totalCount}*/}
+      {/*    onChange={onChangePagination}*/}
+      {/*  />*/}
+      {/*) : null}*/}
     </>
   )
 }

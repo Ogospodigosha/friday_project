@@ -3,9 +3,6 @@ import React, { useEffect, useState } from 'react'
 import Slider from '@mui/material/Slider/Slider'
 import { useSearchParams } from 'react-router-dom'
 
-import { setLocalRangeAC } from '../../features/cards/packs/packs-reducer'
-import { useAppDispatch } from '../../utils/hooks/useAppDispatch'
-
 import s from './RangeSlider.module.css'
 
 type PropsType = {
@@ -15,7 +12,6 @@ type PropsType = {
 
 export const RangeSlider = ({ min, max }: PropsType) => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const dispatch = useAppDispatch()
 
   const [value, setValue] = useState<Array<number>>([
     Number(searchParams.get('min')) || min,
@@ -39,7 +35,6 @@ export const RangeSlider = ({ min, max }: PropsType) => {
       ...Object.fromEntries(searchParams),
       ...queryParams,
     })
-    dispatch(setLocalRangeAC([min, max]))
   }
 
   useEffect(() => {
