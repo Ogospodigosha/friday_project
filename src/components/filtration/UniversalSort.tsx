@@ -1,27 +1,40 @@
-import downIcon from './icons/down.svg'
-import upIcon from './icons/up.svg'
+import { useEffect, useState } from 'react'
+
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
+import { useSearchParams } from 'react-router-dom'
+
+import { setSortAC } from '../../features/cards/packs/packs-reducer'
+import { useAppDispatch } from '../../utils/hooks/useAppDispatch'
+
+// const onChangeSortHandler = (newSort: string) => {
+//   dispatch(setSortAC(newSort))
+// }
 
 type PropsType = {
-  sort: string
-  onClick: (newSort: string) => void
-  value: string
+  sortPacks: string
 }
-export const change = (sort: string, up: string, down: string) => {
+export const changeSort = (sort: string, up: string, down: string) => {
   return sort === up ? down : up
 }
 
-export const UniversalSort = (props: PropsType) => {
-  const up = '0' + props.value
-  const down = '1' + props.value
+export const UniversalSort = ({ sortPacks }: PropsType) => {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const dispatch = useAppDispatch()
 
-  const icon = props.sort === up ? upIcon : downIcon
+  const [value, setValue] = useState(searchParams.get('sortPacks') || sortPacks)
   const onClickHandler = () => {
-    props.onClick(change(props.sort, up, down))
+    setValue(prev => changeSort(prev, '0updated', '1updated'))
   }
 
+  useEffect(() => {
+    setSearchParams({ ...Object.fromEntries(searchParams), sortPacks: value })
+    dispatch(setSortAC(value))
+  }, [value])
+
   return (
-    <span onClick={onClickHandler}>
-      <img src={icon} alt={'up'} />
-    </span>
+    <div onClick={onClickHandler}>
+      {sortPacks === '1updated' ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
+    </div>
   )
 }

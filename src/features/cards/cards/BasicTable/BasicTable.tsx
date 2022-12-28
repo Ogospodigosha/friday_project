@@ -13,7 +13,6 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
-import { UniversalSort } from '../../../../components/filtration/UniversalSort'
 import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../../utils/hooks/useAppSelector'
 import { setSortCardsValueAC } from '../cardsReducer'
@@ -53,7 +52,7 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
             </TableCell>
             <TableCell sx={style.tableHeadTableCell} align="right">
               Last Updated
-              <UniversalSort sort={sort} onClick={onChangeSort} value={'grade'} />
+              {/*<UniversalSort sort={sort} onClick={onChangeSort} value={'grade'} />*/}
             </TableCell>
             <TableCell sx={style.tableHeadTableCell} align="center">
               Grade

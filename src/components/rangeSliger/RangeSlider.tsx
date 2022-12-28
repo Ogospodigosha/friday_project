@@ -6,14 +6,14 @@ import { useSearchParams } from 'react-router-dom'
 import { setLocalRangeAC } from '../../features/cards/packs/packs-reducer'
 import { useAppDispatch } from '../../utils/hooks/useAppDispatch'
 
-import s from './UniversalDoubleRange.module.css'
+import s from './RangeSlider.module.css'
 
 type PropsType = {
   min: number
   max: number
 }
 
-export const UniversalDoubleRange = ({ min, max }: PropsType) => {
+export const RangeSlider = ({ min, max }: PropsType) => {
   const [searchParams, setSearchParams] = useSearchParams()
   const dispatch = useAppDispatch()
 
@@ -29,13 +29,11 @@ export const UniversalDoubleRange = ({ min, max }: PropsType) => {
   const onChangeCommittedHandler = () => {
     const queryParams: { min?: string; max?: string } = {}
 
-    // if (value[0] !== min)
-    queryParams.min = String(value[0])
-    // else searchParams.delete('min')
-    //
-    // if (value[1] !== max)
-    queryParams.max = String(value[1])
-    // else searchParams.delete('max')
+    if (value[0] !== min) queryParams.min = String(value[0])
+    else searchParams.delete('min')
+
+    if (value[1] !== max) queryParams.max = String(value[1])
+    else searchParams.delete('max')
 
     setSearchParams({
       ...Object.fromEntries(searchParams),

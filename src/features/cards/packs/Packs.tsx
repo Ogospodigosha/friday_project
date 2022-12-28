@@ -19,10 +19,10 @@ import {
 import Button from '@mui/material/Button'
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 
-import { UniversalDoubleRange } from '../../../components/doubleRange/UniversalDoubleRange'
 import { UniversalSort } from '../../../components/filtration/UniversalSort'
 import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
+import { RangeSlider } from '../../../components/rangeSliger/RangeSlider'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { useDebounce } from '../../../utils/hooks/useDebounce'
@@ -67,23 +67,35 @@ export const Packs = () => {
   let aligmentState = JSON.parse(localStorage.getItem('alignment') as string)
   const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '' })
 
+  // useEffect(() => {
+  //   if (aligmentState === 'my' && isMyPack1 === 'false') {
+  //     dispatch(changeIsMyPack('true'))
+  //   }
+  // }, [])
+  // useEffect(() => {
+  //   setSearchParams(params)
+  //   dispatch(getPacksTC(params))
+  // }, [
+  //   useDebounce(localRange),
+  //   localStorage.getItem('isMyPack1'),
+  //   page,
+  //   pageCount,
+  //   sortPacks,
+  //   useDebounce(packName),
+  //   user_id,
+  // ])
+
   useEffect(() => {
-    if (aligmentState === 'my' && isMyPack1 === 'false') {
-      dispatch(changeIsMyPack('true'))
+    const params = Object.fromEntries(searchParams)
+
+    const sendParams = {
+      min: +params.min || undefined,
+      max: +params.max || undefined,
+      sortPacks: params.sortPacks || undefined,
     }
-  }, [])
-  useEffect(() => {
-    setSearchParams(params)
-    dispatch(getPacksTC(params))
-  }, [
-    useDebounce(localRange),
-    localStorage.getItem('isMyPack1'),
-    page,
-    pageCount,
-    sortPacks,
-    useDebounce(packName),
-    user_id,
-  ])
+
+    dispatch(getPacksTC(sendParams))
+  }, [useDebounce(searchParams)])
 
   // useEffect(() => {
   //   !packs?.length && dispatch(setPageAC(page - 1)) && searchParams.delete('page')
@@ -129,10 +141,6 @@ export const Packs = () => {
     setDataForUpdateModal({ id: id, name: name })
     dispatch(openModal('Edit pack'))
   }
-  const onChangeSortHandler = (newSort: string) => {
-    dispatch(setSortAC(newSort))
-    searchParams.set('sortPacks', newSort)
-  }
   const onSearchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setPackNameAC(e.currentTarget.value))
     searchParams.set('packName', e.currentTarget.value)
@@ -158,6 +166,10 @@ export const Packs = () => {
       searchParams.delete('user_id')
     }
   }
+  // const onChangeSortHandler = (newSort: string) => {
+  //   dispatch(setSortAC(newSort))
+  //   searchParams.set('sortPacks', newSort)
+  // }
 
   if (!isLoggedIn) {
     return <Navigate to={'/login'} />
@@ -199,7 +211,7 @@ export const Packs = () => {
           />
         </div>
         <SwitchMyAll switchCallback={switchCallback} />
-        <UniversalDoubleRange min={min} max={max} />
+        <RangeSlider min={min} max={max} />
         <div className={s.filter}>
           <IconButton onClick={deleteAllQwery}>
             <FilterAltOffIcon />
@@ -214,7 +226,7 @@ export const Packs = () => {
               <TableCell>Cards</TableCell>
               <TableCell>
                 Last Updated
-                <UniversalSort sort={sortPacks} value={'updated'} onClick={onChangeSortHandler} />
+                <UniversalSort sortPacks={sortPacks} />
               </TableCell>
               <TableCell>Created by</TableCell>
               <TableCell>Actions</TableCell>
