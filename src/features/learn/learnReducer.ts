@@ -56,7 +56,7 @@ export const learnReducer = (
     case 'LEARN/RESET-QUESTIONS': {
       return {
         ...state,
-        cards: null as CardType[] | null,
+        cards: null,
         cardsTotalCount: 0,
         pageCount: 150,
         packUserId: '',

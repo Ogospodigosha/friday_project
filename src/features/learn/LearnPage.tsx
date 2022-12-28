@@ -6,7 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
-import { useNavigate } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import { CardType } from '../../api/CardsApi'
 import { setAppStatusAC } from '../../app/appReducer'
@@ -24,12 +24,13 @@ import {
   questionsAnsweredAC,
   resetQuestionsAC,
   setCardGradeTC,
+  setCardsPackIdToLearnAC,
 } from './learnReducer'
 
 const initialCard = {
   _id: '',
-  answer: 'initial answer',
-  question: 'initial question',
+  answer: 'answer',
+  question: 'question',
   cardsPack_id: '',
   grade: 0,
   shots: 0,
@@ -44,22 +45,31 @@ export const LearnPage = () => {
   const cardsPack_id = useAppSelector(state => state.learn.cardsPack_id)
   const cards = useAppSelector(state => state.learn.cards)
   const packName = useAppSelector(state => state.learn.packName)
-  const cardPacks = useAppSelector(state => state.packs.packs)
   const questionsAnswered = useAppSelector(state => state.learn.questionsAnswered)
   const loading = useAppSelector(state => state.app.status)
 
-  const navigate = useNavigate()
-
   const [hideAnswer, setHideAnswer] = useState(true)
   const [selectedGrade, setSelectedGrade] = useState(1)
+  const [urlParams, setUrlParams] = useSearchParams()
 
   const [card, setCard] = useState<CardType>(initialCard)
 
   useEffect(() => {
-    if (cardsPack_id != '') {
-      dispatch(getCardsToLearnTC())
-      dispatch(questionsAnsweredAC(false))
+    const currantPackIdFromUrl = urlParams.get('currentPackId')
+
+    if (currantPackIdFromUrl != null) {
+      dispatch(setCardsPackIdToLearnAC(currantPackIdFromUrl))
     }
+  }, [])
+
+  useEffect(() => {
+    if (cardsPack_id != '') {
+      setUrlParams({
+        currentPackId: `${cardsPack_id}`,
+      })
+    }
+    dispatch(getCardsToLearnTC())
+    dispatch(questionsAnsweredAC(false))
   }, [])
 
   useEffect(() => {
@@ -72,6 +82,8 @@ export const LearnPage = () => {
 
     setSelectedGrade(Number(grade))
   }
+
+  console.log(cards)
 
   const nextQuestion = async () => {
     setHideAnswer(true)
@@ -92,6 +104,7 @@ export const LearnPage = () => {
   const backToCurrentCardsHandler = () => {
     dispatch(resetQuestionsAC())
     dispatch(setCurrentPackIdAC(cardsPack_id))
+    dispatch(getCardsToLearnTC())
   }
 
   if (questionsAnswered)

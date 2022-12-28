@@ -74,10 +74,12 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
               <TableCell sx={style.tableRowTableCell} align="right">
                 {convertDataFormat(card.updated)}
               </TableCell>
-              <TableCell align="center" sx={style.tableRowStars}>
+              <TableCell align="center">
                 <Rating
-                  name="half-rating"
-                  defaultValue={card.grade}
+                  sx={style.tableRowStars}
+                  name="read-only"
+                  readOnly
+                  value={card.grade}
                   precision={0.2}
                   size="medium"
                 />
