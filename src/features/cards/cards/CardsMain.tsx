@@ -44,7 +44,6 @@ export const CardsMain = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    debugger
     dispatch(getCardsTC())
   }, [pageCount, page, useDebounce(searchValue), sort])
 
@@ -92,7 +91,7 @@ export const CardsMain = () => {
       <Button
         variant="contained"
         sx={style.addNewCard}
-        onClick={learnToPack}
+        onClick={() => navigate(PATH.LEARN)}
         disabled={cardPacks?.length === 0}
       >
         <span className={s.btnTitle}>Learn to pack</span>

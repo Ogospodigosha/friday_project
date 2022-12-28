@@ -8,11 +8,11 @@ import { handleError } from '../../utils/error-utils'
 
 const learnInitialState = {
   cardsPack_id: '',
-  cards: [] as CardType[] | null,
+  cards: null as CardType[] | null,
   cardsTotalCount: 0,
   pageCount: 150,
   packUserId: '',
-  showAnswer: false,
+  questionsAnswered: false,
   learnLoading: true,
 }
 
@@ -20,7 +20,8 @@ export type LearnStateType = typeof learnInitialState
 export type LearnActionsType =
   | ReturnType<typeof setCardsToLearnAC>
   | ReturnType<typeof setCardsPackIdToLearnAC>
-  | ReturnType<typeof showAnswerOnQuestionAC>
+  | ReturnType<typeof questionsAnsweredAC>
+  | ReturnType<typeof deleteStudiedCardAC>
 export const learnReducer = (
   state: LearnStateType = learnInitialState,
   action: LearnActionsType
@@ -33,15 +34,20 @@ export const learnReducer = (
         cardsTotalCount: action.data.cardsTotalCount,
         packUserId: action.data.packUserId,
       }
+    case 'LEARN/DELETED-STUDIED-CARD':
+      return {
+        ...state,
+        cards: action.cards,
+      }
     case 'LEARN/SET-CARDS-PACK-ID':
       return {
         ...state,
         cardsPack_id: action.cardsPack_id,
       }
-    case 'LEARN/SHOW-ANSWER': {
+    case 'LEARN/QUESTIONS-ANSWERED': {
       return {
         ...state,
-        showAnswer: action.show,
+        questionsAnswered: action.answered,
       }
     }
     default:
@@ -56,6 +62,12 @@ export const setCardsToLearnAC = (data: GetCardsResponseType) => {
   } as const
 }
 
+export const deleteStudiedCardAC = (cards: CardType[]) => {
+  return {
+    type: 'LEARN/DELETED-STUDIED-CARD',
+    cards,
+  } as const
+}
 export const setCardsPackIdToLearnAC = (cardsPack_id: string) => {
   return {
     type: 'LEARN/SET-CARDS-PACK-ID',
@@ -63,10 +75,10 @@ export const setCardsPackIdToLearnAC = (cardsPack_id: string) => {
   } as const
 }
 
-export const showAnswerOnQuestionAC = (show: boolean) => {
+export const questionsAnsweredAC = (answered: boolean) => {
   return {
-    type: 'LEARN/SHOW-ANSWER',
-    show,
+    type: 'LEARN/QUESTIONS-ANSWERED',
+    answered,
   } as const
 }
 
