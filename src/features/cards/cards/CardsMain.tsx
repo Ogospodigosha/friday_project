@@ -1,18 +1,13 @@
 import React, { ChangeEvent, useEffect } from 'react'
 
-import CloseIcon from '@mui/icons-material/Close'
-import SearchIcon from '@mui/icons-material/Search'
-import { IconButton, InputAdornment, TextField } from '@mui/material'
 import Button from '@mui/material/Button'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
 import { CircularProgressSelf } from '../../../components/common/CircularProgress/CircularProgress'
 import { PATH } from '../../../components/pages/Pages'
-import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
-import { useDebounce } from '../../../utils/hooks/useDebounce'
 
 import { BasicTable } from './BasicTable/BasicTable'
 import { style } from './BasicTable/styleSXForBasicTable'
@@ -34,20 +29,34 @@ export const CardsMain = () => {
   const page = useAppSelector(state => state.cards.page)
   const totalCount = useAppSelector(state => state.cards.cardsTotalCount)
   const packName = useAppSelector(state => state.cards.packName)
-  const cardsPack_id = useAppSelector(state => state.cards.currentPackId)
+  let cardsPack_id = useAppSelector(state => state.cards.currentPackId)
   const currantPackUserId = useAppSelector(state => state.cards.packUserId)
   const cardPacks = useAppSelector(state => state.cards.cards)
   const loading = useAppSelector(state => state.app.status)
   const searchValue = useAppSelector(state => state.cards.filterSearchValue)
   const sort = useAppSelector(state => state.cards.sortCardsValue)
-
+  const [searchParams, setSearchParams] = useSearchParams()
+  const params = Object.fromEntries(searchParams)
   const navigate = useNavigate()
 
+  console.log(params)
+  useEffect(() => {
+    if (cardsPack_id) {
+      searchParams.set('cardsPack_id', cardsPack_id)
+    } else {
+      // @ts-ignore
+      searchParams.get('cardsPack_id')
+    }
+    setSearchParams(params)
+    console.log(params)
+  }, [])
   useEffect(() => {
     debugger
-    dispatch(getCardsTC())
-  }, [pageCount, page, useDebounce(searchValue), sort])
-
+    console.log(params)
+    setSearchParams(params)
+    dispatch(getCardsTC(params))
+  }, [searchParams.get('cardsPack_id')])
+  //pageCount, page, useDebounce(searchValue), sort, - это убрал из зависимостей
   // useEffect(() => {
   //   !cardPacks?.length && dispatch(setCurrentCardsPageAC(page - 1))
   // }, [totalCount])
@@ -109,35 +118,35 @@ export const CardsMain = () => {
       </div>
       <div className={s.search}>
         <span className={s.searchSpan}>Search</span>
-        <TextField
-          className={s.input}
-          size="small"
-          value={searchValue}
-          onChange={inputSearch}
-          placeholder={'Provide your text'}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position={'start'}>
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <IconButton onClick={() => dispatch(setFilterCardsFromInputSearchAC(''))}>
-                <CloseIcon />
-              </IconButton>
-            ),
-          }}
-        />
+        {/*<TextField*/}
+        {/*  className={s.input}*/}
+        {/*  size="small"*/}
+        {/*  value={searchValue}*/}
+        {/*  onChange={inputSearch}*/}
+        {/*  placeholder={'Provide your text'}*/}
+        {/*  InputProps={{*/}
+        {/*    startAdornment: (*/}
+        {/*      <InputAdornment position={'start'}>*/}
+        {/*        <SearchIcon />*/}
+        {/*      </InputAdornment>*/}
+        {/*    ),*/}
+        {/*    endAdornment: (*/}
+        {/*      <IconButton onClick={() => dispatch(setFilterCardsFromInputSearchAC(''))}>*/}
+        {/*        <CloseIcon />*/}
+        {/*      </IconButton>*/}
+        {/*    ),*/}
+        {/*  }}*/}
+        {/*/>*/}
       </div>
       <BasicTable deleteCardOnClick={deleteCard} updateCardOnClick={updateCard} />
-      {cardPacks?.length !== 0 ? (
-        <UniversalPagination
-          page={page}
-          pageCount={pageCount}
-          totalCount={totalCount}
-          onChange={onChangePagination}
-        />
-      ) : null}
+      {/*{cardPacks?.length !== 0 ? (*/}
+      {/*  <UniversalPagination*/}
+      {/*    page={page}*/}
+      {/*    pageCount={pageCount}*/}
+      {/*    totalCount={totalCount}*/}
+      {/*    onChange={onChangePagination}*/}
+      {/*  />*/}
+      {/*) : null}*/}
     </>
   )
 }

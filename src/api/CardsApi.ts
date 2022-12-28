@@ -29,7 +29,7 @@ export type CardType = {
 }
 
 export type GetCardsRequestType = {
-  cardsPack_id: string
+  cardsPack_id?: string
   cardAnswer?: string
   cardQuestion?: string
   min?: number

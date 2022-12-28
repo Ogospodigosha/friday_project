@@ -118,9 +118,12 @@ export const setFilterCardsFromInputSearchAC = (value: string) => {
     value,
   } as const
 }
-
+export type ParamsForGetCards = {
+  cardsPack_id?: string
+}
 export const getCardsTC =
-  () => async (dispatch: AppThunkDispatch, getState: () => AppRootStateType) => {
+  (paramsForSend: ParamsForGetCards = {}) =>
+  async (dispatch: AppThunkDispatch, getState: () => AppRootStateType) => {
     dispatch(setAppStatusAC('loading'))
     const cardsPack_id = getState().cards.currentPackId
     const page = getState().cards.page
@@ -132,10 +135,11 @@ export const getCardsTC =
       debugger
       const res = await cardsApi.getCards({
         cardsPack_id,
-        page,
-        pageCount,
-        sortCards,
-        cardQuestion,
+        // page,
+        // pageCount,
+        // sortCards,
+        // cardQuestion,
+        ...paramsForSend,
       })
 
       dispatch(setAppStatusAC('succeeded'))
