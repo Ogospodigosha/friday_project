@@ -11,16 +11,18 @@ import { useNavigate } from 'react-router-dom'
 import { CardType } from '../../api/CardsApi'
 import { setAppStatusAC } from '../../app/appReducer'
 import { BackToPackList } from '../../components/common/BackToPackList/BackToPackList'
-import { CircularProgressSelf } from '../../components/common/CircularProgress/CircularProgress'
+import { Loader } from '../../components/common/Loader/Loader'
 import { getCard } from '../../utils/getCard'
 import { useAppDispatch } from '../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../utils/hooks/useAppSelector'
+import { setCurrentPackIdAC } from '../cards/cards/cardsReducer'
 
 import s from './LearnPage.module.css'
 import {
   deleteStudiedCardAC,
   getCardsToLearnTC,
   questionsAnsweredAC,
+  resetQuestionsAC,
   setCardGradeTC,
 } from './learnReducer'
 
@@ -41,6 +43,7 @@ export const LearnPage = () => {
   const dispatch = useAppDispatch()
   const cardsPack_id = useAppSelector(state => state.learn.cardsPack_id)
   const cards = useAppSelector(state => state.learn.cards)
+  const packName = useAppSelector(state => state.learn.packName)
   const cardPacks = useAppSelector(state => state.packs.packs)
   const questionsAnswered = useAppSelector(state => state.learn.questionsAnswered)
   const loading = useAppSelector(state => state.app.status)
@@ -58,26 +61,6 @@ export const LearnPage = () => {
       dispatch(questionsAnsweredAC(false))
     }
   }, [])
-
-  let packName
-
-  if (cardPacks) {
-    const pack = cardPacks.cardPacks.find(pack => pack._id === cardsPack_id)
-
-    packName = pack?.name
-  }
-  // console.log(
-  //   'packName===',
-  //   packName,
-  //   'cardsPack_id==',
-  //   cardsPack_id,
-  //   'cards===',
-  //   cards,
-  //   'showAnswer===',
-  //   showAnswer,
-  //   'cardPacks===',
-  //   cardPacks
-  // )
 
   useEffect(() => {
     if (cards) {
@@ -106,17 +89,28 @@ export const LearnPage = () => {
     }
   }
 
+  const backToCurrentCardsHandler = () => {
+    dispatch(resetQuestionsAC())
+    dispatch(setCurrentPackIdAC(cardsPack_id))
+  }
+
   if (questionsAnswered)
     return (
       <div>
         <BackToPackList />
-        questions end
+        <h1 className={s.header}>Learn {packName}</h1>
+        <div className={s.container}>
+          <div>You learnt all questions</div>
+          <Button variant="contained" className={s.button} onClick={backToCurrentCardsHandler}>
+            <span className={s.btnTitle}>Learn again</span>
+          </Button>
+        </div>
       </div>
     )
 
   return (
     <>
-      {loading === 'loading' ? <CircularProgressSelf /> : null}
+      {loading === 'loading' ? <Loader /> : null}
       <BackToPackList />
       <h1 className={s.header}>Learn {packName}</h1>
       <div className={s.container}>

@@ -8,6 +8,7 @@ import { handleError } from '../../utils/error-utils'
 
 const learnInitialState = {
   cardsPack_id: '',
+  packName: '',
   cards: null as CardType[] | null,
   cardsTotalCount: 0,
   pageCount: 150,
@@ -22,6 +23,7 @@ export type LearnActionsType =
   | ReturnType<typeof setCardsPackIdToLearnAC>
   | ReturnType<typeof questionsAnsweredAC>
   | ReturnType<typeof deleteStudiedCardAC>
+  | ReturnType<typeof resetQuestionsAC>
 export const learnReducer = (
   state: LearnStateType = learnInitialState,
   action: LearnActionsType
@@ -30,6 +32,7 @@ export const learnReducer = (
     case 'LEARN/SET-CARDS-TO-LEARN':
       return {
         ...state,
+        packName: action.data.packName,
         cards: action.data.cards,
         cardsTotalCount: action.data.cardsTotalCount,
         packUserId: action.data.packUserId,
@@ -48,6 +51,17 @@ export const learnReducer = (
       return {
         ...state,
         questionsAnswered: action.answered,
+      }
+    }
+    case 'LEARN/RESET-QUESTIONS': {
+      return {
+        ...state,
+        cards: null as CardType[] | null,
+        cardsTotalCount: 0,
+        pageCount: 150,
+        packUserId: '',
+        questionsAnswered: false,
+        learnLoading: true,
       }
     }
     default:
@@ -79,6 +93,12 @@ export const questionsAnsweredAC = (answered: boolean) => {
   return {
     type: 'LEARN/QUESTIONS-ANSWERED',
     answered,
+  } as const
+}
+
+export const resetQuestionsAC = () => {
+  return {
+    type: 'LEARN/RESET-QUESTIONS',
   } as const
 }
 

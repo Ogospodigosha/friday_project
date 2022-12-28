@@ -7,7 +7,7 @@ import Button from '@mui/material/Button'
 import { useNavigate } from 'react-router-dom'
 
 import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
-import { CircularProgressSelf } from '../../../components/common/CircularProgress/CircularProgress'
+import { Loader } from '../../../components/common/Loader/Loader'
 import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
@@ -100,7 +100,7 @@ export const CardsMain = () => {
 
   return (
     <>
-      {loading === 'loading' ? <CircularProgressSelf /> : null}
+      {loading === 'loading' ? <Loader /> : null}
       <BackToPackList />
       <div className={s.packName}>
         <div className={s.packNameTitle}>{packName}</div>
