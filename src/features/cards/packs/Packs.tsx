@@ -178,22 +178,6 @@ export const Packs = () => {
         <span>Search</span>
       </div>
       <div className={s.navigation}>
-        {/*<div style={{ marginRight: '20px' }}>*/}
-        {/*  <TextField*/}
-        {/*    className={s.input}*/}
-        {/*    size="small"*/}
-        {/*    value={packName}*/}
-        {/*    onChange={onSearchInputHandler}*/}
-        {/*    placeholder={'Provide your text'}*/}
-        {/*    InputProps={{*/}
-        {/*      startAdornment: (*/}
-        {/*        <InputAdornment position={'start'}>*/}
-        {/*          <SearchIcon />*/}
-        {/*        </InputAdornment>*/}
-        {/*      ),*/}
-        {/*    }}*/}
-        {/*  />*/}
-        {/*</div>*/}
         <Search />
         <SwitchMyAll switchCallback={switchCallback} />
         <RangeSlider min={min} max={max} />
