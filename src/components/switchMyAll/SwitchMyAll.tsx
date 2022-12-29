@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { ToggleButton, ToggleButtonGroup } from '@mui/material'
 import { useSearchParams } from 'react-router-dom'
 
-import { useAppSelector } from '../../../utils/hooks/useAppSelector'
+import { useAppSelector } from '../../utils/hooks/useAppSelector'
+
+import s from './SwitchMyAll.module.css'
 
 export const SwitchMyAll = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -33,10 +35,11 @@ export const SwitchMyAll = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <span>Show packs cards</span>
+      <span className={s.text}>Show packs cards</span>
       <ToggleButtonGroup
+        sx={{ bgcolor: '#ffffff' }}
         size="small"
-        color="info"
+        color="primary"
         value={alignment}
         exclusive
         onChange={handleChange}

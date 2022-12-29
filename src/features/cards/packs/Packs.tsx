@@ -20,7 +20,8 @@ import { Filtration } from '../../../components/filtration/Filtration'
 import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { RangeSlider } from '../../../components/rangeSliger/RangeSlider'
-import { Search } from '../../../components/Search/Search'
+import { Search } from '../../../components/search/Search'
+import { SwitchMyAll } from '../../../components/switchMyAll/SwitchMyAll'
 import { getPacksSearchParams } from '../../../utils/getPacksSearchParams'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
@@ -33,7 +34,6 @@ import { PackModal } from '../modals/PackModal'
 
 import { getPacksTC } from './getPacksTC'
 import s from './packs.module.css'
-import { SwitchMyAll } from './SwitchMyAll'
 
 export const Packs = () => {
   const navigate = useNavigate()
