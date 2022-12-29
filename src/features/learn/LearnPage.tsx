@@ -56,7 +56,7 @@ export const LearnPage = () => {
   const [card, setCard] = useState<CardType>(initialCard)
 
   useEffect(() => {
-    const currantPackIdFromUrl = urlParams.get('currentPackId')
+    const currantPackIdFromUrl = urlParams.get('cardsPack_id')
 
     if (currantPackIdFromUrl != null) {
       dispatch(setCardsPackIdToLearnAC(currantPackIdFromUrl))
@@ -66,7 +66,7 @@ export const LearnPage = () => {
   useEffect(() => {
     if (cardsPack_id != '') {
       setUrlParams({
-        currentPackId: `${cardsPack_id}`,
+        cardsPack_id: `${cardsPack_id}`,
       })
     }
     dispatch(getCardsToLearnTC())

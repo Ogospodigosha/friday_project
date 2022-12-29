@@ -1,5 +1,6 @@
 .span {
-  padding-right: 14px;
+  display: flex;
+  gap: 14px;
 }
 .spanMainImg {
 }

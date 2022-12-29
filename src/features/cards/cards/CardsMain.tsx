@@ -31,7 +31,6 @@ import { FadeMenu } from './FadeMenu/FadeMenu'
 
 export const CardsMain = () => {
   const dispatch = useAppDispatch()
-  const [test, setTest] = useSearchParams()
   const myId = useAppSelector(state => state.app.user._id)
   const pageCount = useAppSelector(state => state.cards.pageCount)
   const page = useAppSelector(state => state.cards.page)
@@ -43,35 +42,25 @@ export const CardsMain = () => {
   const loading = useAppSelector(state => state.app.status)
   const searchValue = useAppSelector(state => state.cards.filterSearchValue)
   const sort = useAppSelector(state => state.cards.sortCardsValue)
+
   const [searchParams, setSearchParams] = useSearchParams()
   const params = Object.fromEntries(searchParams)
   const navigate = useNavigate()
-  const [urlParams, setUrlParams] = useSearchParams()
 
   useEffect(() => {
-    const currantPackIdFromUrl = urlParams.get('currentPackId')
-
-    if (currantPackIdFromUrl != null) {
-      dispatch(setCurrentPackIdAC(currantPackIdFromUrl))
+    if (params.cardsPack_id != null) {
+      dispatch(setCurrentPackIdAC(params.cardsPack_id))
     }
   }, [])
 
   useEffect(() => {
-    if (cardsPack_id != '') {
-      setUrlParams({
-        currentPackId: `${cardsPack_id}`,
-      })
-    }
-
     dispatch(getCardsTC())
   }, [useDebounce(searchValue)])
 
   useEffect(() => {
-    debugger
     if (cardsPack_id) {
       searchParams.set('cardsPack_id', cardsPack_id)
     }
-    console.log(params)
     setSearchParams(params)
     dispatch(getCardsTC(params))
   }, [
@@ -82,6 +71,7 @@ export const CardsMain = () => {
     sort,
     cardsPack_id,
   ])
+
   //pageCount, page, useDebounce(searchValue), sort, - это убрал из зависимостей
   // useEffect(() => {
   //   !cardPacks?.length && dispatch(setCurrentCardsPageAC(page - 1))
@@ -93,7 +83,6 @@ export const CardsMain = () => {
   }
 
   const addNewCard = () => {
-    console.log(params.cardsPack_id)
     dispatch(
       createNewCardTC({
         cardsPack_id: params.cardsPack_id,
@@ -118,8 +107,8 @@ export const CardsMain = () => {
     )
   }
 
-  const learnToPack = async () => {
-    await dispatch(setCardsPackIdToLearnAC(cardsPack_id))
+  const learnToPack = () => {
+    dispatch(setCardsPackIdToLearnAC(params.cardsPack_id))
     navigate(PATH.LEARN)
   }
 

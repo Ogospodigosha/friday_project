@@ -52,23 +52,23 @@ export const FadeMenu: FC<FadeMenuPropsType> = ({ editPackName, deletePack, lear
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handleClose}>
-          <span className={s.span} onClick={editPackName}>
+        <MenuItem onClick={editPackName}>
+          <span className={s.span} onClick={handleClose}>
             <img src={edit} alt="edit" />
+            Edit
           </span>
-          Edit
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <span className={s.span} onClick={deletePack}>
+        <MenuItem onClick={deletePack}>
+          <span className={s.span} onClick={handleClose}>
             <img src={deleteImg} alt="delete" />
+            Delete
           </span>
-          Delete
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <span className={s.span} onClick={learnPack}>
+        <MenuItem onClick={learnPack}>
+          <span className={s.span} onClick={handleClose}>
             <img src={learn} alt="learn" />
+            Learn
           </span>
-          Learn
         </MenuItem>
       </Menu>
     </div>
