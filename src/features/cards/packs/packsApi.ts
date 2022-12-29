@@ -19,7 +19,7 @@ export const packsApi = {
   },
 }
 export type ParamsForGetPacks = {
-  userId?: string
+  user_id?: string
   page?: number
   pageCount?: number
   sortPacks?: string

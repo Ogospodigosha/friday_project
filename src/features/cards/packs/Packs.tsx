@@ -21,6 +21,7 @@ import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { RangeSlider } from '../../../components/rangeSliger/RangeSlider'
 import { Search } from '../../../components/Search/Search'
+import { getPacksSearchParams } from '../../../utils/getPacksSearchParams'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { useDebounce } from '../../../utils/hooks/useDebounce'
@@ -41,7 +42,7 @@ export const Packs = () => {
 
   const packs = useAppSelector(state => state.packs.packs.cardPacks)
   const totalCount = useAppSelector(state => state.packs.packs.cardPacksTotalCount)
-  let user_id = useAppSelector(state => state.app.user._id)
+  const user_id = useAppSelector(state => state.app.user._id)
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
   const min = useAppSelector(state => state.packs.packs.minCardsCount)
   const max = useAppSelector(state => state.packs.packs.maxCardsCount)
@@ -49,37 +50,16 @@ export const Packs = () => {
   const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '' })
 
   useEffect(() => {
-    const params = Object.fromEntries(searchParams)
-
-    const sendParams = {
-      min: +params.min || undefined,
-      max: +params.max || undefined,
-      sortPacks: params.sortPacks || undefined,
-      page: +params.page || undefined,
-      pageCount: +params.pageCount || 5,
-      packName: params.packName || undefined,
-      user_id: params.user_id || undefined,
-    }
-
-    dispatch(getPacksTC(sendParams))
+    dispatch(getPacksTC(getPacksSearchParams(searchParams)))
   }, [useDebounce(searchParams)])
 
   // перенести в pagination
-
   // useEffect(() => {
   //   !packs?.length && dispatch(setPageAC(page - 1)) && searchParams.delete('page')
   // }, [totalCount])
 
   const deleteAllQuery = () => {
     setSearchParams({})
-    // dispatch(setPageCountAC(10))
-    // dispatch(setPageAC(1))
-    // dispatch(setSortAC('0updated'))
-    // dispatch(setPackNameAC(''))
-    // dispatch(setIsMyPackAC(false))
-    // dispatch(setLocalRangeAC([min, max]))
-    // window.localStorage.setItem('alignment', JSON.stringify('all'))
-    // dispatch(changeIsMyPack('false'))
   }
   const editableDate = (updated: string) => {
     let newUpdated = updated.split('T')[0].split('-')

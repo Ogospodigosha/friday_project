@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import SearchIcon from '@mui/icons-material/Search'
 import { IconButton, InputAdornment, TextField } from '@mui/material'
 import Button from '@mui/material/Button'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
 import { Loader } from '../../../components/common/Loader/Loader'
@@ -28,6 +28,7 @@ import {
 
 export const CardsMain = () => {
   const dispatch = useAppDispatch()
+  const [test, setTest] = useSearchParams()
   const myId = useAppSelector(state => state.app.user._id)
   const pageCount = useAppSelector(state => state.cards.pageCount)
   const page = useAppSelector(state => state.cards.page)
@@ -44,7 +45,7 @@ export const CardsMain = () => {
 
   useEffect(() => {
     dispatch(getCardsTC())
-  }, [pageCount, page, useDebounce(searchValue), sort])
+  }, [useDebounce(searchValue)])
 
   // useEffect(() => {
   //   !cardPacks?.length && dispatch(setCurrentCardsPageAC(page - 1))

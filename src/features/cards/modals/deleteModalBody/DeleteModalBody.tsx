@@ -1,7 +1,9 @@
 import React from 'react'
 
 import Button from '@mui/material/Button'
+import { useSearchParams } from 'react-router-dom'
 
+import { getPacksSearchParams } from '../../../../utils/getPacksSearchParams'
 import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
 import { deletePackTC } from '../../packs/deletePackTC'
 import { openModal } from '../modalReducer'
@@ -13,11 +15,12 @@ type PropsType = {
 }
 export const DeleteModalBody = (props: PropsType) => {
   const dispatch = useAppDispatch()
+  const [searchParams] = useSearchParams()
   const cancelHandler = () => {
     dispatch(openModal(null))
   }
   const deletePackHandler = () => {
-    dispatch(deletePackTC(props.dataForUpdateModal.id))
+    dispatch(deletePackTC(props.dataForUpdateModal.id, getPacksSearchParams(searchParams)))
     dispatch(openModal(null))
   }
 
