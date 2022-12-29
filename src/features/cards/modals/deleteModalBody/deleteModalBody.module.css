@@ -3,17 +3,17 @@
     padding: 0;
 }
 .description{
+    width: 358px;
+    margin-bottom: 29px;
 
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     line-height: 24px;
-    width: 358px;
-    margin-bottom: 29px;
 }
 .flex {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 }
 .button {
     width: 113px;

@@ -177,7 +177,7 @@ export const Packs = () => {
                 <TableCell>{raw.cardsCount}</TableCell>
                 <TableCell>{editableDate(raw.updated)}</TableCell>
                 <TableCell>{raw.user_name}</TableCell>
-                <TableCell sx={{ width: '150px' }}>
+                <TableCell sx={{ width: '160px' }}>
                   {user_id === raw.user_id ? (
                     <div>
                       <IconButton

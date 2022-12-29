@@ -12,7 +12,7 @@ import { AppRootStateType, AppThunkDispatch } from '../../../app/store'
 import { handleError } from '../../../utils/error-utils'
 
 const cardsInitialState = {
-  cards: [] as CardType[] | null,
+  cards: null as CardType[] | null,
   cardsTotalCount: 0,
   maxGrade: 0,
   minGrade: 0,
@@ -129,7 +129,6 @@ export const getCardsTC =
     const sortCards = getState().cards.sortCardsValue
 
     try {
-      debugger
       const res = await cardsApi.getCards({
         cardsPack_id,
         page,
