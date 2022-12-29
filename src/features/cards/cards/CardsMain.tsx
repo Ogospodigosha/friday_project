@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 
 import Button from '@mui/material/Button'
 import { useNavigate, useSearchParams } from 'react-router-dom'
@@ -21,7 +21,6 @@ import {
   setCurrentCardsPageAC,
   setFilterCardsFromInputSearchAC,
   setPageCardsCountAC,
-  updateCardTC,
 } from './cardsReducer'
 
 export const CardsMain = () => {
@@ -40,6 +39,11 @@ export const CardsMain = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const params = Object.fromEntries(searchParams)
   const navigate = useNavigate()
+  const [dataForUpdateCard, setDataForUpdateCard] = useState({
+    cardId: '',
+    question: '',
+    answer: '',
+  })
 
   console.log(params)
 
@@ -70,27 +74,29 @@ export const CardsMain = () => {
   }
 
   const addNewCard = () => {
-    debugger
     dispatch(openModal('Add new card'))
   }
   const deleteCard = (cardId: string) => {
     dispatch(deleteCardTC(cardId, params.cardsPack_id))
   }
 
-  const updateCard = (cardId: string) => {
-    debugger
-    dispatch(
-      updateCardTC(
-        {
-          _id: cardId,
-          question:
-            'What are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
-          answer:
-            'I know itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
-        },
-        params.cardsPack_id
-      )
-    )
+  const updateCard = (cardId: string, question: string, answer: string) => {
+    setDataForUpdateCard({ cardId: cardId, question: question, answer: answer })
+    dispatch(openModal('Edit card'))
+    console.log(question)
+    console.log(answer)
+    // dispatch(
+    //   updateCardTC(
+    //     {
+    //       _id: cardId,
+    //       question:
+    //         'What are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
+    //       answer:
+    //         'I know itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
+    //     },
+    //     params.cardsPack_id
+    //   )
+    // )
   }
 
   const learnToPack = () => {
@@ -122,7 +128,7 @@ export const CardsMain = () => {
       {loading === 'loading' ? <Loader /> : null}
       <BackToPackList />
       <div className={s.packName}>
-        <PackModal cardsPack_id={params.cardsPack_id} />
+        <PackModal cardsPack_id={params.cardsPack_id} dataForUpdateCard={dataForUpdateCard} />
         <div className={s.packNameTitle}>{packName}</div>
         {addNewCardOrLearnCards}
       </div>
