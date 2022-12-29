@@ -41,7 +41,6 @@ export const Packs = () => {
 
   const packs = useAppSelector(state => state.packs.packs.cardPacks)
   const totalCount = useAppSelector(state => state.packs.packs.cardPacksTotalCount)
-  const sortPacks = useAppSelector(state => state.packs.sort)
   let user_id = useAppSelector(state => state.app.user._id)
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
   const min = useAppSelector(state => state.packs.packs.minCardsCount)
@@ -157,7 +156,7 @@ export const Packs = () => {
               <TableCell>Cards</TableCell>
               <TableCell sx={{ display: 'flex' }}>
                 Last Updated
-                <Filtration sortPacks={sortPacks} />
+                <Filtration />
               </TableCell>
               <TableCell>Created by</TableCell>
               <TableCell>Actions</TableCell>
