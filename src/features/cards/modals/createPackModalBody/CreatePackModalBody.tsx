@@ -4,7 +4,9 @@ import { TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import { useSearchParams } from 'react-router-dom'
 
+import { getPacksSearchParams } from '../../../../utils/getPacksSearchParams'
 import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
 import { createPackTC } from '../../packs/createPackTC'
 import { openModal } from '../modalReducer'
@@ -13,6 +15,7 @@ import s from './createPackModalBody.module.css'
 
 export const CreatePackModalBody = () => {
   const dispatch = useAppDispatch()
+  const [searchParams] = useSearchParams()
   const [packName, setPackName] = useState('')
   const [checked, setChecked] = useState(false)
 
@@ -27,7 +30,7 @@ export const CreatePackModalBody = () => {
     },
   }
   const saveHandler = () => {
-    dispatch(createPackTC(data))
+    dispatch(createPackTC(data, getPacksSearchParams(searchParams)))
     dispatch(openModal(null))
   }
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {

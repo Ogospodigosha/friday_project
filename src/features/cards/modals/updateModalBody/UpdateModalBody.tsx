@@ -4,7 +4,9 @@ import { TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import { useSearchParams } from 'react-router-dom'
 
+import { getPacksSearchParams } from '../../../../utils/getPacksSearchParams'
 import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
 import { editPackTC } from '../../packs/editPackTC'
 import s from '../createPackModalBody/createPackModalBody.module.css'
@@ -15,6 +17,7 @@ type PropsType = {
 }
 export const UpdateModalBody = (props: PropsType) => {
   const dispatch = useAppDispatch()
+  const [searchParams] = useSearchParams()
   const [checked, setChecked] = useState(false)
   const [UpdateValue, setUpdateValue] = useState(props.dataForUpdateModal.name)
   const updatePackName = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -25,7 +28,9 @@ export const UpdateModalBody = (props: PropsType) => {
   }
 
   const saveUpdatedPackName = () => {
-    dispatch(editPackTC(props.dataForUpdateModal.id, UpdateValue))
+    dispatch(
+      editPackTC(props.dataForUpdateModal.id, UpdateValue, getPacksSearchParams(searchParams))
+    )
     dispatch(openModal(null))
   }
   const cancelHandler = () => {

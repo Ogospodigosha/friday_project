@@ -32,7 +32,7 @@ import { packsApi, ParamsForGetPacks } from './packsApi'
 //   }
 
 export const getPacksTC =
-  (paramsForSend: ParamsForGetPacks = {}): AppThunk =>
+  (paramsForSend: ParamsForGetPacks): AppThunk =>
   dispatch => {
     packsApi.getPacks(paramsForSend).then(res => {
       dispatch(setPacksAC(res.data))
