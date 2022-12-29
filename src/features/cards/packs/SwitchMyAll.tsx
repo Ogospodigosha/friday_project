@@ -1,57 +1,44 @@
 import React, { useEffect, useState } from 'react'
 
 import { ToggleButton, ToggleButtonGroup } from '@mui/material'
-import { useDispatch } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
 
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 
-import { changeIsMyPack } from './IsMyPackReducer-reducer'
+export const SwitchMyAll = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const user_id = useAppSelector(state => state.app.user._id)
 
-type Props = {
-  switchCallback: (my: boolean) => void
-}
-export const SwitchMyAll = React.memo((props: Props) => {
-  const dispatch = useDispatch()
-  const [alignment, setAlignment] = useState(
-    JSON.parse(localStorage.getItem('alignment') as string) || 'all'
-  )
+  const myAll = searchParams.get('user_id') ? 'my' : 'all'
+  const [alignment, setAlignment] = useState(myAll)
 
-  useEffect(() => {
-    if (JSON.parse(localStorage.getItem('alignment') as string) === 'all') {
-      setAlignment('all')
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string | null) => {
+    if (newAlignment !== null) {
+      setAlignment(newAlignment)
     }
-  }, [JSON.parse(localStorage.getItem('alignment') as string)])
-  useEffect(() => {
-    window.localStorage.setItem('alignment', JSON.stringify(alignment))
-  }, [alignment])
-  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
-    setAlignment(newAlignment)
   }
   const myHandler = () => {
-    setAlignment('my')
-    dispatch(changeIsMyPack('true'))
-    props.switchCallback(true)
+    setSearchParams({
+      user_id: user_id,
+    })
   }
-  const AllHandler = () => {
-    setAlignment('all')
-    dispatch(changeIsMyPack('false'))
-    props.switchCallback(false)
+  const allHandler = () => {
+    searchParams.delete('user_id')
+    setSearchParams({})
   }
 
+  useEffect(() => {
+    setAlignment(myAll)
+  }, [searchParams])
+
   return (
-    <ToggleButtonGroup
-      color="info"
-      value={alignment}
-      exclusive
-      onChange={handleChange}
-      aria-label="Platform"
-    >
+    <ToggleButtonGroup color="info" value={alignment} exclusive onChange={handleChange}>
       <ToggleButton value="my" onClick={myHandler} style={{ width: '97px' }}>
         My
       </ToggleButton>
-      <ToggleButton value="all" onClick={AllHandler} style={{ width: '97px' }}>
+      <ToggleButton value="all" onClick={allHandler} style={{ width: '97px' }}>
         All
       </ToggleButton>
     </ToggleButtonGroup>
   )
-})
+}

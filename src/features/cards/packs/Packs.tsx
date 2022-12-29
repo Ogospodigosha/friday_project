@@ -1,28 +1,26 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff'
 import SchoolIcon from '@mui/icons-material/School'
-import SearchIcon from '@mui/icons-material/Search'
 import {
   IconButton,
-  InputAdornment,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
-  TextField,
 } from '@mui/material'
 import Button from '@mui/material/Button'
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 
-import { UniversalDoubleRange } from '../../../components/doubleRange/UniversalDoubleRange'
-import { UniversalSort } from '../../../components/filtration/UniversalSort'
+import { Filtration } from '../../../components/filtration/Filtration'
 import { PATH } from '../../../components/pages/Pages'
 import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
+import { RangeSlider } from '../../../components/rangeSliger/RangeSlider'
+import { Search } from '../../../components/Search/Search'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { useDebounce } from '../../../utils/hooks/useDebounce'
@@ -33,15 +31,6 @@ import { openModal } from '../modals/modalReducer'
 import { PackModal } from '../modals/PackModal'
 
 import { getPacksTC } from './getPacksTC'
-import { changeIsMyPack } from './IsMyPackReducer-reducer'
-import {
-  setIsMyPackAC,
-  setLocalRangeAC,
-  setPackNameAC,
-  setPageAC,
-  setPageCountAC,
-  setSortAC,
-} from './packs-reducer'
 import s from './packs.module.css'
 import { SwitchMyAll } from './SwitchMyAll'
 
@@ -51,61 +40,46 @@ export const Packs = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const packs = useAppSelector(state => state.packs.packs.cardPacks)
-  const page = useAppSelector(state => state.packs.packs.page)
-  const pageCount = useAppSelector(state => state.packs.packs.pageCount)
   const totalCount = useAppSelector(state => state.packs.packs.cardPacksTotalCount)
-  const sortPacks = useAppSelector(state => state.packs.sort)
-  const packName = useAppSelector(state => state.packs.packName)
   let user_id = useAppSelector(state => state.app.user._id)
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
   const min = useAppSelector(state => state.packs.packs.minCardsCount)
   const max = useAppSelector(state => state.packs.packs.maxCardsCount)
-  const localRange = useAppSelector(state => state.packs.localRange)
-  const isMyPack1 = useAppSelector(state => state.isMyPack.isMyPack1)
-  let cardsPack_id = useAppSelector(state => state.cards.currentPackId)
-  const params = Object.fromEntries(searchParams)
-  let aligmentState = JSON.parse(localStorage.getItem('alignment') as string)
+
   const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '' })
 
   useEffect(() => {
-    if (aligmentState === 'my' && isMyPack1 === 'false') {
-      dispatch(changeIsMyPack('true'))
+    const params = Object.fromEntries(searchParams)
+
+    const sendParams = {
+      min: +params.min || undefined,
+      max: +params.max || undefined,
+      sortPacks: params.sortPacks || undefined,
+      page: +params.page || undefined,
+      pageCount: +params.pageCount || 5,
+      packName: params.packName || undefined,
+      user_id: params.user_id || undefined,
     }
-  }, [])
-  useEffect(() => {
-    setSearchParams(params)
-    dispatch(getPacksTC(params))
-  }, [
-    useDebounce(localRange),
-    localStorage.getItem('isMyPack1'),
-    page,
-    pageCount,
-    sortPacks,
-    useDebounce(packName),
-    user_id,
-  ])
+
+    dispatch(getPacksTC(sendParams))
+  }, [useDebounce(searchParams)])
+
+  // перенести в pagination
 
   // useEffect(() => {
   //   !packs?.length && dispatch(setPageAC(page - 1)) && searchParams.delete('page')
   // }, [totalCount])
 
-  const deleteAllQwery = () => {
+  const deleteAllQuery = () => {
     setSearchParams({})
-    dispatch(setPageCountAC(10))
-    dispatch(setPageAC(1))
-    dispatch(setSortAC('0updated'))
-    dispatch(setPackNameAC(''))
-    dispatch(setIsMyPackAC(false))
-    dispatch(setLocalRangeAC([min, max]))
-    window.localStorage.setItem('alignment', JSON.stringify('all'))
-    dispatch(changeIsMyPack('false'))
-  }
-
-  const onChangePagination = (newPage: number, newCountForPage: number) => {
-    dispatch(setPageAC(newPage))
-    dispatch(setPageCountAC(newCountForPage))
-    searchParams.set('page', newPage.toString())
-    searchParams.set('pageCount', newCountForPage.toString())
+    // dispatch(setPageCountAC(10))
+    // dispatch(setPageAC(1))
+    // dispatch(setSortAC('0updated'))
+    // dispatch(setPackNameAC(''))
+    // dispatch(setIsMyPackAC(false))
+    // dispatch(setLocalRangeAC([min, max]))
+    // window.localStorage.setItem('alignment', JSON.stringify('all'))
+    // dispatch(changeIsMyPack('false'))
   }
   const editableDate = (updated: string) => {
     let newUpdated = updated.split('T')[0].split('-')
@@ -117,7 +91,6 @@ export const Packs = () => {
 
     return newUpdated.join('.')
   }
-  const openModalEditPack = (id: string) => {}
   const createPack = () => {
     dispatch(openModal('Add new Pack'))
   }
@@ -129,19 +102,10 @@ export const Packs = () => {
     setDataForUpdateModal({ id: id, name: name })
     dispatch(openModal('Edit pack'))
   }
-  const onChangeSortHandler = (newSort: string) => {
-    dispatch(setSortAC(newSort))
-    searchParams.set('sortPacks', newSort)
-  }
-  const onSearchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setPackNameAC(e.currentTarget.value))
-    searchParams.set('packName', e.currentTarget.value)
-  }
   const showCardsHandler = (id: string) => {
     dispatch(setCurrentPackIdAC(id))
     navigate(PATH.CARDS)
   }
-
   const learningPackHandler = (id: string) => {
     dispatch(setCardsPackIdToLearnAC(id))
     navigate(PATH.LEARN)
@@ -150,13 +114,6 @@ export const Packs = () => {
     let currentPack = packs.find(el => el._id === id)
 
     return currentPack && currentPack.cardsCount === 0
-  }
-  const switchCallback = (my: boolean) => {
-    if (my) {
-      searchParams.set('user_id', user_id.toString())
-    } else {
-      searchParams.delete('user_id')
-    }
   }
 
   if (!isLoggedIn) {
@@ -182,26 +139,11 @@ export const Packs = () => {
         <span>Search</span>
       </div>
       <div className={s.navigation}>
-        <div style={{ marginRight: '20px' }}>
-          <TextField
-            className={s.input}
-            size="small"
-            value={packName}
-            onChange={onSearchInputHandler}
-            placeholder={'Provide your text'}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position={'start'}>
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </div>
-        <SwitchMyAll switchCallback={switchCallback} />
-        <UniversalDoubleRange min={min} max={max} />
+        <Search />
+        <SwitchMyAll />
+        <RangeSlider min={min} max={max} />
         <div className={s.filter}>
-          <IconButton onClick={deleteAllQwery}>
+          <IconButton onClick={deleteAllQuery}>
             <FilterAltOffIcon />
           </IconButton>
         </div>
@@ -212,9 +154,9 @@ export const Packs = () => {
             <TableRow style={{ background: '#EFEFEF' }}>
               <TableCell>Name</TableCell>
               <TableCell>Cards</TableCell>
-              <TableCell>
+              <TableCell sx={{ display: 'flex' }}>
                 Last Updated
-                <UniversalSort sort={sortPacks} value={'updated'} onClick={onChangeSortHandler} />
+                <Filtration />
               </TableCell>
               <TableCell>Created by</TableCell>
               <TableCell>Actions</TableCell>
@@ -234,7 +176,7 @@ export const Packs = () => {
                 <TableCell>{raw.cardsCount}</TableCell>
                 <TableCell>{editableDate(raw.updated)}</TableCell>
                 <TableCell>{raw.user_name}</TableCell>
-                <TableCell sx={{ width: '150px' }}>
+                <TableCell sx={{ width: '160px' }}>
                   {user_id === raw.user_id ? (
                     <div>
                       <IconButton
@@ -266,12 +208,7 @@ export const Packs = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <UniversalPagination
-        totalCount={totalCount}
-        page={page}
-        pageCount={pageCount}
-        onChange={onChangePagination}
-      />
+      <UniversalPagination totalCount={totalCount} />
     </div>
   )
 }

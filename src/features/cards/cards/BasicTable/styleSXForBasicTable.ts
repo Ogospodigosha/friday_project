@@ -36,7 +36,7 @@ export const style = {
     lineHeight: '16px',
   },
   editDelete: {
-    width: '110px',
+    width: '120px',
     cursor: 'pointer',
   },
   tableRowStars: {},

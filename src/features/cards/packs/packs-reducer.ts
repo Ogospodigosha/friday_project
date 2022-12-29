@@ -1,10 +1,10 @@
 const initState: InitialStateType = {
   packs: {
     minCardsCount: 0,
-    maxCardsCount: 50,
-    pageCount: 10,
-    page: 1,
-    cardPacksTotalCount: 100,
+    maxCardsCount: 0,
+    pageCount: 0,
+    page: 0,
+    cardPacksTotalCount: 0,
     cardPacks: [] as PackType[],
   } as PacksType,
   sort: '0updated',

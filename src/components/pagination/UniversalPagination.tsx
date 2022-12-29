@@ -1,43 +1,62 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { MenuItem, Pagination, Select } from '@mui/material'
+import { useSearchParams } from 'react-router-dom'
 
 import s from './UniversalPagination.module.css'
 
 type PaginationPropsType = {
-  page: number
-  pageCount: number
   totalCount: number
-  onChange: (page: number, count: number) => void
 }
 
 export const UniversalPagination = (props: PaginationPropsType) => {
-  const totalPages = Math.ceil(props.totalCount / props.pageCount)
+  const [searchParams, setSearchParams] = useSearchParams()
 
+  const [page, setPage] = useState(Number(searchParams.get('page')) || 1)
+  const [pageCount, setPageCount] = useState(Number(searchParams.get('pageCount')) || 5)
+
+  const totalPages = Math.ceil(props.totalCount / pageCount)
   const onChangePagination = (event: React.ChangeEvent<unknown>, page: number) => {
-    props.onChange(page, props.pageCount)
+    setPage(page)
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      page: page.toString(),
+    })
   }
 
   const onChangeSelect = (event: any) => {
-    props.onChange(1, event.target.value)
+    setPage(page)
+    setPageCount(event.target.value)
+    const queryParams: { page?: string; pageCount?: string } = {}
+
+    if (page !== 1) queryParams.page = String(page)
+    else searchParams.delete('page')
+
+    queryParams.pageCount = String(event.target.value)
+
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      ...queryParams,
+    })
   }
+
+  useEffect(() => {
+    setPage(Number(searchParams.get('page')) || 1)
+    setPageCount(Number(searchParams.get('pageCount')) || 5)
+  }, [searchParams])
 
   return (
     <>
       <div className={s.pagination}>
         <Pagination
-          page={props.page}
+          page={page}
           count={totalPages}
           onChange={onChangePagination}
           color="primary"
           shape="rounded"
         />
         <span className={s.show}>Show</span>
-        <Select
-          sx={{ height: '100%', width: '70px' }}
-          value={props.pageCount}
-          onChange={onChangeSelect}
-        >
+        <Select sx={{ height: '100%', width: '70px' }} value={pageCount} onChange={onChangeSelect}>
           <MenuItem value={5}>5</MenuItem>
           <MenuItem value={10}>10</MenuItem>
           <MenuItem value={20}>20</MenuItem>
