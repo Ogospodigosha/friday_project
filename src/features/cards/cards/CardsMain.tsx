@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import SearchIcon from '@mui/icons-material/Search'
 import { IconButton, InputAdornment, TextField } from '@mui/material'
 import Button from '@mui/material/Button'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
 import { Loader } from '../../../components/common/Loader/Loader'
@@ -12,6 +12,7 @@ import { PATH } from '../../../components/pages/Pages'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { useDebounce } from '../../../utils/hooks/useDebounce'
+import { setCardsPackIdToLearnAC } from '../../learn/learnReducer'
 
 import { BasicTable } from './BasicTable/BasicTable'
 import { style } from './BasicTable/styleSXForBasicTable'
@@ -21,6 +22,7 @@ import {
   deleteCardTC,
   getCardsTC,
   setCurrentCardsPageAC,
+  setCurrentPackIdAC,
   setFilterCardsFromInputSearchAC,
   setPageCardsCountAC,
   updateCardTC,
@@ -42,8 +44,23 @@ export const CardsMain = () => {
   const sort = useAppSelector(state => state.cards.sortCardsValue)
 
   const navigate = useNavigate()
+  const [urlParams, setUrlParams] = useSearchParams()
 
   useEffect(() => {
+    const currantPackIdFromUrl = urlParams.get('currentPackId')
+
+    if (currantPackIdFromUrl != null) {
+      dispatch(setCurrentPackIdAC(currantPackIdFromUrl))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (cardsPack_id != '') {
+      setUrlParams({
+        currentPackId: `${cardsPack_id}`,
+      })
+    }
+
     dispatch(getCardsTC())
   }, [pageCount, page, useDebounce(searchValue), sort])
 
@@ -67,14 +84,15 @@ export const CardsMain = () => {
       updateCardTC({
         _id: cardId,
         question:
-          'What are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
+          'What are you think about itWhat areink about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
         answer:
           'I know itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
       })
     )
   }
 
-  const learnToPack = () => {
+  const learnToPack = async () => {
+    await dispatch(setCardsPackIdToLearnAC(cardsPack_id))
     navigate(PATH.LEARN)
   }
 
@@ -91,14 +109,17 @@ export const CardsMain = () => {
       <Button
         variant="contained"
         sx={style.addNewCard}
-        onClick={() => navigate(PATH.LEARN)}
+        onClick={learnToPack}
         disabled={cardPacks?.length === 0}
       >
         <span className={s.btnTitle}>Learn to pack</span>
       </Button>
     )
 
-  const dashboardMenu = myId === currantPackUserId ? <FadeMenu /> : null
+  const dashboardMenu =
+    myId === currantPackUserId ? (
+      <FadeMenu learnPack={learnToPack} deletePack={learnToPack} editPackName={learnToPack} />
+    ) : null
 
   return (
     <>
