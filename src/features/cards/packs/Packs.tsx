@@ -71,7 +71,7 @@ export const Packs = () => {
   //   !packs?.length && dispatch(setPageAC(page - 1)) && searchParams.delete('page')
   // }, [totalCount])
 
-  const deleteAllQwery = () => {
+  const deleteAllQuery = () => {
     setSearchParams({})
     // dispatch(setPageCountAC(10))
     // dispatch(setPageAC(1))
@@ -144,7 +144,7 @@ export const Packs = () => {
         <SwitchMyAll />
         <RangeSlider min={min} max={max} />
         <div className={s.filter}>
-          <IconButton onClick={deleteAllQwery}>
+          <IconButton onClick={deleteAllQuery}>
             <FilterAltOffIcon />
           </IconButton>
         </div>
