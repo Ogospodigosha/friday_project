@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
@@ -31,15 +31,6 @@ import { openModal } from '../modals/modalReducer'
 import { PackModal } from '../modals/PackModal'
 
 import { getPacksTC } from './getPacksTC'
-import { changeIsMyPack } from './IsMyPackReducer-reducer'
-import {
-  setIsMyPackAC,
-  setLocalRangeAC,
-  setPackNameAC,
-  setPageAC,
-  setPageCountAC,
-  setSortAC,
-} from './packs-reducer'
 import s from './packs.module.css'
 import { SwitchMyAll } from './SwitchMyAll'
 
@@ -55,28 +46,8 @@ export const Packs = () => {
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
   const min = useAppSelector(state => state.packs.packs.minCardsCount)
   const max = useAppSelector(state => state.packs.packs.maxCardsCount)
-  const isMyPack1 = useAppSelector(state => state.isMyPack.isMyPack1)
 
-  let aligmentState = JSON.parse(localStorage.getItem('alignment') as string)
   const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '' })
-
-  // useEffect(() => {
-  //   if (aligmentState === 'my' && isMyPack1 === 'false') {
-  //     dispatch(changeIsMyPack('true'))
-  //   }
-  // }, [])
-  // useEffect(() => {
-  //   setSearchParams(params)
-  //   dispatch(getPacksTC(params))
-  // }, [
-  //   useDebounce(localRange),
-  //   localStorage.getItem('isMyPack1'),
-  //   page,
-  //   pageCount,
-  //   sortPacks,
-  //   useDebounce(packName),
-  //   user_id,
-  // ])
 
   useEffect(() => {
     const params = Object.fromEntries(searchParams)
@@ -88,10 +59,13 @@ export const Packs = () => {
       page: +params.page || undefined,
       pageCount: +params.pageCount || 5,
       packName: params.packName || undefined,
+      user_id: params.user_id || undefined,
     }
 
     dispatch(getPacksTC(sendParams))
   }, [useDebounce(searchParams)])
+
+  // перенести в pagination
 
   // useEffect(() => {
   //   !packs?.length && dispatch(setPageAC(page - 1)) && searchParams.delete('page')
@@ -99,14 +73,14 @@ export const Packs = () => {
 
   const deleteAllQwery = () => {
     setSearchParams({})
-    dispatch(setPageCountAC(10))
-    dispatch(setPageAC(1))
-    dispatch(setSortAC('0updated'))
-    dispatch(setPackNameAC(''))
-    dispatch(setIsMyPackAC(false))
-    dispatch(setLocalRangeAC([min, max]))
-    window.localStorage.setItem('alignment', JSON.stringify('all'))
-    dispatch(changeIsMyPack('false'))
+    // dispatch(setPageCountAC(10))
+    // dispatch(setPageAC(1))
+    // dispatch(setSortAC('0updated'))
+    // dispatch(setPackNameAC(''))
+    // dispatch(setIsMyPackAC(false))
+    // dispatch(setLocalRangeAC([min, max]))
+    // window.localStorage.setItem('alignment', JSON.stringify('all'))
+    // dispatch(changeIsMyPack('false'))
   }
   const editableDate = (updated: string) => {
     let newUpdated = updated.split('T')[0].split('-')
@@ -129,15 +103,10 @@ export const Packs = () => {
     setDataForUpdateModal({ id: id, name: name })
     dispatch(openModal('Edit pack'))
   }
-  const onSearchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setPackNameAC(e.currentTarget.value))
-    searchParams.set('packName', e.currentTarget.value)
-  }
   const showCardsHandler = (id: string) => {
     dispatch(setCurrentPackIdAC(id))
     navigate(PATH.CARDS)
   }
-
   const learningPackHandler = (id: string) => {
     dispatch(setCardsPackIdToLearnAC(id))
     navigate(PATH.LEARN)
@@ -146,13 +115,6 @@ export const Packs = () => {
     let currentPack = packs.find(el => el._id === id)
 
     return currentPack && currentPack.cardsCount === 0
-  }
-  const switchCallback = (my: boolean) => {
-    if (my) {
-      searchParams.set('user_id', user_id.toString())
-    } else {
-      searchParams.delete('user_id')
-    }
   }
 
   if (!isLoggedIn) {
@@ -179,7 +141,7 @@ export const Packs = () => {
       </div>
       <div className={s.navigation}>
         <Search />
-        <SwitchMyAll switchCallback={switchCallback} />
+        <SwitchMyAll />
         <RangeSlider min={min} max={max} />
         <div className={s.filter}>
           <IconButton onClick={deleteAllQwery}>
@@ -193,7 +155,7 @@ export const Packs = () => {
             <TableRow style={{ background: '#EFEFEF' }}>
               <TableCell>Name</TableCell>
               <TableCell>Cards</TableCell>
-              <TableCell>
+              <TableCell sx={{ display: 'flex' }}>
                 Last Updated
                 <Filtration sortPacks={sortPacks} />
               </TableCell>
@@ -247,12 +209,7 @@ export const Packs = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <UniversalPagination
-        totalCount={totalCount}
-        // page={page}
-        // pageCount={pageCount}
-        // onChange={onChangePagination}
-      />
+      <UniversalPagination totalCount={totalCount} />
     </div>
   )
 }

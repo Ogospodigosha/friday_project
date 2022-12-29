@@ -19,17 +19,8 @@ export const RootReducer = combineReducers({
   modal: modalReducer,
   learn: learnReducer,
 })
-let preloadedState
-const persistedIsMyPack1 = localStorage.getItem('isMyPack1')
 
-if (persistedIsMyPack1) {
-  preloadedState = JSON.parse(persistedIsMyPack1)
-}
-export const store = legacy_createStore(RootReducer, preloadedState, applyMiddleware(thunk))
-store.subscribe(() => {
-  localStorage.setItem('isMyPack1', store.getState().isMyPack.isMyPack1)
-})
-
+export const store = legacy_createStore(RootReducer, applyMiddleware(thunk))
 // types
 export type AppRootStateType = ReturnType<typeof RootReducer>
 
