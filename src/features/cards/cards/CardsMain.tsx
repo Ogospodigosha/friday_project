@@ -79,7 +79,7 @@ export const CardsMain = () => {
     )
   }
   const deleteCard = (cardId: string) => {
-    dispatch(deleteCardTC(cardId))
+    dispatch(deleteCardTC(cardId, params.cardsPack_id))
   }
 
   const updateCard = (cardId: string) => {

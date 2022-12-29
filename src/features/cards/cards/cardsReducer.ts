@@ -166,18 +166,19 @@ export const createNewCardTC =
     }
   }
 
-export const deleteCardTC = (id: string) => async (dispatch: AppThunkDispatch) => {
-  dispatch(setAppStatusAC('loading'))
-  try {
-    await cardsApi.deleteCard(id)
-    dispatch(getCardsTC())
-    dispatch(setAppStatusAC('succeeded'))
-  } catch (e) {
-    const err = e as Error | AxiosError<{ error: string }>
+export const deleteCardTC =
+  (id: string, cardsPack_id: string) => async (dispatch: AppThunkDispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    try {
+      await cardsApi.deleteCard(id)
+      dispatch(getCardsTC({ cardsPack_id: cardsPack_id }))
+      dispatch(setAppStatusAC('succeeded'))
+    } catch (e) {
+      const err = e as Error | AxiosError<{ error: string }>
 
-    handleError(err, dispatch)
+      handleError(err, dispatch)
+    }
   }
-}
 
 export const updateCardTC =
   (data: UpdateCardType, cardsPack_id: string) => async (dispatch: AppThunkDispatch) => {
