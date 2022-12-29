@@ -1,13 +1,14 @@
-import React, { ChangeEvent, useCallback, useEffect } from 'react'
+import React, { ChangeEvent, useEffect } from 'react'
 
 import Button from '@mui/material/Button'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
-import { CircularProgressSelf } from '../../../components/common/CircularProgress/CircularProgress'
+import { Loader } from '../../../components/common/Loader/Loader'
 import { PATH } from '../../../components/pages/Pages'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
+import { useDebounce } from '../../../utils/hooks/useDebounce'
 
 import { BasicTable } from './BasicTable/BasicTable'
 import { style } from './BasicTable/styleSXForBasicTable'
@@ -49,24 +50,39 @@ export const CardsMain = () => {
     console.log(params)
     setSearchParams(params)
     dispatch(getCardsTC(params))
-  }, [searchParams.get('cardsPack_id')])
+  }, [
+    searchParams.get('cardsPack_id'),
+    pageCount,
+    page,
+    useDebounce(searchValue),
+    sort,
+    cardsPack_id,
+  ])
   //pageCount, page, useDebounce(searchValue), sort, - это убрал из зависимостей
   // useEffect(() => {
   //   !cardPacks?.length && dispatch(setCurrentCardsPageAC(page - 1))
   // }, [totalCount])
 
-  const onChangePagination = useCallback((page: number, countPage: number) => {
+  const onChangePagination = (page: number, countPage: number) => {
     dispatch(setPageCardsCountAC(countPage))
     dispatch(setCurrentCardsPageAC(page))
-  }, [])
-  const addNewCard = useCallback(() => {
-    dispatch(createNewCardTC({ cardsPack_id, question: 'question1', answer: 'answer' }))
-  }, [])
-  const deleteCard = useCallback((cardId: string) => {
-    dispatch(deleteCardTC(cardId))
-  }, [])
+  }
 
-  const updateCard = useCallback((cardId: string) => {
+  const addNewCard = () => {
+    console.log(params.cardsPack_id)
+    dispatch(
+      createNewCardTC({
+        cardsPack_id: params.cardsPack_id,
+        question: 'test',
+        answer: 'answer',
+      })
+    )
+  }
+  const deleteCard = (cardId: string) => {
+    dispatch(deleteCardTC(cardId))
+  }
+
+  const updateCard = (cardId: string) => {
     dispatch(
       updateCardTC({
         _id: cardId,
@@ -76,15 +92,15 @@ export const CardsMain = () => {
           'I know itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
       })
     )
-  }, [])
+  }
 
   const learnToPack = () => {
     navigate(PATH.LEARN)
   }
 
-  const inputSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const inputSearch = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setFilterCardsFromInputSearchAC(e.currentTarget.value))
-  }, [])
+  }
 
   const addNewCardOrLearnCards =
     myId === currantPackUserId ? (
@@ -104,7 +120,7 @@ export const CardsMain = () => {
 
   return (
     <>
-      {loading === 'loading' ? <CircularProgressSelf /> : null}
+      {loading === 'loading' ? <Loader /> : null}
       <BackToPackList />
       <div className={s.packName}>
         <div className={s.packNameTitle}>{packName}</div>

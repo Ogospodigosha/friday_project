@@ -124,6 +124,7 @@ export type ParamsForGetCards = {
 export const getCardsTC =
   (paramsForSend: ParamsForGetCards = {}) =>
   async (dispatch: AppThunkDispatch, getState: () => AppRootStateType) => {
+    debugger
     dispatch(setAppStatusAC('loading'))
     const cardsPack_id = getState().cards.currentPackId
     const page = getState().cards.page
@@ -147,15 +148,17 @@ export const getCardsTC =
     } catch (e) {
       const err = e as Error | AxiosError<{ error: string }>
 
+      dispatch(setAppStatusAC('failed'))
       handleError(err, dispatch)
     }
   }
 
 export const createNewCardTC =
   (data: CreateCardRequestType) => async (dispatch: AppThunkDispatch) => {
+    debugger
     try {
       await cardsApi.addCard(data)
-      dispatch(getCardsTC())
+      dispatch(getCardsTC({ cardsPack_id: data.cardsPack_id }))
     } catch (e) {
       const err = e as Error | AxiosError<{ error: string }>
 
