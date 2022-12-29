@@ -1,51 +1,64 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 
+import CloseIcon from '@mui/icons-material/Close'
 import SearchIcon from '@mui/icons-material/Search'
-import { InputAdornment, TextField } from '@mui/material'
+import { IconButton, InputAdornment, TextField } from '@mui/material'
 import { useSearchParams } from 'react-router-dom'
 
-import s from '../../features/cards/packs/packs.module.css'
+import s from './Search.module.css'
 
 export const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const [packName, setPackName] = useState(searchParams.get('packName') || '')
+  const [searchValue, setSearchValue] = useState(searchParams.get('packName') || '')
 
   const onSearchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setPackName(e.currentTarget.value)
+    setSearchValue(e.currentTarget.value)
     setSearchParams({
       ...Object.fromEntries(searchParams),
       packName: e.currentTarget.value,
     })
   }
-
-  useEffect(() => {
-    const queryParams: { packName?: string } = {}
-
-    if (packName) {
-      queryParams.packName = packName
-    } else searchParams.delete('packName')
+  const handler = () => {
+    setSearchValue('')
+    searchParams.delete('packName')
     setSearchParams({
       ...Object.fromEntries(searchParams),
-      ...queryParams,
     })
+  }
+
+  useEffect(() => {
+    if (!searchValue) searchParams.delete('packName')
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+    })
+
+    setSearchValue(searchParams.get('packName') || '')
   }, [searchParams])
 
   return (
-    <div style={{ marginRight: '20px' }}>
-      <TextField
-        className={s.input}
-        size="small"
-        value={packName}
-        onChange={onSearchInputHandler}
-        placeholder={'Provide your text'}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position={'start'}>
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
+    <div>
+      <span className={s.text}>Search</span>
+      <div className={s.input}>
+        <TextField
+          sx={{ width: '100%' }}
+          size="small"
+          value={searchValue}
+          onChange={onSearchInputHandler}
+          placeholder={'Provide your text'}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position={'start'}>
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <IconButton onClick={handler}>
+                <CloseIcon />
+              </IconButton>
+            ),
+          }}
+        />
+      </div>
     </div>
   )
 }

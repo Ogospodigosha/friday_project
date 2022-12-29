@@ -32,13 +32,22 @@ export const SwitchMyAll = () => {
   }, [searchParams])
 
   return (
-    <ToggleButtonGroup color="info" value={alignment} exclusive onChange={handleChange}>
-      <ToggleButton value="my" onClick={myHandler} style={{ width: '97px' }}>
-        My
-      </ToggleButton>
-      <ToggleButton value="all" onClick={allHandler} style={{ width: '97px' }}>
-        All
-      </ToggleButton>
-    </ToggleButtonGroup>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <span>Show packs cards</span>
+      <ToggleButtonGroup
+        size="small"
+        color="info"
+        value={alignment}
+        exclusive
+        onChange={handleChange}
+      >
+        <ToggleButton value="my" onClick={myHandler} style={{ width: '97px' }}>
+          My
+        </ToggleButton>
+        <ToggleButton value="all" onClick={allHandler} style={{ width: '97px' }}>
+          All
+        </ToggleButton>
+      </ToggleButtonGroup>
+    </div>
   )
 }

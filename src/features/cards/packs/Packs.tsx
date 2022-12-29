@@ -115,9 +115,6 @@ export const Packs = () => {
           Add new pack
         </Button>
       </div>
-      <div className={s.search}>
-        <span>Search</span>
-      </div>
       <div className={s.navigation}>
         <Search />
         <SwitchMyAll />

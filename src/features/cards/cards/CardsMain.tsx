@@ -21,10 +21,8 @@ import {
   createNewCardTC,
   deleteCardTC,
   getCardsTC,
-  setCurrentCardsPageAC,
   setCurrentPackIdAC,
   setFilterCardsFromInputSearchAC,
-  setPageCardsCountAC,
   updateCardTC,
 } from './cardsReducer'
 import { FadeMenu } from './FadeMenu/FadeMenu'
@@ -86,11 +84,6 @@ export const CardsMain = () => {
   // useEffect(() => {
   //   !cardPacks?.length && dispatch(setCurrentCardsPageAC(page - 1))
   // }, [totalCount])
-
-  const onChangePagination = (page: number, countPage: number) => {
-    dispatch(setPageCardsCountAC(countPage))
-    dispatch(setCurrentCardsPageAC(page))
-  }
 
   const addNewCard = () => {
     console.log(params.cardsPack_id)
