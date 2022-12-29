@@ -83,14 +83,18 @@ export const CardsMain = () => {
   }
 
   const updateCard = (cardId: string) => {
+    debugger
     dispatch(
-      updateCardTC({
-        _id: cardId,
-        question:
-          'What are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
-        answer:
-          'I know itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
-      })
+      updateCardTC(
+        {
+          _id: cardId,
+          question:
+            'What are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
+          answer:
+            'I know itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
+        },
+        params.cardsPack_id
+      )
     )
   }
 
