@@ -39,5 +39,7 @@ export const style = {
     width: '120px',
     cursor: 'pointer',
   },
-  tableRowStars: {},
+  tableRowStars: {
+    cursor: 'default',
+  },
 }

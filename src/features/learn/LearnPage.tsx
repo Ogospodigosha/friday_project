@@ -6,7 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
-import { useNavigate } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import { CardType } from '../../api/CardsApi'
 import { setAppStatusAC } from '../../app/appReducer'
@@ -24,12 +24,14 @@ import {
   questionsAnsweredAC,
   resetQuestionsAC,
   setCardGradeTC,
+  setCardsPackIdToLearnAC,
 } from './learnReducer'
+import { style } from './styleSXForLearnPage'
 
 const initialCard = {
   _id: '',
-  answer: 'initial answer',
-  question: 'initial question',
+  answer: 'answer',
+  question: 'question',
   cardsPack_id: '',
   grade: 0,
   shots: 0,
@@ -44,22 +46,31 @@ export const LearnPage = () => {
   const cardsPack_id = useAppSelector(state => state.learn.cardsPack_id)
   const cards = useAppSelector(state => state.learn.cards)
   const packName = useAppSelector(state => state.learn.packName)
-  const cardPacks = useAppSelector(state => state.packs.packs)
   const questionsAnswered = useAppSelector(state => state.learn.questionsAnswered)
   const loading = useAppSelector(state => state.app.status)
 
-  const navigate = useNavigate()
-
   const [hideAnswer, setHideAnswer] = useState(true)
   const [selectedGrade, setSelectedGrade] = useState(1)
+  const [urlParams, setUrlParams] = useSearchParams()
 
   const [card, setCard] = useState<CardType>(initialCard)
 
   useEffect(() => {
-    if (cardsPack_id != '') {
-      dispatch(getCardsToLearnTC())
-      dispatch(questionsAnsweredAC(false))
+    const currantPackIdFromUrl = urlParams.get('currentPackId')
+
+    if (currantPackIdFromUrl != null) {
+      dispatch(setCardsPackIdToLearnAC(currantPackIdFromUrl))
     }
+  }, [])
+
+  useEffect(() => {
+    if (cardsPack_id != '') {
+      setUrlParams({
+        currentPackId: `${cardsPack_id}`,
+      })
+    }
+    dispatch(getCardsToLearnTC())
+    dispatch(questionsAnsweredAC(false))
   }, [])
 
   useEffect(() => {
@@ -67,7 +78,7 @@ export const LearnPage = () => {
       setCard(getCard(cards))
     }
   }, [cards])
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeGrade = (e: ChangeEvent<HTMLInputElement>) => {
     const grade = e.target.value
 
     setSelectedGrade(Number(grade))
@@ -92,6 +103,7 @@ export const LearnPage = () => {
   const backToCurrentCardsHandler = () => {
     dispatch(resetQuestionsAC())
     dispatch(setCurrentPackIdAC(cardsPack_id))
+    dispatch(getCardsToLearnTC())
   }
 
   if (questionsAnswered)
@@ -100,8 +112,8 @@ export const LearnPage = () => {
         <BackToPackList />
         <h1 className={s.header}>Learn {packName}</h1>
         <div className={s.container}>
-          <div>You learnt all questions</div>
-          <Button variant="contained" className={s.button} onClick={backToCurrentCardsHandler}>
+          <div className={s.learnt}>You learnt all questions</div>
+          <Button variant="contained" sx={style.button} onClick={backToCurrentCardsHandler}>
             <span className={s.btnTitle}>Learn again</span>
           </Button>
         </div>
@@ -112,17 +124,21 @@ export const LearnPage = () => {
     <>
       {loading === 'loading' ? <Loader /> : null}
       <BackToPackList />
-      <h1 className={s.header}>Learn {packName}</h1>
+      <h1 className={s.header}>Learn {`"${packName}"`}</h1>
       <div className={s.container}>
-        <div className={s.question}>Question: {card.question}</div>
+        <div className={s.question}>
+          <b>Question:</b> {card.question}
+        </div>
         <div className={s.quantity}>Количество попыток ответов на вопрос: {card.shots}</div>
         {hideAnswer ? (
-          <Button variant="contained" className={s.button} onClick={() => setHideAnswer(false)}>
+          <Button variant="contained" sx={style.button} onClick={() => setHideAnswer(false)}>
             <span className={s.btnTitle}>Show answer</span>
           </Button>
         ) : (
           <div className={s.answerBlock}>
-            <div className={s.answerTitle}>Answer: {card.answer}</div>
+            <div className={s.answerTitle}>
+              <b>Answer</b>: {card.answer}
+            </div>
             <div className={s.radioButtons}>
               <FormControl>
                 <FormLabel id="demo-radio-buttons-group-label">Rate ourself:</FormLabel>
@@ -136,7 +152,7 @@ export const LearnPage = () => {
                       <FormControlLabel
                         key={i}
                         value={i + 1}
-                        control={<Radio onChange={handleChange} />}
+                        control={<Radio onChange={handleChangeGrade} />}
                         label={g}
                       />
                     )
@@ -144,10 +160,8 @@ export const LearnPage = () => {
                 </RadioGroup>
               </FormControl>
             </div>
-            <Button variant="contained" className={s.button}>
-              <span className={s.btnTitle} onClick={nextQuestion}>
-                Next
-              </span>
+            <Button variant="contained" sx={style.button} onClick={nextQuestion}>
+              <span className={s.btnTitle}>Next</span>
             </Button>
           </div>
         )}

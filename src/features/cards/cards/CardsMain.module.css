@@ -11,13 +11,16 @@
   margin-top: 15px;
 }
 .packNameTitle {
-  overflow: hidden;
-
-  padding-right: 15px;
+  display: flex;
+  align-items: center;
 
   font-size: 22px;
   font-weight: 600;
   line-height: 27px;
+}
+.packNameTitleSpan {
+  overflow: hidden;
+
   text-overflow: ellipsis;
   white-space: nowrap;
 }
