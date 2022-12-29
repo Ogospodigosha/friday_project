@@ -43,7 +43,8 @@ export const CardsMain = () => {
   const loading = useAppSelector(state => state.app.status)
   const searchValue = useAppSelector(state => state.cards.filterSearchValue)
   const sort = useAppSelector(state => state.cards.sortCardsValue)
-
+  const [searchParams, setSearchParams] = useSearchParams()
+  const params = Object.fromEntries(searchParams)
   const navigate = useNavigate()
   const [urlParams, setUrlParams] = useSearchParams()
 
@@ -65,6 +66,23 @@ export const CardsMain = () => {
     dispatch(getCardsTC())
   }, [useDebounce(searchValue)])
 
+  useEffect(() => {
+    debugger
+    if (cardsPack_id) {
+      searchParams.set('cardsPack_id', cardsPack_id)
+    }
+    console.log(params)
+    setSearchParams(params)
+    dispatch(getCardsTC(params))
+  }, [
+    searchParams.get('cardsPack_id'),
+    pageCount,
+    page,
+    useDebounce(searchValue),
+    sort,
+    cardsPack_id,
+  ])
+  //pageCount, page, useDebounce(searchValue), sort, - это убрал из зависимостей
   // useEffect(() => {
   //   !cardPacks?.length && dispatch(setCurrentCardsPageAC(page - 1))
   // }, [totalCount])
@@ -73,8 +91,16 @@ export const CardsMain = () => {
     dispatch(setPageCardsCountAC(countPage))
     dispatch(setCurrentCardsPageAC(page))
   }
+
   const addNewCard = () => {
-    dispatch(createNewCardTC({ cardsPack_id, question: 'question1', answer: 'answer' }))
+    console.log(params.cardsPack_id)
+    dispatch(
+      createNewCardTC({
+        cardsPack_id: params.cardsPack_id,
+        question: 'test',
+        answer: 'answer',
+      })
+    )
   }
   const deleteCard = (cardId: string) => {
     dispatch(deleteCardTC(cardId))
