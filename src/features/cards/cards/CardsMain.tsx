@@ -25,6 +25,7 @@ import {
   setPageCardsCountAC,
   updateCardTC,
 } from './cardsReducer'
+import { FadeMenu } from './FadeMenu/FadeMenu'
 
 export const CardsMain = () => {
   const dispatch = useAppDispatch()
@@ -97,12 +98,17 @@ export const CardsMain = () => {
       </Button>
     )
 
+  const dashboardMenu = myId === currantPackUserId ? <FadeMenu /> : null
+
   return (
     <>
       {loading === 'loading' ? <Loader /> : null}
       <BackToPackList />
       <div className={s.packName}>
-        <div className={s.packNameTitle}>{packName}</div>
+        <div className={s.packNameTitle}>
+          <span className={s.packNameTitleSpan}>{packName}</span>
+          {dashboardMenu}
+        </div>
         {addNewCardOrLearnCards}
       </div>
       <div className={s.search}>
