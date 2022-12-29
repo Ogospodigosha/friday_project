@@ -9,12 +9,13 @@ import { PATH } from '../../../components/pages/Pages'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { useDebounce } from '../../../utils/hooks/useDebounce'
+import { openModal } from '../modals/modalReducer'
+import { PackModal } from '../modals/PackModal'
 
 import { BasicTable } from './BasicTable/BasicTable'
 import { style } from './BasicTable/styleSXForBasicTable'
 import s from './CardsMain.module.css'
 import {
-  createNewCardTC,
   deleteCardTC,
   getCardsTC,
   setCurrentCardsPageAC,
@@ -69,14 +70,8 @@ export const CardsMain = () => {
   }
 
   const addNewCard = () => {
-    console.log(params.cardsPack_id)
-    dispatch(
-      createNewCardTC({
-        cardsPack_id: params.cardsPack_id,
-        question: 'test',
-        answer: 'answer',
-      })
-    )
+    debugger
+    dispatch(openModal('Add new card'))
   }
   const deleteCard = (cardId: string) => {
     dispatch(deleteCardTC(cardId, params.cardsPack_id))
@@ -127,6 +122,7 @@ export const CardsMain = () => {
       {loading === 'loading' ? <Loader /> : null}
       <BackToPackList />
       <div className={s.packName}>
+        <PackModal cardsPack_id={params.cardsPack_id} />
         <div className={s.packNameTitle}>{packName}</div>
         {addNewCardOrLearnCards}
       </div>
