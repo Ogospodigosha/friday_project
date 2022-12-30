@@ -21,7 +21,7 @@ import { style } from './styleSXForBasicTable'
 
 type BasicTableProps = {
   deleteCardOnClick: (value: string) => void
-  updateCardOnClick: (value: string) => void
+  updateCardOnClick: (value: string, question: string, answer: string) => void
 }
 
 export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardOnClick }) => {
@@ -78,7 +78,9 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
               </TableCell>
               {myId === currantPackUserId ? (
                 <TableCell sx={style.editDelete} align="right">
-                  <IconButton onClick={() => updateCardOnClick(card._id)}>
+                  <IconButton
+                    onClick={() => updateCardOnClick(card._id, card.question, card.answer)}
+                  >
                     <EditIcon />
                   </IconButton>
                   <IconButton
