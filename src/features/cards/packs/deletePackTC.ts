@@ -1,11 +1,11 @@
 import { AxiosError } from 'axios'
 
+import { packsApi, ParamsForGetPacks } from '../../../api/PacksApi'
 import { setAppStatusAC } from '../../../app/appReducer'
 import { AppThunk } from '../../../app/store'
 import { handleError } from '../../../utils/error-utils'
 
 import { getPacksTC } from './getPacksTC'
-import { packsApi, ParamsForGetPacks } from './packsApi'
 
 export const deletePackTC =
   (id: string, params: ParamsForGetPacks): AppThunk =>

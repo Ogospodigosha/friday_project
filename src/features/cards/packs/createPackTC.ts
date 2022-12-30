@@ -1,11 +1,11 @@
 import { AxiosError } from 'axios'
 
+import { createDataType, packsApi, ParamsForGetPacks } from '../../../api/PacksApi'
 import { setAppStatusAC } from '../../../app/appReducer'
 import { AppThunk } from '../../../app/store'
 import { handleError } from '../../../utils/error-utils'
 
 import { getPacksTC } from './getPacksTC'
-import { createDataType, packsApi, ParamsForGetPacks } from './packsApi'
 
 export const createPackTC =
   (data: createDataType, params: ParamsForGetPacks): AppThunk =>
