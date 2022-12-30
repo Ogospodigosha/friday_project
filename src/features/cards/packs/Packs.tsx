@@ -74,6 +74,7 @@ export const Packs = () => {
   const createPack = () => {
     dispatch(openModal('Add new Pack'))
   }
+
   const deletePack = (id: string, name: string) => {
     setDataForUpdateModal({ id: id, name: name })
     dispatch(openModal('Delete pack'))

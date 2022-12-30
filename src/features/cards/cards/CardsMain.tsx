@@ -71,6 +71,7 @@ export const CardsMain = () => {
     searchParams.get('page'),
     useDebounce(searchValue),
     sort,
+    packName,
     cardsPack_id,
   ])
 
@@ -118,7 +119,6 @@ export const CardsMain = () => {
   return (
     <>
       <BackToPackList />
-
       <div className={s.packName}>
         <PackModal cardsPack_id={params.cardsPack_id} dataForUpdateCard={dataForUpdateCard} />
         <div className={s.packNameTitle}>

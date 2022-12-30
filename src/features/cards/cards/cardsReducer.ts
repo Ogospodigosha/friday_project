@@ -180,7 +180,6 @@ export const deleteCardTC =
 
 export const updateCardTC =
   (data: UpdateCardType, cardsPack_id: string) => async (dispatch: AppThunkDispatch) => {
-    debugger
     dispatch(setAppStatusAC('loading'))
     try {
       await cardsApi.updateCard(data)

@@ -5,7 +5,7 @@ import Button from '@mui/material/Button'
 import Fade from '@mui/material/Fade'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import dashIcon from '../../../../assets/icons/dashboard.svg'
 import deleteImg from '../../../../assets/icons/Delete.png'
@@ -21,27 +21,25 @@ import s from './FadeMenu.module.css'
 type FadeMenuPropsType = {
   learnPack: () => void
 }
+type UpdateModalType = {
+  id: string
+  name: string
+}
 
 export const FadeMenu: FC<FadeMenuPropsType> = ({ learnPack }) => {
   const dispatch = useAppDispatch()
   const packName = useAppSelector(state => state.cards.packName)
   const cardsPack_id = useAppSelector(state => state.cards.currentPackId)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-  const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '' })
+  const [modul, setModul] = useState(false)
+  const [dataForUpdateModal, setDataForUpdateModal] = useState<UpdateModalType>({
+    id: '',
+    name: '',
+  })
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const navigate = useNavigate()
   const open = Boolean(anchorEl)
   const params = Object.fromEntries(searchParams)
-
-  // useEffect(() => {
-  //   if (params.cardsPack_id != null) {
-  //     setSearchParams(params)
-  //     dispatch(setCurrentPackIdAC(params.cardsPack_id))
-  //
-  //     dispatch(getCardsTC(params))
-  //   }
-  // }, [])
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -51,17 +49,19 @@ export const FadeMenu: FC<FadeMenuPropsType> = ({ learnPack }) => {
     setAnchorEl(null)
   }
   const deletePack = () => {
+    setModul(true)
     setDataForUpdateModal({ id: params.cardsPack_id, name: packName })
     dispatch(openModal('Delete pack'))
   }
   const editPack = () => {
+    setModul(true)
     setDataForUpdateModal({ id: params.cardsPack_id, name: packName })
     dispatch(openModal('Edit pack'))
   }
 
   return (
     <div>
-      <PackModal dataForUpdateModal={dataForUpdateModal} />
+      {modul ? <PackModal dataForUpdateModal={dataForUpdateModal} /> : null}
       <Button
         id="fade-button"
         aria-controls={open ? 'fade-menu' : undefined}
@@ -83,7 +83,7 @@ export const FadeMenu: FC<FadeMenuPropsType> = ({ learnPack }) => {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={editPack}>
+        <MenuItem onClick={() => editPack()}>
           <span className={s.span} onClick={handleClose}>
             <img src={edit} alt="edit" />
             Edit
