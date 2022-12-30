@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 
 import CloseIcon from '@mui/icons-material/Close'
 import SearchIcon from '@mui/icons-material/Search'
@@ -12,13 +12,13 @@ import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { useDebounce } from '../../../utils/hooks/useDebounce'
 import { setCardsPackIdToLearnAC } from '../../learn/learnReducer'
+import { openModal } from '../modals/modalReducer'
+import { PackModal } from '../modals/PackModal'
 
 import { BasicTable } from './BasicTable/BasicTable'
 import { style } from './BasicTable/styleSXForBasicTable'
 import s from './CardsMain.module.css'
 import {
-  createNewCardTC,
-  deleteCardTC,
   getCardsTC,
   setCurrentCardsPageAC,
   setCurrentPackIdAC,
@@ -45,17 +45,20 @@ export const CardsMain = () => {
 
   const params = Object.fromEntries(searchParams)
   const navigate = useNavigate()
+  const [dataForUpdateCard, setDataForUpdateCard] = useState({
+    cardId: '',
+    question: '',
+    answer: '',
+  })
 
   useEffect(() => {
     if (params.cardsPack_id != null) {
       dispatch(setCurrentPackIdAC(params.cardsPack_id))
     }
   }, [])
-
-  useEffect(() => {
-    dispatch(getCardsTC())
-  }, [useDebounce(searchValue)])
-
+  //   useEffect(() => {
+  //   dispatch(getCardsTC())
+  // }, [useDebounce(searchValue)])
   useEffect(() => {
     if (cardsPack_id) {
       searchParams.set('cardsPack_id', cardsPack_id)
@@ -82,28 +85,17 @@ export const CardsMain = () => {
   }
 
   const addNewCard = () => {
-    dispatch(
-      createNewCardTC({
-        cardsPack_id: params.cardsPack_id,
-        question: 'test',
-        answer: 'answer',
-      })
-    )
+    dispatch(openModal('Add new card'))
   }
   const deleteCard = (cardId: string) => {
-    dispatch(deleteCardTC(cardId))
+    setDataForUpdateCard({ cardId: cardId, question: '', answer: '' })
+    // dispatch(deleteCardTC(cardId, params.cardsPack_id))
+    dispatch(openModal('Delete card'))
   }
 
-  const updateCard = (cardId: string) => {
-    dispatch(
-      updateCardTC({
-        _id: cardId,
-        question:
-          'What are you think about itWhat areink about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
-        answer:
-          'I know itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
-      })
-    )
+  const updateCard = (cardId: string, question: string, answer: string) => {
+    setDataForUpdateCard({ cardId: cardId, question: question, answer: answer })
+    dispatch(openModal('Edit card'))
   }
   const learnToPack = () => {
     dispatch(setCardsPackIdToLearnAC(params.cardsPack_id))
@@ -136,6 +128,8 @@ export const CardsMain = () => {
       <BackToPackList />
 
       <div className={s.packName}>
+        <PackModal cardsPack_id={params.cardsPack_id} dataForUpdateCard={dataForUpdateCard} />
+        <div className={s.packNameTitle}>{packName}</div>
         <div className={s.packNameTitle}>
           <span className={s.packNameTitleSpan}>{packName}</span>
           {dashboardMenu}
@@ -144,25 +138,25 @@ export const CardsMain = () => {
       </div>
       <div className={s.search}>
         <span className={s.searchSpan}>Search</span>
-        <TextField
-          className={s.input}
-          size="small"
-          value={searchValue}
-          onChange={inputSearch}
-          placeholder={'Provide your text'}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position={'start'}>
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <IconButton onClick={() => dispatch(setFilterCardsFromInputSearchAC(''))}>
-                <CloseIcon />
-              </IconButton>
-            ),
-          }}
-        />
+        {/*<TextField*/}
+        {/*  className={s.input}*/}
+        {/*  size="small"*/}
+        {/*  value={searchValue}*/}
+        {/*  onChange={inputSearch}*/}
+        {/*  placeholder={'Provide your text'}*/}
+        {/*  InputProps={{*/}
+        {/*    startAdornment: (*/}
+        {/*      <InputAdornment position={'start'}>*/}
+        {/*        <SearchIcon />*/}
+        {/*      </InputAdornment>*/}
+        {/*    ),*/}
+        {/*    endAdornment: (*/}
+        {/*      <IconButton onClick={() => dispatch(setFilterCardsFromInputSearchAC(''))}>*/}
+        {/*        <CloseIcon />*/}
+        {/*      </IconButton>*/}
+        {/*    ),*/}
+        {/*  }}*/}
+        {/*/>*/}
       </div>
       <BasicTable deleteCardOnClick={deleteCard} updateCardOnClick={updateCard} />
       {/*{cardPacks?.length !== 0 ? (*/}
