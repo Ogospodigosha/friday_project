@@ -1,40 +1,25 @@
+import { AxiosError } from 'axios'
+
+import { packsApi, ParamsForGetPacks } from '../../../api/PacksApi'
+import { setAppStatusAC } from '../../../app/appReducer'
 import { AppThunk } from '../../../app/store'
+import { handleError } from '../../../utils/error-utils'
 
 import { setPacksAC } from './packs-reducer'
-import { packsApi, ParamsForGetPacks } from './packsApi'
-
-// export const getPacksTC =
-//   (paramsForSend: ParamsForGetPacks = {}) =>
-//   (dispatch: AppThunkDispatch, getState: () => AppRootStateType) => {
-//     let user_id = getState().app.user._id
-//     const page = getState().packs.packs.page
-//     const pageCount = getState().packs.packs.pageCount
-//     const sortPacks = getState().packs.sort
-//     const packName = getState().packs.packName
-//
-//     if (localStorage.getItem('isMyPack1') === 'false') {
-//       user_id = ''
-//     }
-//     const params = {
-//       user_id,
-//       page,
-//       pageCount,
-//       sortPacks,
-//       packName,
-//       ...paramsForSend,
-//     }
-//
-//     packsApi.getPacks(params).then(res => {
-//       dispatch(setPacksAC(res.data))
-//       dispatch(setSortAC(params.sortPacks))
-//       dispatch(setPackNameAC(params.packName))
-//     })
-//   }
 
 export const getPacksTC =
   (paramsForSend: ParamsForGetPacks): AppThunk =>
-  dispatch => {
-    packsApi.getPacks(paramsForSend).then(res => {
+  async dispatch => {
+    dispatch(setAppStatusAC('loading'))
+    try {
+      const res = await packsApi.getPacks(paramsForSend)
+
       dispatch(setPacksAC(res.data))
-    })
+    } catch (e) {
+      const err = e as Error | AxiosError<{ error: string }>
+
+      handleError(err, dispatch)
+    } finally {
+      dispatch(setAppStatusAC('idle'))
+    }
   }
