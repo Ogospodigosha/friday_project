@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 
 import CloseIcon from '@mui/icons-material/Close'
 import SearchIcon from '@mui/icons-material/Search'
@@ -7,12 +7,13 @@ import Button from '@mui/material/Button'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
-import { Loader } from '../../../components/common/Loader/Loader'
 import { PATH } from '../../../components/pages/Pages'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { useDebounce } from '../../../utils/hooks/useDebounce'
 import { setCardsPackIdToLearnAC } from '../../learn/learnReducer'
+import { openModal } from '../modals/modalReducer'
+import { PackModal } from '../modals/PackModal'
 
 import { BasicTable } from './BasicTable/BasicTable'
 import { style } from './BasicTable/styleSXForBasicTable'
@@ -39,11 +40,12 @@ export const CardsMain = () => {
   const cardsPack_id = useAppSelector(state => state.cards.currentPackId)
   const currantPackUserId = useAppSelector(state => state.cards.packUserId)
   const cardPacks = useAppSelector(state => state.cards.cards)
-  const loading = useAppSelector(state => state.app.status)
   const searchValue = useAppSelector(state => state.cards.filterSearchValue)
   const sort = useAppSelector(state => state.cards.sortCardsValue)
 
   const [searchParams, setSearchParams] = useSearchParams()
+  const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '' })
+
   const params = Object.fromEntries(searchParams)
   const navigate = useNavigate()
 
@@ -70,6 +72,7 @@ export const CardsMain = () => {
     useDebounce(searchValue),
     sort,
     cardsPack_id,
+    packName,
   ])
 
   //pageCount, page, useDebounce(searchValue), sort, - это убрал из зависимостей
@@ -112,6 +115,16 @@ export const CardsMain = () => {
     navigate(PATH.LEARN)
   }
 
+  const deletePack = () => {
+    setDataForUpdateModal({ id: params.cardsPack_id, name: packName })
+    dispatch(openModal('Delete pack'))
+    // navigate(PATH.PACKS)
+  }
+  const editPack = () => {
+    setDataForUpdateModal({ id: params.cardsPack_id, name: packName })
+    dispatch(openModal('Edit pack'))
+  }
+
   const inputSearch = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setFilterCardsFromInputSearchAC(e.currentTarget.value))
   }
@@ -134,13 +147,13 @@ export const CardsMain = () => {
 
   const dashboardMenu =
     myId === currantPackUserId ? (
-      <FadeMenu learnPack={learnToPack} deletePack={learnToPack} editPackName={learnToPack} />
+      <FadeMenu learnPack={learnToPack} deletePack={deletePack} editPackName={editPack} />
     ) : null
 
   return (
     <>
-      {loading === 'loading' ? <Loader /> : null}
       <BackToPackList />
+      <PackModal dataForUpdateModal={dataForUpdateModal} />
       <div className={s.packName}>
         <div className={s.packNameTitle}>
           <span className={s.packNameTitleSpan}>{packName}</span>

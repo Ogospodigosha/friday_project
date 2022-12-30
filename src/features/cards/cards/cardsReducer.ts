@@ -154,7 +154,6 @@ export const getCardsTC =
 
 export const createNewCardTC =
   (data: CreateCardRequestType) => async (dispatch: AppThunkDispatch) => {
-    debugger
     try {
       await cardsApi.addCard(data)
       dispatch(getCardsTC({ cardsPack_id: data.cardsPack_id }))

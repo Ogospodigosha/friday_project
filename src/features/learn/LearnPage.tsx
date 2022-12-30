@@ -11,7 +11,6 @@ import { useSearchParams } from 'react-router-dom'
 import { CardType } from '../../api/CardsApi'
 import { setAppStatusAC } from '../../app/appReducer'
 import { BackToPackList } from '../../components/common/BackToPackList/BackToPackList'
-import { Loader } from '../../components/common/Loader/Loader'
 import { getCard } from '../../utils/getCard'
 import { useAppDispatch } from '../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../utils/hooks/useAppSelector'
@@ -47,7 +46,6 @@ export const LearnPage = () => {
   const cards = useAppSelector(state => state.learn.cards)
   const packName = useAppSelector(state => state.learn.packName)
   const questionsAnswered = useAppSelector(state => state.learn.questionsAnswered)
-  const loading = useAppSelector(state => state.app.status)
 
   const [hideAnswer, setHideAnswer] = useState(true)
   const [selectedGrade, setSelectedGrade] = useState(1)
@@ -112,7 +110,7 @@ export const LearnPage = () => {
         <BackToPackList />
         <h1 className={s.header}>Learn {packName}</h1>
         <div className={s.container}>
-          <div className={s.learnt}>You learnt all questions</div>
+          <div className={s.learnt}>You studied all the questions</div>
           <Button variant="contained" sx={style.button} onClick={backToCurrentCardsHandler}>
             <span className={s.btnTitle}>Learn again</span>
           </Button>
@@ -122,7 +120,6 @@ export const LearnPage = () => {
 
   return (
     <>
-      {loading === 'loading' ? <Loader /> : null}
       <BackToPackList />
       <h1 className={s.header}>Learn {`"${packName}"`}</h1>
       <div className={s.container}>
