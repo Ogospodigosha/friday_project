@@ -128,9 +128,8 @@ export const Packs = () => {
             <TableRow style={{ background: '#EFEFEF' }}>
               <TableCell>Name</TableCell>
               <TableCell>Cards</TableCell>
-              <TableCell sx={{ display: 'flex' }}>
-                Last Updated
-                <Filtration />
+              <TableCell sx={style.tableHeadTableCell}>
+                <Filtration title={'Last Updated'} type={'sortPacks'} />
               </TableCell>
               <TableCell>Created by</TableCell>
               <TableCell>Actions</TableCell>

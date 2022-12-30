@@ -69,6 +69,7 @@ export const CardsMain = () => {
     searchParams.get('page'),
     searchParams.get('pageCount'),
     useDebounce(searchParams.get('cardQuestion')),
+    searchParams.get('sortCards'),
     useDebounce(searchValue),
     cardsPack_id,
   ])
