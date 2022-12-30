@@ -36,7 +36,6 @@ export const CardsMain = () => {
   const currantPackUserId = useAppSelector(state => state.cards.packUserId)
   const cardPacks = useAppSelector(state => state.cards.cards)
   const searchValue = useAppSelector(state => state.cards.filterSearchValue)
-  const sort = useAppSelector(state => state.cards.sortCardsValue)
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -48,15 +47,6 @@ export const CardsMain = () => {
     answer: '',
   })
 
-  // useEffect(() => {
-  //   if (params.cardsPack_id != null) {
-  //     dispatch(setCurrentPackIdAC(params.cardsPack_id))
-  //   }
-  // }, [])
-
-  //   useEffect(() => {
-  //   dispatch(getCardsTC())
-  // }, [useDebounce(searchValue)])
   useEffect(() => {
     if (cardsPack_id) {
       searchParams.set('cardsPack_id', cardsPack_id)
@@ -65,8 +55,6 @@ export const CardsMain = () => {
     dispatch(getCardsTC(params))
   }, [
     searchParams.get('cardsPack_id'),
-    searchParams.get('pageCount'),
-    searchParams.get('page'),
     searchParams.get('page'),
     searchParams.get('pageCount'),
     useDebounce(searchParams.get('cardQuestion')),
@@ -75,17 +63,11 @@ export const CardsMain = () => {
     cardsPack_id,
   ])
 
-  //pageCount, page, useDebounce(searchValue), sort, - это убрал из зависимостей
-  // useEffect(() => {
-  //   !cardPacks?.length && dispatch(setCurrentCardsPageAC(page - 1))
-  // }, [totalCount])
-
   const addNewCard = () => {
     dispatch(openModal('Add new card'))
   }
   const deleteCard = (cardId: string) => {
     setDataForUpdateCard({ cardId: cardId, question: '', answer: '' })
-    // dispatch(deleteCardTC(cardId, params.cardsPack_id))
     dispatch(openModal('Delete card'))
   }
 
