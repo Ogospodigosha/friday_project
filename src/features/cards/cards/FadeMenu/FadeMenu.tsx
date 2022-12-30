@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 
 import Button from '@mui/material/Button'
 import Fade from '@mui/material/Fade'
@@ -15,7 +15,6 @@ import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../../utils/hooks/useAppSelector'
 import { openModal } from '../../modals/modalReducer'
 import { PackModal } from '../../modals/PackModal'
-import { getCardsTC, setCurrentPackIdAC } from '../cardsReducer'
 
 import s from './FadeMenu.module.css'
 
@@ -35,14 +34,14 @@ export const FadeMenu: FC<FadeMenuPropsType> = ({ learnPack }) => {
   const open = Boolean(anchorEl)
   const params = Object.fromEntries(searchParams)
 
-  useEffect(() => {
-    if (params.cardsPack_id != null) {
-      setSearchParams(params)
-      dispatch(setCurrentPackIdAC(params.cardsPack_id))
-
-      dispatch(getCardsTC(params))
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (params.cardsPack_id != null) {
+  //     setSearchParams(params)
+  //     dispatch(setCurrentPackIdAC(params.cardsPack_id))
+  //
+  //     dispatch(getCardsTC(params))
+  //   }
+  // }, [])
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)

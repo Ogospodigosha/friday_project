@@ -1,8 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 
-import CloseIcon from '@mui/icons-material/Close'
-import SearchIcon from '@mui/icons-material/Search'
-import { IconButton, InputAdornment, TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
@@ -18,14 +15,7 @@ import { PackModal } from '../modals/PackModal'
 import { BasicTable } from './BasicTable/BasicTable'
 import { style } from './BasicTable/styleSXForBasicTable'
 import s from './CardsMain.module.css'
-import {
-  getCardsTC,
-  setCurrentCardsPageAC,
-  setCurrentPackIdAC,
-  setFilterCardsFromInputSearchAC,
-  setPageCardsCountAC,
-  updateCardTC,
-} from './cardsReducer'
+import { getCardsTC, setFilterCardsFromInputSearchAC } from './cardsReducer'
 import { FadeMenu } from './FadeMenu/FadeMenu'
 
 export const CardsMain = () => {
@@ -51,11 +41,12 @@ export const CardsMain = () => {
     answer: '',
   })
 
-  useEffect(() => {
-    if (params.cardsPack_id != null) {
-      dispatch(setCurrentPackIdAC(params.cardsPack_id))
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (params.cardsPack_id != null) {
+  //     dispatch(setCurrentPackIdAC(params.cardsPack_id))
+  //   }
+  // }, [])
+
   //   useEffect(() => {
   //   dispatch(getCardsTC())
   // }, [useDebounce(searchValue)])
@@ -78,11 +69,6 @@ export const CardsMain = () => {
   // useEffect(() => {
   //   !cardPacks?.length && dispatch(setCurrentCardsPageAC(page - 1))
   // }, [totalCount])
-
-  const onChangePagination = (page: number, countPage: number) => {
-    dispatch(setPageCardsCountAC(countPage))
-    dispatch(setCurrentCardsPageAC(page))
-  }
 
   const addNewCard = () => {
     dispatch(openModal('Add new card'))
@@ -129,7 +115,6 @@ export const CardsMain = () => {
 
       <div className={s.packName}>
         <PackModal cardsPack_id={params.cardsPack_id} dataForUpdateCard={dataForUpdateCard} />
-        <div className={s.packNameTitle}>{packName}</div>
         <div className={s.packNameTitle}>
           <span className={s.packNameTitleSpan}>{packName}</span>
           {dashboardMenu}
