@@ -18,9 +18,9 @@ import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Filtration } from '../../../components/filtration/Filtration'
 import { PATH } from '../../../components/pages/Pages'
-import { UniversalPagination } from '../../../components/pagination/UniversalPagination'
 import { RangeSlider } from '../../../components/rangeSliger/RangeSlider'
 import { Search } from '../../../components/search/Search'
+import { SuperPagination } from '../../../components/superPagination/SuperPagination'
 import { SwitchMyAll } from '../../../components/switchMyAll/SwitchMyAll'
 import { getPacksSearchParams } from '../../../utils/getPacksSearchParams'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
@@ -53,7 +53,7 @@ export const Packs = () => {
     dispatch(getPacksTC(getPacksSearchParams(searchParams)))
   }, [useDebounce(searchParams)])
 
-  // перенести в pagination
+  // перенести в superPagination
   // useEffect(() => {
   //   !packs?.length && dispatch(setPageAC(page - 1)) && searchParams.delete('page')
   // }, [totalCount])
@@ -185,7 +185,7 @@ export const Packs = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <UniversalPagination totalCount={totalCount} />
+      <SuperPagination totalCount={totalCount} />
     </div>
   )
 }

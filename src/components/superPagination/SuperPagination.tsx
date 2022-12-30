@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { MenuItem, Pagination, Select } from '@mui/material'
 import { useSearchParams } from 'react-router-dom'
 
-import s from './UniversalPagination.module.css'
+import s from './SuperPagination.module.css'
 
 type PaginationPropsType = {
   totalCount: number
 }
 
-export const UniversalPagination = (props: PaginationPropsType) => {
+export const SuperPagination = (props: PaginationPropsType) => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1)

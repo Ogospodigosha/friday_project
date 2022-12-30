@@ -176,7 +176,7 @@ export const CardsMain = () => {
       </div>
       <BasicTable deleteCardOnClick={deleteCard} updateCardOnClick={updateCard} />
       {/*{cardPacks?.length !== 0 ? (*/}
-      {/*  <UniversalPagination*/}
+      {/*  <Pagination*/}
       {/*    page={page}*/}
       {/*    pageCount={pageCount}*/}
       {/*    totalCount={totalCount}*/}

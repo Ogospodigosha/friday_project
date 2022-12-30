@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
 
-  width: 250px;
+  width: 300px;
 }
 .value{
   display: flex;
@@ -12,6 +12,7 @@
 
   width: 36px;
   height: 36px;
+  /*margin: 0 10px;*/
 
   font-size: 16px;
   font-weight: 600;
@@ -19,5 +20,8 @@
   background-color: #ffffff;
   border: 1px solid #D9D9D9;
   border-radius: 2px;
-
+}
+.text{
+  font-size: 14px;
+  font-weight: 500;
 }
