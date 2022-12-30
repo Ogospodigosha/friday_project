@@ -116,7 +116,9 @@ export const Packs = () => {
         </Button>
       </div>
       <div className={s.navigation}>
-        <Search />
+        <div className={s.searchContainer}>
+          <Search />
+        </div>
         <SwitchMyAll />
         <RangeSlider min={min} max={max} />
         <div className={s.filter}>

@@ -1,14 +1,13 @@
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
-import CloseIcon from '@mui/icons-material/Close'
-import SearchIcon from '@mui/icons-material/Search'
-import { IconButton, InputAdornment, TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
 import { Loader } from '../../../components/common/Loader/Loader'
 import { PATH } from '../../../components/pages/Pages'
+import { Search } from '../../../components/search/Search'
+import { SuperPagination } from '../../../components/superPagination/SuperPagination'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { useDebounce } from '../../../utils/hooks/useDebounce'
@@ -22,7 +21,6 @@ import {
   deleteCardTC,
   getCardsTC,
   setCurrentPackIdAC,
-  setFilterCardsFromInputSearchAC,
   updateCardTC,
 } from './cardsReducer'
 import { FadeMenu } from './FadeMenu/FadeMenu'
@@ -65,7 +63,6 @@ export const CardsMain = () => {
   }, [useDebounce(searchValue)])
 
   useEffect(() => {
-    debugger
     if (cardsPack_id) {
       searchParams.set('cardsPack_id', cardsPack_id)
     }
@@ -80,10 +77,6 @@ export const CardsMain = () => {
     sort,
     cardsPack_id,
   ])
-  //pageCount, page, useDebounce(searchValue), sort, - это убрал из зависимостей
-  // useEffect(() => {
-  //   !cardPacks?.length && dispatch(setCurrentCardsPageAC(page - 1))
-  // }, [totalCount])
 
   const addNewCard = () => {
     console.log(params.cardsPack_id)
@@ -114,10 +107,6 @@ export const CardsMain = () => {
   const learnToPack = async () => {
     await dispatch(setCardsPackIdToLearnAC(cardsPack_id))
     navigate(PATH.LEARN)
-  }
-
-  const inputSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setFilterCardsFromInputSearchAC(e.currentTarget.value))
   }
 
   const addNewCardOrLearnCards =
@@ -153,36 +142,10 @@ export const CardsMain = () => {
         {addNewCardOrLearnCards}
       </div>
       <div className={s.search}>
-        <span className={s.searchSpan}>Search</span>
-        <TextField
-          className={s.input}
-          size="small"
-          value={searchValue}
-          onChange={inputSearch}
-          placeholder={'Provide your text'}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position={'start'}>
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <IconButton onClick={() => dispatch(setFilterCardsFromInputSearchAC(''))}>
-                <CloseIcon />
-              </IconButton>
-            ),
-          }}
-        />
+        <Search />
       </div>
       <BasicTable deleteCardOnClick={deleteCard} updateCardOnClick={updateCard} />
-      {/*{cardPacks?.length !== 0 ? (*/}
-      {/*  <Pagination*/}
-      {/*    page={page}*/}
-      {/*    pageCount={pageCount}*/}
-      {/*    totalCount={totalCount}*/}
-      {/*    onChange={onChangePagination}*/}
-      {/*  />*/}
-      {/*) : null}*/}
+      <SuperPagination totalCount={totalCount} />
     </>
   )
 }

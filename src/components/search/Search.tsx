@@ -36,7 +36,7 @@ export const Search = () => {
   }, [searchParams])
 
   return (
-    <div>
+    <>
       <span className={s.text}>Search</span>
       <div className={s.input}>
         <TextField
@@ -59,6 +59,6 @@ export const Search = () => {
           }}
         />
       </div>
-    </div>
+    </>
   )
 }

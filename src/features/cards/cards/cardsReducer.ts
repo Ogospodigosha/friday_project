@@ -124,7 +124,6 @@ export type ParamsForGetCards = {
 export const getCardsTC =
   (paramsForSend: ParamsForGetCards = {}) =>
   async (dispatch: AppThunkDispatch, getState: () => AppRootStateType) => {
-    debugger
     dispatch(setAppStatusAC('loading'))
     const cardsPack_id = getState().cards.currentPackId
     const page = getState().cards.page
