@@ -68,7 +68,6 @@ export const learnReducer = (
       return state
   }
 }
-
 export const setCardsToLearnAC = (data: GetCardsResponseType) => {
   return {
     type: 'LEARN/SET-CARDS-TO-LEARN',
@@ -88,14 +87,12 @@ export const setCardsPackIdToLearnAC = (cardsPack_id: string) => {
     cardsPack_id,
   } as const
 }
-
 export const questionsAnsweredAC = (answered: boolean) => {
   return {
     type: 'LEARN/QUESTIONS-ANSWERED',
     answered,
   } as const
 }
-
 export const resetQuestionsAC = () => {
   return {
     type: 'LEARN/RESET-QUESTIONS',

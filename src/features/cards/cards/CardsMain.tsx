@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect } from 'react'
 
 import CloseIcon from '@mui/icons-material/Close'
 import SearchIcon from '@mui/icons-material/Search'
@@ -12,8 +12,6 @@ import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { useDebounce } from '../../../utils/hooks/useDebounce'
 import { setCardsPackIdToLearnAC } from '../../learn/learnReducer'
-import { openModal } from '../modals/modalReducer'
-import { PackModal } from '../modals/PackModal'
 
 import { BasicTable } from './BasicTable/BasicTable'
 import { style } from './BasicTable/styleSXForBasicTable'
@@ -44,7 +42,6 @@ export const CardsMain = () => {
   const sort = useAppSelector(state => state.cards.sortCardsValue)
 
   const [searchParams, setSearchParams] = useSearchParams()
-  const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '' })
 
   const params = Object.fromEntries(searchParams)
   const navigate = useNavigate()
@@ -72,7 +69,6 @@ export const CardsMain = () => {
     useDebounce(searchValue),
     sort,
     cardsPack_id,
-    packName,
   ])
 
   //pageCount, page, useDebounce(searchValue), sort, - это убрал из зависимостей
@@ -109,22 +105,10 @@ export const CardsMain = () => {
       })
     )
   }
-
   const learnToPack = () => {
     dispatch(setCardsPackIdToLearnAC(params.cardsPack_id))
     navigate(PATH.LEARN)
   }
-
-  const deletePack = () => {
-    setDataForUpdateModal({ id: params.cardsPack_id, name: packName })
-    dispatch(openModal('Delete pack'))
-    // navigate(PATH.PACKS)
-  }
-  const editPack = () => {
-    setDataForUpdateModal({ id: params.cardsPack_id, name: packName })
-    dispatch(openModal('Edit pack'))
-  }
-
   const inputSearch = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setFilterCardsFromInputSearchAC(e.currentTarget.value))
   }
@@ -145,15 +129,12 @@ export const CardsMain = () => {
       </Button>
     )
 
-  const dashboardMenu =
-    myId === currantPackUserId ? (
-      <FadeMenu learnPack={learnToPack} deletePack={deletePack} editPackName={editPack} />
-    ) : null
+  const dashboardMenu = myId === currantPackUserId ? <FadeMenu learnPack={learnToPack} /> : null
 
   return (
     <>
       <BackToPackList />
-      <PackModal dataForUpdateModal={dataForUpdateModal} />
+
       <div className={s.packName}>
         <div className={s.packNameTitle}>
           <span className={s.packNameTitleSpan}>{packName}</span>
