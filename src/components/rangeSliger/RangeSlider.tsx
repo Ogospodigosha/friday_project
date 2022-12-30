@@ -42,16 +42,20 @@ export const RangeSlider = ({ min, max }: PropsType) => {
   }, [max, max, searchParams])
 
   return (
-    <div className={s.wrapper}>
-      <div className={s.value}>{value[0]}</div>
-      <Slider
-        value={value}
-        onChange={onChangeHandler}
-        onChangeCommitted={onChangeCommittedHandler}
-        min={min}
-        max={max}
-      />
-      <div className={s.value}>{value[1]}</div>
+    <div>
+      <span className={s.text}>Number of cards</span>
+      <div className={s.wrapper}>
+        <div className={s.value}>{value[0]}</div>
+        <Slider
+          sx={{ width: '200px', margin: '0, 10' }}
+          value={value}
+          onChange={onChangeHandler}
+          onChangeCommitted={onChangeCommittedHandler}
+          min={min}
+          max={max}
+        />
+        <div className={s.value}>{value[1]}</div>
+      </div>
     </div>
   )
 }

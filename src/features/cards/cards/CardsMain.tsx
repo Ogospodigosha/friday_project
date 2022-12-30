@@ -1,10 +1,12 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Button from '@mui/material/Button'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { BackToPackList } from '../../../components/common/BackToPackList/BackToPackList'
 import { PATH } from '../../../components/pages/Pages'
+import { Search } from '../../../components/search/Search'
+import { SuperPagination } from '../../../components/superPagination/SuperPagination'
 import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { useDebounce } from '../../../utils/hooks/useDebounce'
@@ -15,7 +17,14 @@ import { PackModal } from '../modals/PackModal'
 import { BasicTable } from './BasicTable/BasicTable'
 import { style } from './BasicTable/styleSXForBasicTable'
 import s from './CardsMain.module.css'
-import { getCardsTC, setFilterCardsFromInputSearchAC } from './cardsReducer'
+import { getCardsTC } from './cardsReducer'
+// import {
+//   createNewCardTC,
+//   deleteCardTC,
+//   getCardsTC,
+//   setCurrentPackIdAC,
+//   updateCardTC,
+// } from './cardsReducer'
 import { FadeMenu } from './FadeMenu/FadeMenu'
 
 export const CardsMain = () => {
@@ -58,8 +67,8 @@ export const CardsMain = () => {
     dispatch(getCardsTC(params))
   }, [
     searchParams.get('cardsPack_id'),
-    pageCount,
-    page,
+    searchParams.get('pageCount'),
+    searchParams.get('page'),
     useDebounce(searchValue),
     sort,
     cardsPack_id,
@@ -86,9 +95,6 @@ export const CardsMain = () => {
   const learnToPack = () => {
     dispatch(setCardsPackIdToLearnAC(params.cardsPack_id))
     navigate(PATH.LEARN)
-  }
-  const inputSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setFilterCardsFromInputSearchAC(e.currentTarget.value))
   }
 
   const addNewCardOrLearnCards =
@@ -122,36 +128,10 @@ export const CardsMain = () => {
         {addNewCardOrLearnCards}
       </div>
       <div className={s.search}>
-        <span className={s.searchSpan}>Search</span>
-        {/*<TextField*/}
-        {/*  className={s.input}*/}
-        {/*  size="small"*/}
-        {/*  value={searchValue}*/}
-        {/*  onChange={inputSearch}*/}
-        {/*  placeholder={'Provide your text'}*/}
-        {/*  InputProps={{*/}
-        {/*    startAdornment: (*/}
-        {/*      <InputAdornment position={'start'}>*/}
-        {/*        <SearchIcon />*/}
-        {/*      </InputAdornment>*/}
-        {/*    ),*/}
-        {/*    endAdornment: (*/}
-        {/*      <IconButton onClick={() => dispatch(setFilterCardsFromInputSearchAC(''))}>*/}
-        {/*        <CloseIcon />*/}
-        {/*      </IconButton>*/}
-        {/*    ),*/}
-        {/*  }}*/}
-        {/*/>*/}
+        <Search />
       </div>
       <BasicTable deleteCardOnClick={deleteCard} updateCardOnClick={updateCard} />
-      {/*{cardPacks?.length !== 0 ? (*/}
-      {/*  <UniversalPagination*/}
-      {/*    page={page}*/}
-      {/*    pageCount={pageCount}*/}
-      {/*    totalCount={totalCount}*/}
-      {/*    onChange={onChangePagination}*/}
-      {/*  />*/}
-      {/*) : null}*/}
+      <SuperPagination totalCount={totalCount} />
     </>
   )
 }

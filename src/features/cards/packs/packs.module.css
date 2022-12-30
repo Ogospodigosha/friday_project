@@ -28,23 +28,11 @@
 
     margin-bottom: 24px;
 }
-.input {
-    width: 413px;
-}
-.search {
-    margin-bottom: 8px;
 
-
-}
-.search span {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 17px;
-    color: #000000;
+.searchContainer{
+    width: 420px;
 }
 .filter {
-    /*padding: 4px 4px;*/
     background: white;
     border: 2px solid #E8E8E8
 }
