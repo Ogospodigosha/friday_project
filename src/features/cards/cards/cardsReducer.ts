@@ -126,19 +126,12 @@ export const getCardsTC =
   async (dispatch: AppThunkDispatch, getState: () => AppRootStateType) => {
     dispatch(setAppStatusAC('loading'))
     const cardsPack_id = getState().cards.currentPackId
-    // const page = getState().cards.page
-    // const pageCount = getState().cards.pageCount
-    // const cardQuestion = getState().cards.filterSearchValue
-    // const sortCards = getState().cards.sortCardsValue
 
     if (paramsForSend.cardsPack_id === undefined) return
     try {
       const res = await cardsApi.getCards({
         cardsPack_id,
-        // page,
-        // pageCount,
-        // sortCards,
-        // cardQuestion,
+        pageCount: 5,
         ...paramsForSend,
       })
 

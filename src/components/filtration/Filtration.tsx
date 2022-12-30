@@ -4,14 +4,20 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import { useSearchParams } from 'react-router-dom'
 
+import s from './Filtration.module.css'
+
 export const changeSort = (sort: string, up: string, down: string) => {
   return sort === up ? down : up
 }
+type PropsType = {
+  title: string
+  type: string
+}
 
-export const Filtration = () => {
+export const Filtration = ({ title, type }: PropsType) => {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const [value, setValue] = useState(searchParams.get('sortPacks') || '')
+  const [value, setValue] = useState(searchParams.get(type) || '')
   const test = value
   const onClickHandler = () => {
     setValue(prev => changeSort(prev, '', '1updated'))
@@ -19,12 +25,20 @@ export const Filtration = () => {
 
   useEffect(() => {
     if (test === '1updated') {
+      const queryParams: { sortPacks?: string; sortCards?: string } = {}
+
+      if (type === 'sortPacks') {
+        queryParams['sortPacks'] = test
+      }
+      if (type === 'sortCards') {
+        queryParams['sortCards'] = test
+      }
       setSearchParams({
         ...Object.fromEntries(searchParams),
-        sortPacks: test,
+        ...queryParams,
       })
     } else {
-      searchParams.delete('sortPacks')
+      searchParams.delete(type)
       setSearchParams({
         ...Object.fromEntries(searchParams),
       })
@@ -32,8 +46,13 @@ export const Filtration = () => {
   }, [test])
 
   useEffect(() => {
-    setValue(searchParams.get('sortPacks') || '')
+    setValue(searchParams.get(type) || '')
   }, [searchParams])
 
-  return <div onClick={onClickHandler}>{test ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}</div>
+  return (
+    <div className={s.wrapper} onClick={onClickHandler}>
+      <span>{title}</span>
+      {test ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
+    </div>
+  )
 }

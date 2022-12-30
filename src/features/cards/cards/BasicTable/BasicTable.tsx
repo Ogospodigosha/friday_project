@@ -13,9 +13,8 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
-import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
+import { Filtration } from '../../../../components/filtration/Filtration'
 import { useAppSelector } from '../../../../utils/hooks/useAppSelector'
-import { setSortCardsValueAC } from '../cardsReducer'
 
 import s from './BasicTable.module.css'
 import { style } from './styleSXForBasicTable'
@@ -26,19 +25,13 @@ type BasicTableProps = {
 }
 
 export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardOnClick }) => {
-  const dispatch = useAppDispatch()
   const cardPacks = useAppSelector(state => state.cards.cards)
   const myId = useAppSelector(state => state.app.user._id)
   const disabledDeleteButton = useAppSelector(state => state.app.status)
   const currantPackUserId = useAppSelector(state => state.cards.packUserId)
-  const sort = useAppSelector(state => state.cards.sortCardsValue)
 
   const convertDataFormat = (value: string) => {
     return new Intl.DateTimeFormat('ru-RU').format(new Date(value))
-  }
-
-  const onChangeSort = (newSort: string) => {
-    dispatch(setSortCardsValueAC(newSort))
   }
 
   return cardPacks?.length ? (
@@ -51,8 +44,7 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
               Answer
             </TableCell>
             <TableCell sx={style.tableHeadTableCell} align="right">
-              Last Updated
-              {/*<UniversalSort sort={sort} onClick={onChangeSort} value={'grade'} />*/}
+              <Filtration title={'Last Updated'} type={'sortCards'} />
             </TableCell>
             <TableCell sx={style.tableHeadTableCell} align="center">
               Grade

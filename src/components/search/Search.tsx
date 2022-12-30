@@ -7,32 +7,44 @@ import { useSearchParams } from 'react-router-dom'
 
 import s from './Search.module.css'
 
-export const Search = () => {
+type PropsType = {
+  type: string
+}
+export const Search = ({ type }: PropsType) => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const [searchValue, setSearchValue] = useState(searchParams.get('packName') || '')
+  const [searchValue, setSearchValue] = useState(searchParams.get(type) || '')
 
   const onSearchInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const queryParams: { cardQuestion?: string; packName?: string } = {}
+
+    if (type === 'cardQuestion') {
+      queryParams['cardQuestion'] = e.currentTarget.value
+    }
+    if (type === 'packName') {
+      queryParams['packName'] = e.currentTarget.value
+    }
+
     setSearchValue(e.currentTarget.value)
     setSearchParams({
       ...Object.fromEntries(searchParams),
-      packName: e.currentTarget.value,
+      ...queryParams,
     })
   }
   const handler = () => {
     setSearchValue('')
-    searchParams.delete('packName')
+    searchParams.delete(type)
     setSearchParams({
       ...Object.fromEntries(searchParams),
     })
   }
 
   useEffect(() => {
-    if (!searchValue) searchParams.delete('packName')
+    if (!searchValue) searchParams.delete(type)
     setSearchParams({
       ...Object.fromEntries(searchParams),
     })
 
-    setSearchValue(searchParams.get('packName') || '')
+    setSearchValue(searchParams.get(type) || '')
   }, [searchParams])
 
   return (

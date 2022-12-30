@@ -1,6 +1,4 @@
-import { instance } from '../../../api/instance'
-
-import { PackType } from './packs-reducer'
+import { instance } from './instance'
 
 export const packsApi = {
   getPacks(params: ParamsForGetPacks) {
@@ -39,7 +37,4 @@ export type editDataType = {
     name?: string
     _id: string
   }
-}
-type ResponseDataCreateType = {
-  newCardsPack: PackType
 }

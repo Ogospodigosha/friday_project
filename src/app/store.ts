@@ -4,7 +4,6 @@ import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import { authReducer } from '../features/auth/authReducer'
 import { cardsReducer } from '../features/cards/cards/cardsReducer'
 import { modalReducer } from '../features/cards/modals/modalReducer'
-import { IsMyPackReducer } from '../features/cards/packs/IsMyPackReducer-reducer'
 import { packsReducer } from '../features/cards/packs/packs-reducer'
 import { learnReducer } from '../features/learn/learnReducer'
 
@@ -15,7 +14,6 @@ export const RootReducer = combineReducers({
   app: appReducer,
   cards: cardsReducer,
   packs: packsReducer,
-  isMyPack: IsMyPackReducer,
   modal: modalReducer,
   learn: learnReducer,
 })
