@@ -16,7 +16,6 @@ import { BasicTable } from './BasicTable/BasicTable'
 import { style } from './BasicTable/styleSXForBasicTable'
 import s from './CardsMain.module.css'
 import {
-  deleteCardTC,
   getCardsTC,
   setCurrentCardsPageAC,
   setFilterCardsFromInputSearchAC,
@@ -77,26 +76,14 @@ export const CardsMain = () => {
     dispatch(openModal('Add new card'))
   }
   const deleteCard = (cardId: string) => {
-    dispatch(deleteCardTC(cardId, params.cardsPack_id))
+    setDataForUpdateCard({ cardId: cardId, question: '', answer: '' })
+    // dispatch(deleteCardTC(cardId, params.cardsPack_id))
+    dispatch(openModal('Delete card'))
   }
 
   const updateCard = (cardId: string, question: string, answer: string) => {
     setDataForUpdateCard({ cardId: cardId, question: question, answer: answer })
     dispatch(openModal('Edit card'))
-    console.log(question)
-    console.log(answer)
-    // dispatch(
-    //   updateCardTC(
-    //     {
-    //       _id: cardId,
-    //       question:
-    //         'What are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
-    //       answer:
-    //         'I know itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about itWhat are you think about it',
-    //     },
-    //     params.cardsPack_id
-    //   )
-    // )
   }
 
   const learnToPack = () => {
