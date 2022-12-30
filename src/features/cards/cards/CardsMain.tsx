@@ -27,10 +27,7 @@ import { FadeMenu } from './FadeMenu/FadeMenu'
 
 export const CardsMain = () => {
   const dispatch = useAppDispatch()
-  const [test, setTest] = useSearchParams()
   const myId = useAppSelector(state => state.app.user._id)
-  const pageCount = useAppSelector(state => state.cards.pageCount)
-  const page = useAppSelector(state => state.cards.page)
   const totalCount = useAppSelector(state => state.cards.cardsTotalCount)
   const packName = useAppSelector(state => state.cards.packName)
   const cardsPack_id = useAppSelector(state => state.cards.currentPackId)
@@ -38,7 +35,6 @@ export const CardsMain = () => {
   const cardPacks = useAppSelector(state => state.cards.cards)
   const loading = useAppSelector(state => state.app.status)
   const searchValue = useAppSelector(state => state.cards.filterSearchValue)
-  const sort = useAppSelector(state => state.cards.sortCardsValue)
   const [searchParams, setSearchParams] = useSearchParams()
   const params = Object.fromEntries(searchParams)
   const navigate = useNavigate()
@@ -58,7 +54,6 @@ export const CardsMain = () => {
         currentPackId: `${cardsPack_id}`,
       })
     }
-
     dispatch(getCardsTC())
   }, [useDebounce(searchValue)])
 
@@ -71,10 +66,10 @@ export const CardsMain = () => {
     dispatch(getCardsTC(params))
   }, [
     searchParams.get('cardsPack_id'),
-    pageCount,
-    page,
+    searchParams.get('page'),
+    searchParams.get('pageCount'),
+    useDebounce(searchParams.get('cardQuestion')),
     useDebounce(searchValue),
-    sort,
     cardsPack_id,
   ])
 
@@ -142,7 +137,7 @@ export const CardsMain = () => {
         {addNewCardOrLearnCards}
       </div>
       <div className={s.search}>
-        <Search />
+        <Search type={'cardQuestion'} />
       </div>
       <BasicTable deleteCardOnClick={deleteCard} updateCardOnClick={updateCard} />
       <SuperPagination totalCount={totalCount} />

@@ -53,11 +53,6 @@ export const Packs = () => {
     dispatch(getPacksTC(getPacksSearchParams(searchParams)))
   }, [useDebounce(searchParams)])
 
-  // перенести в superPagination
-  // useEffect(() => {
-  //   !packs?.length && dispatch(setPageAC(page - 1)) && searchParams.delete('page')
-  // }, [totalCount])
-
   const deleteAllQuery = () => {
     setSearchParams({})
   }
@@ -117,7 +112,7 @@ export const Packs = () => {
       </div>
       <div className={s.navigation}>
         <div className={s.searchContainer}>
-          <Search />
+          <Search type={'packName'} />
         </div>
         <SwitchMyAll />
         <RangeSlider min={min} max={max} />

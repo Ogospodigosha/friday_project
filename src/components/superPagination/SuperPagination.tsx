@@ -40,6 +40,10 @@ export const SuperPagination = (props: PaginationPropsType) => {
     })
   }
 
+  // useEffect(() => {
+  //   !packs?.length && dispatch(setPageAC(page - 1)) && searchParams.delete('page')
+  // }, [totalCount])
+
   useEffect(() => {
     setPage(Number(searchParams.get('page')) || 1)
     setPageCount(Number(searchParams.get('pageCount')) || 5)
