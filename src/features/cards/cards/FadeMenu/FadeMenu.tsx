@@ -29,7 +29,6 @@ type UpdateModalType = {
 export const FadeMenu: FC<FadeMenuPropsType> = ({ learnPack }) => {
   const dispatch = useAppDispatch()
   const packName = useAppSelector(state => state.cards.packName)
-  const cardsPack_id = useAppSelector(state => state.cards.currentPackId)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [modul, setModul] = useState(false)
   const [dataForUpdateModal, setDataForUpdateModal] = useState<UpdateModalType>({
@@ -47,6 +46,7 @@ export const FadeMenu: FC<FadeMenuPropsType> = ({ learnPack }) => {
 
   const handleClose = () => {
     setAnchorEl(null)
+    setModul(false)
   }
   const deletePack = () => {
     setModul(true)
@@ -83,14 +83,14 @@ export const FadeMenu: FC<FadeMenuPropsType> = ({ learnPack }) => {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={() => editPack()}>
-          <span className={s.span} onClick={handleClose}>
+        <MenuItem onClick={editPack}>
+          <span className={s.span}>
             <img src={edit} alt="edit" />
             Edit
           </span>
         </MenuItem>
         <MenuItem onClick={deletePack}>
-          <span className={s.span} onClick={handleClose}>
+          <span className={s.span}>
             <img src={deleteImg} alt="delete" />
             Delete
           </span>
