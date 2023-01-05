@@ -55,4 +55,5 @@ export type PackType = {
   user_name: string
   __v: number
   _id: string
+  deckCover: string
 }

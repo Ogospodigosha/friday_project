@@ -46,7 +46,7 @@ export const Packs = () => {
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
   const min = useAppSelector(state => state.packs.packs.minCardsCount)
   const max = useAppSelector(state => state.packs.packs.maxCardsCount)
-
+  const [file64, setFile64] = useState('startValue')
   const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '' })
 
   useEffect(() => {
@@ -99,7 +99,7 @@ export const Packs = () => {
   return (
     <div>
       <div className={s.header}>
-        <PackModal dataForUpdateModal={dataForUpdateModal} />
+        <PackModal dataForUpdateModal={dataForUpdateModal} setFile64={setFile64} file64={file64} />
 
         <div className={s.description}>Packs list</div>
         <Button
@@ -141,7 +141,13 @@ export const Packs = () => {
           <TableBody>
             {packs.map(raw => (
               <TableRow key={raw._id} hover={true}>
-                <TableCell>{''}</TableCell>
+                <TableCell>
+                  {
+                    <div style={{ width: '70px', height: '70px' }}>
+                      <img src={raw.deckCover} />
+                    </div>
+                  }
+                </TableCell>
                 <TableCell
                   sx={style.tableRowTableCell}
                   style={{ cursor: 'pointer' }}

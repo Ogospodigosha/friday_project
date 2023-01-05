@@ -14,19 +14,22 @@ import { openModal } from '../modalReducer'
 
 import s from './createPackModalBody.module.css'
 
-export const CreatePackModalBody = () => {
+type PropsType = {
+  setFile64: (file64: string) => void
+  file64: string
+}
+export const CreatePackModalBody = (props: PropsType) => {
   const dispatch = useAppDispatch()
   const [searchParams] = useSearchParams()
   const [packName, setPackName] = useState('')
   const [checked, setChecked] = useState(false)
-  const [file64, setFile64] = useState('')
   const createPackNameHandler = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setPackName(e.currentTarget.value)
   }
   const data = {
     cardsPack: {
       name: packName,
-      deckCover: file64, // не обязателен
+      deckCover: props.file64, // не обязателен
       private: checked,
     },
   }
@@ -43,7 +46,7 @@ export const CreatePackModalBody = () => {
 
   return (
     <>
-      <InputTypeFile setFile64={setFile64} />
+      <InputTypeFile setFile64={props.setFile64} />
       <div className={s.packName}>Name pack</div>
       <div style={{ marginBottom: '30px' }}>
         <TextField
