@@ -14,6 +14,7 @@ import { useAppDispatch } from '../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../utils/hooks/useAppSelector'
 import { logOutTC, updateProfileTC } from '../authReducer'
 
+import { InputFile } from './inputFile/InputFile'
 import s from './Profile.module.css'
 
 export const Profile = () => {
@@ -47,7 +48,8 @@ export const Profile = () => {
       <div className={s.main}>
         <div className={s.title}>Personal Information</div>
         <div className={s.avatar}>
-          <Avatar alt="your ava" src={avatar || ava} sx={{ width: 96, height: 96 }} />
+          <Avatar alt="ava" src={avatar || ava} sx={{ width: 96, height: 96 }} />
+          <InputFile />
         </div>
         <div className={s.editSpan}>
           <SuperEditableSpan
