@@ -127,6 +127,7 @@ export const Packs = () => {
         <Table>
           <thead>
             <TableRow style={{ background: '#EFEFEF' }}>
+              <TableCell>Cover</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Cards</TableCell>
               <TableCell sx={style.tableHeadTableCell}>
@@ -140,6 +141,7 @@ export const Packs = () => {
           <TableBody>
             {packs.map(raw => (
               <TableRow key={raw._id} hover={true}>
+                <TableCell>{''}</TableCell>
                 <TableCell
                   sx={style.tableRowTableCell}
                   style={{ cursor: 'pointer' }}
