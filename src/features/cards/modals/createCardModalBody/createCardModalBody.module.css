@@ -1,10 +1,9 @@
 .choose {
+    font-size: 13px;
+    line-height: 20px;
     color: #24254A;
 
     opacity: 0.5;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 13px;
-    line-height: 20px;
 }
 .flex {
     display: flex;
@@ -18,5 +17,13 @@
     color: #000000;
 
     border-radius: 30px;
-    box-shadow: 0px 2px 10px rgba(109, 109, 109, 0.25), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 2px 10px rgba(109, 109, 109, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.selectDescription{
+    margin-bottom: 8px;
+
+    font-size: 14px;
+    color: #000000;
+
+    opacity: 0.5;
 }
