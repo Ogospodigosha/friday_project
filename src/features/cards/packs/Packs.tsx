@@ -141,11 +141,12 @@ export const Packs = () => {
           <TableBody>
             {packs.map(raw => (
               <TableRow key={raw._id} hover={true}>
-                <TableCell>
+                <TableCell style={{ display: 'flex' }}>
                   {
-                    <div style={{ width: '70px', height: '70px' }}>
-                      <img src={raw.deckCover} />
-                    </div>
+                    <img
+                      src={raw.deckCover}
+                      style={{ display: 'block', width: '80px', height: '60px' }}
+                    />
                   }
                 </TableCell>
                 <TableCell
