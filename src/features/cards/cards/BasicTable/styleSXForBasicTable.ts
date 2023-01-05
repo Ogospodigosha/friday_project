@@ -30,6 +30,7 @@ export const style = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     maxWidth: '200px',
+    height: '75px',
     fontFamily: 'Montserrat, sans-serif',
     fontWeight: '400',
     fontSize: '13px',

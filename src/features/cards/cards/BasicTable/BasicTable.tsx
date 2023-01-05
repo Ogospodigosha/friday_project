@@ -58,7 +58,11 @@ export const BasicTable: FC<BasicTableProps> = ({ deleteCardOnClick, updateCardO
           {cardPacks.map(card => (
             <TableRow key={card._id} sx={style.tableRow}>
               <TableCell sx={style.tableRowTableCell} component="th" scope="row">
-                {card.question}
+                {card.questionImg ? (
+                  <img src={card.questionImg} className={s.cardCover} alt={'cardCover'} />
+                ) : (
+                  <div>{card.question}</div>
+                )}
               </TableCell>
               <TableCell sx={style.tableRowTableCell} align="right">
                 {card.answer}
