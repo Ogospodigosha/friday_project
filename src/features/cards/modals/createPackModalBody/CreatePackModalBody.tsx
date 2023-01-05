@@ -6,6 +6,7 @@ import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { useSearchParams } from 'react-router-dom'
 
+import { InputTypeFile } from '../../../../components/InputTypeFile'
 import { getPacksSearchParams } from '../../../../utils/getPacksSearchParams'
 import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
 import { createPackTC } from '../../packs/createPackTC'
@@ -42,6 +43,7 @@ export const CreatePackModalBody = () => {
 
   return (
     <>
+      <InputTypeFile />
       <div className={s.packName}>Name pack</div>
       <div style={{ marginBottom: '30px' }}>
         <TextField
