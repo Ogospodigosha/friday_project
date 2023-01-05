@@ -19,14 +19,14 @@ export const CreatePackModalBody = () => {
   const [searchParams] = useSearchParams()
   const [packName, setPackName] = useState('')
   const [checked, setChecked] = useState(false)
-
+  const [file64, setFile64] = useState('')
   const createPackNameHandler = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setPackName(e.currentTarget.value)
   }
   const data = {
     cardsPack: {
       name: packName,
-      deckCover: 'url or base64', // не обязателен
+      deckCover: file64, // не обязателен
       private: checked,
     },
   }
@@ -43,7 +43,7 @@ export const CreatePackModalBody = () => {
 
   return (
     <>
-      <InputTypeFile />
+      <InputTypeFile setFile64={setFile64} />
       <div className={s.packName}>Name pack</div>
       <div style={{ marginBottom: '30px' }}>
         <TextField
