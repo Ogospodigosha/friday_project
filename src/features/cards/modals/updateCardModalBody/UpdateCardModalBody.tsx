@@ -5,7 +5,7 @@ import Button from '@mui/material/Button'
 
 import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
 import { updateCardTC } from '../../cards/cardsReducer'
-import s from '../createCardModalBody/createCardModalBody.module.css'
+import s from '../createCardModalBody/CreateCardModalBody.module.css'
 import { openModal } from '../modalReducer'
 
 type PropsType = {
