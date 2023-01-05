@@ -49,9 +49,9 @@ export const FadeMenu: FC<FadeMenuPropsType> = ({ learnPack }) => {
     setAnchorEl(null)
   }
   const deletePack = () => {
-    setModul(true)
-    setDataForUpdateModal({ id: params.cardsPack_id, name: packName })
-    dispatch(openModal('Delete pack'))
+    // setModul(true)
+    // setDataForUpdateModal({ id: params.cardsPack_id, name: packName })
+    // dispatch(openModal('Delete pack'))
   }
   const editPack = () => {
     setModul(true)
