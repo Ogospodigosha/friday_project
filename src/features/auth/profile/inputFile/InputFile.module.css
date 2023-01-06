@@ -1,0 +1,14 @@
+.button {
+  cursor: pointer;
+
+  position: absolute;
+  z-index: 2;
+  top: 71.3%;
+  left: 71.5%;
+
+  width: 30px;
+  height: 30px;
+
+  background: #808080 url(/src/assets/icons/cameraProfile.svg) no-repeat center;
+  border-radius: 50%;
+}
