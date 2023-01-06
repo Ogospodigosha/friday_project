@@ -18,7 +18,7 @@ export const InputFile: React.FC = () => {
     if (e.target.files && e.target.files.length) {
       const file = e.target.files[0]
 
-      if (file.size < 4000000) {
+      if (file.size < 400000) {
         convertFileToBase64(file, (file64: string) => {
           dispatch(updateProfileTC({ avatar: file64 }))
         })
@@ -42,7 +42,13 @@ export const InputFile: React.FC = () => {
   return (
     <div>
       <button onClick={selectFileHandler} className={s.button}></button>
-      <input style={{ display: 'none' }} ref={inputRef} type="file" onChange={uploadHandler} />
+      <input
+        style={{ display: 'none' }}
+        ref={inputRef}
+        type="file"
+        onChange={uploadHandler}
+        accept="image/*"
+      />
     </div>
   )
 }
