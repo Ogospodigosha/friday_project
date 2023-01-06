@@ -106,6 +106,7 @@ export const Packs = () => {
           setFile64={setFile64}
           file64={file64}
           deckCover={deckCover}
+          setDeckCover={setDeckCover}
         />
 
         <div className={s.description}>Packs list</div>
