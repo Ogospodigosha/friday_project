@@ -22,10 +22,9 @@ export const InputFile: React.FC = () => {
         convertFileToBase64(file, (file64: string) => {
           dispatch(updateProfileTC({ avatar: file64 }))
         })
+      } else {
+        handleError(new Error('File is too large max size 400kb'), dispatch)
       }
-    } else {
-      handleError(new Error('File is too large'), dispatch)
-      console.error('Error: ', 'File is too big')
     }
   }
 

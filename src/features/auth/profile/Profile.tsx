@@ -33,7 +33,6 @@ export const Profile = () => {
     dispatch(logOutTC())
   }
   const sendTextHandler = () => {
-    console.log(user.avatar)
     dispatch(updateProfileTC({ name: text }))
   }
 
