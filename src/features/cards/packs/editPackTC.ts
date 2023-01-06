@@ -8,11 +8,13 @@ import { handleError } from '../../../utils/error-utils'
 import { getPacksTC } from './getPacksTC'
 
 export const editPackTC =
-  (id: string, name: string, params: ParamsForGetPacks): AppThunk =>
+  (id: string, name: string, file64: string, params: ParamsForGetPacks): AppThunk =>
   async dispatch => {
     dispatch(setAppStatusAC('loading'))
     try {
-      const res = await packsApi.editPack({ cardsPack: { _id: id, name: name } })
+      const res = await packsApi.editPack({
+        cardsPack: { _id: id, name: name, deckCover: file64 },
+      })
 
       dispatch(getPacksTC(params))
     } catch (e) {

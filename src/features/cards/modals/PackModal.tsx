@@ -14,16 +14,30 @@ type PropType = {
   dataForUpdateModal?: { id: string; name: string }
   dataForUpdateCard?: { cardId: string; question: string; answer: string }
   cardsPack_id?: string
+  setFile64?: (file64: string) => void
+  file64?: string
+  deckCover?: string
 }
 export const PackModal = (props: PropType) => {
   const title = useAppSelector(state => state.modal.title)
 
   return (
     <BasicModal>
-      {title === 'Add new Pack' && <CreatePackModalBody />}
-      {title === 'Edit pack' && props.dataForUpdateModal && (
-        <UpdateModalBody dataForUpdateModal={props.dataForUpdateModal} />
+      {title === 'Add new Pack' && props.setFile64 && props.file64 && (
+        <CreatePackModalBody setFile64={props.setFile64} file64={props.file64} />
       )}
+      {title === 'Edit pack' &&
+        props.dataForUpdateModal &&
+        props.deckCover &&
+        props.setFile64 &&
+        props.file64 && (
+          <UpdateModalBody
+            dataForUpdateModal={props.dataForUpdateModal}
+            deckCover={props.deckCover}
+            setFile64={props.setFile64}
+            file64={props.file64}
+          />
+        )}
       {title === 'Delete pack' && props.dataForUpdateModal && (
         <DeleteModalBody dataForUpdateModal={props.dataForUpdateModal} />
       )}
