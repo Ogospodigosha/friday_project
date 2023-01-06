@@ -26,12 +26,18 @@ export const PackModal = (props: PropType) => {
       {title === 'Add new Pack' && props.setFile64 && props.file64 && (
         <CreatePackModalBody setFile64={props.setFile64} file64={props.file64} />
       )}
-      {title === 'Edit pack' && props.dataForUpdateModal && props.deckCover && (
-        <UpdateModalBody
-          dataForUpdateModal={props.dataForUpdateModal}
-          deckCover={props.deckCover}
-        />
-      )}
+      {title === 'Edit pack' &&
+        props.dataForUpdateModal &&
+        props.deckCover &&
+        props.setFile64 &&
+        props.file64 && (
+          <UpdateModalBody
+            dataForUpdateModal={props.dataForUpdateModal}
+            deckCover={props.deckCover}
+            setFile64={props.setFile64}
+            file64={props.file64}
+          />
+        )}
       {title === 'Delete pack' && props.dataForUpdateModal && (
         <DeleteModalBody dataForUpdateModal={props.dataForUpdateModal} />
       )}

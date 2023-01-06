@@ -6,6 +6,7 @@ import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { useSearchParams } from 'react-router-dom'
 
+import { InputTypeFile } from '../../../../components/InputTypeFile'
 import { getPacksSearchParams } from '../../../../utils/getPacksSearchParams'
 import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
 import { editPackTC } from '../../packs/editPackTC'
@@ -15,6 +16,8 @@ import { openModal } from '../modalReducer'
 type PropsType = {
   dataForUpdateModal: { id: string; name: string }
   deckCover: string
+  setFile64: (file64: string) => void
+  file64: string
 }
 export const UpdateModalBody = (props: PropsType) => {
   const dispatch = useAppDispatch()
@@ -30,7 +33,12 @@ export const UpdateModalBody = (props: PropsType) => {
 
   const saveUpdatedPackName = () => {
     dispatch(
-      editPackTC(props.dataForUpdateModal.id, UpdateValue, getPacksSearchParams(searchParams))
+      editPackTC(
+        props.dataForUpdateModal.id,
+        UpdateValue,
+        props.file64, //
+        getPacksSearchParams(searchParams)
+      )
     )
     dispatch(openModal(null))
   }
@@ -40,7 +48,8 @@ export const UpdateModalBody = (props: PropsType) => {
 
   return (
     <>
-      <img src={props.deckCover} />
+      <InputTypeFile setFile64={props.setFile64} />
+      <img src={props.file64} />
       <div className={s.packName}>Name pack</div>
       <div style={{ marginBottom: '30px' }}>
         <TextField
