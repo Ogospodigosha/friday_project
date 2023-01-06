@@ -48,6 +48,7 @@ export const Packs = () => {
   const max = useAppSelector(state => state.packs.packs.maxCardsCount)
   const [file64, setFile64] = useState('startValue')
   const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '' })
+  const [deckCover, setDeckCover] = useState('')
 
   useEffect(() => {
     dispatch(getPacksTC(getPacksSearchParams(searchParams)))
@@ -74,8 +75,9 @@ export const Packs = () => {
     setDataForUpdateModal({ id: id, name: name })
     dispatch(openModal('Delete pack'))
   }
-  const editPack = (id: string, name: string) => {
+  const editPack = (id: string, name: string, deckCover: string) => {
     setDataForUpdateModal({ id: id, name: name })
+    setDeckCover(deckCover)
     dispatch(openModal('Edit pack'))
   }
   const showCardsHandler = (id: string) => {
@@ -99,7 +101,12 @@ export const Packs = () => {
   return (
     <div>
       <div className={s.header}>
-        <PackModal dataForUpdateModal={dataForUpdateModal} setFile64={setFile64} file64={file64} />
+        <PackModal
+          dataForUpdateModal={dataForUpdateModal}
+          setFile64={setFile64}
+          file64={file64}
+          deckCover={deckCover}
+        />
 
         <div className={s.description}>Packs list</div>
         <Button
@@ -142,12 +149,16 @@ export const Packs = () => {
             {packs.map(raw => (
               <TableRow key={raw._id} hover={true}>
                 <TableCell style={{ display: 'flex' }}>
-                  {raw.deckCover === 'url or base64' || raw.deckCover.length < 10 ? (
+                  {raw.deckCover === 'url or base64' || !raw.deckCover ? (
                     <div style={{ display: 'block', width: '80px', height: '60px' }}></div>
                   ) : (
                     <img
                       src={raw.deckCover}
-                      style={{ display: 'block', width: '80px', height: '60px' }}
+                      style={{
+                        display: 'block',
+                        width: '80px',
+                        height: '60px',
+                      }}
                     />
                   )}
                 </TableCell>
@@ -170,7 +181,7 @@ export const Packs = () => {
                       >
                         <SchoolIcon />
                       </IconButton>
-                      <IconButton onClick={() => editPack(raw._id, raw.name)}>
+                      <IconButton onClick={() => editPack(raw._id, raw.name, raw.deckCover)}>
                         <EditIcon />
                       </IconButton>
                       <IconButton onClick={() => deletePack(raw._id, raw.name)}>

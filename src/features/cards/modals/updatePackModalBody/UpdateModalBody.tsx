@@ -14,6 +14,7 @@ import { openModal } from '../modalReducer'
 
 type PropsType = {
   dataForUpdateModal: { id: string; name: string }
+  deckCover: string
 }
 export const UpdateModalBody = (props: PropsType) => {
   const dispatch = useAppDispatch()
@@ -39,6 +40,7 @@ export const UpdateModalBody = (props: PropsType) => {
 
   return (
     <>
+      <img src={props.deckCover} />
       <div className={s.packName}>Name pack</div>
       <div style={{ marginBottom: '30px' }}>
         <TextField
