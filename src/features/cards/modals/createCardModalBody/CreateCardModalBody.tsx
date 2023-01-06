@@ -1,11 +1,11 @@
 import React, { ChangeEvent, useState } from 'react'
 
-import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material'
+import { TextField } from '@mui/material'
 import Button from '@mui/material/Button'
-import FormControl from '@mui/material/FormControl'
 
 import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
 import { createNewCardTC } from '../../cards/cardsReducer'
+import { ChangeQuestionType } from '../for modals/ChangeQuestionType'
 import { openModal } from '../modalReducer'
 
 import s from './CreateCardModalBody.module.css'
@@ -41,63 +41,40 @@ export const CreateCardModalBody = (props: PropsType) => {
     )
     dispatch(openModal(null))
   }
-
-  const changeSelect = (event: SelectChangeEvent) => {
-    setQuestionType(event.target.value as SelectType)
+  const changeQuestion = (newSelectValue: SelectType) => {
+    setQuestionType(newSelectValue)
   }
 
   return (
     <div>
-      <FormControl fullWidth>
-        <span className={s.selectDescription}>Choose a question format</span>
-        <Select value={questionType} onChange={changeSelect}>
-          <MenuItem value={'text'}>Text</MenuItem>
-          <MenuItem value={'picture'}>Picture</MenuItem>
-        </Select>
-      </FormControl>
+      <ChangeQuestionType questionType={questionType} changeQuestion={changeQuestion} />
       <div>
         {questionType === 'picture' ? (
-          <div>
-            <PictureQuestion cover={questionImg} setQuestionCover={setQuestionCover} />
-            <div style={{ marginBottom: '35px' }}>
-              <TextField
-                className={s.input}
-                fullWidth={true}
-                size="small"
-                variant="standard"
-                value={answerValue}
-                onChange={updateAnswerValue}
-                placeholder={'Answer'}
-              />
-            </div>
-          </div>
+          <PictureQuestion cover={questionImg} setQuestionCover={setQuestionCover} />
         ) : (
-          <div>
-            <div style={{ marginBottom: '33px', marginTop: '33px' }}>
-              <TextField
-                className={s.input}
-                fullWidth={true}
-                size="small"
-                variant="standard"
-                value={questionValue}
-                onChange={updateQuestionValue}
-                placeholder={'Question'}
-              />
-            </div>
-            <div style={{ marginBottom: '35px' }}>
-              <TextField
-                className={s.input}
-                fullWidth={true}
-                size="small"
-                variant="standard"
-                value={answerValue}
-                onChange={updateAnswerValue}
-                placeholder={'Answer'}
-              />
-            </div>
+          <div style={{ marginBottom: '33px', marginTop: '33px' }}>
+            <TextField
+              className={s.input}
+              fullWidth={true}
+              size="small"
+              variant="standard"
+              value={questionValue}
+              onChange={updateQuestionValue}
+              placeholder={'Question'}
+            />
           </div>
         )}
-
+        <div style={{ marginBottom: '35px' }}>
+          <TextField
+            className={s.input}
+            fullWidth={true}
+            size="small"
+            variant="standard"
+            value={answerValue}
+            onChange={updateAnswerValue}
+            placeholder={'Answer'}
+          />
+        </div>
         <div className={s.flex}>
           <div>
             <Button
@@ -142,4 +119,4 @@ export const CreateCardModalBody = (props: PropsType) => {
 type PropsType = {
   cardsPack_id: string
 }
-type SelectType = 'text' | 'picture'
+export type SelectType = 'text' | 'picture'

@@ -31,7 +31,7 @@ export const PictureQuestion = ({ cover, setQuestionCover }: PropsType) => {
         <label>
           <input type="file" onChange={uploadHandler} style={{ display: 'none' }} />
           <div style={{ height: '200px', backgroundColor: 'grey' }}>
-            {cover ? <img src={cover} style={{ height: '100%' }} /> : <div>11</div>}
+            {cover ? <img src={cover} style={{ height: '100%' }} /> : <div>Click to set image</div>}
           </div>
         </label>
       </div>
