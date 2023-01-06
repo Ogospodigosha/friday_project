@@ -18,7 +18,7 @@ export const InputFile: React.FC = () => {
     if (e.target.files && e.target.files.length) {
       const file = e.target.files[0]
 
-      if (file.size < 400000) {
+      if (file.size < 450000) {
         convertFileToBase64(file, (file64: string) => {
           dispatch(updateProfileTC({ avatar: file64 }))
         })

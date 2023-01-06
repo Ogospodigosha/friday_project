@@ -49,6 +49,7 @@ export const CardsMain = () => {
   })
 
   useEffect(() => {
+    console.log(cardsPack_id)
     if (cardsPack_id) {
       searchParams.set('cardsPack_id', cardsPack_id)
     }
