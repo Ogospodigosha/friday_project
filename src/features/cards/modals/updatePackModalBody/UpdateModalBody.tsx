@@ -18,6 +18,7 @@ type PropsType = {
   deckCover: string
   setFile64: (file64: string) => void
   file64: string
+  setDeckCover: (deckCover: string) => void
 }
 export const UpdateModalBody = (props: PropsType) => {
   const dispatch = useAppDispatch()
@@ -45,11 +46,14 @@ export const UpdateModalBody = (props: PropsType) => {
   const cancelHandler = () => {
     dispatch(openModal(null))
   }
+  const currentFile64 = (file64: string) => {
+    props.setDeckCover(file64)
+  }
 
   return (
     <>
-      <InputTypeFile setFile64={props.setFile64} />
-      <img src={props.file64} />
+      <InputTypeFile setFile64={props.setFile64} currentFile64={currentFile64} />
+      <img src={props.deckCover} />
       <div className={s.packName}>Name pack</div>
       <div style={{ marginBottom: '30px' }}>
         <TextField

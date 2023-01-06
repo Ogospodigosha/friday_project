@@ -35,6 +35,7 @@ export const CreatePackModalBody = (props: PropsType) => {
   }
   const saveHandler = () => {
     dispatch(createPackTC(data, getPacksSearchParams(searchParams)))
+    props.setFile64('url or base64')
     dispatch(openModal(null))
   }
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {

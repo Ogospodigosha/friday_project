@@ -17,6 +17,7 @@ type PropType = {
   setFile64?: (file64: string) => void
   file64?: string
   deckCover?: string
+  setDeckCover?: (deckCover: string) => void
 }
 export const PackModal = (props: PropType) => {
   const title = useAppSelector(state => state.modal.title)
@@ -30,12 +31,14 @@ export const PackModal = (props: PropType) => {
         props.dataForUpdateModal &&
         props.deckCover &&
         props.setFile64 &&
-        props.file64 && (
+        props.file64 &&
+        props.setDeckCover && (
           <UpdateModalBody
             dataForUpdateModal={props.dataForUpdateModal}
             deckCover={props.deckCover}
             setFile64={props.setFile64}
             file64={props.file64}
+            setDeckCover={props.setDeckCover}
           />
         )}
       {title === 'Delete pack' && props.dataForUpdateModal && (

@@ -4,8 +4,9 @@ import { Button } from '@mui/material'
 
 type PropsType = {
   setFile64: (file64: string) => void
+  currentFile64?: (file64: string) => void
 }
-export const InputTypeFile: React.FC<PropsType> = ({ setFile64 }) => {
+export const InputTypeFile: React.FC<PropsType> = ({ setFile64, currentFile64 }) => {
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       const file = e.target.files[0]
@@ -17,10 +18,15 @@ export const InputTypeFile: React.FC<PropsType> = ({ setFile64 }) => {
         const reader = new FileReader()
 
         reader.onloadend = () => {
-          const file64 = reader.result as string
+          let file64 = reader.result as string
 
           console.log('file64: ', file64)
           setFile64(file64)
+          if (file64) {
+            if (currentFile64) {
+              currentFile64(file64)
+            }
+          }
         }
         // https://developer.mozilla.org/ru/docs/Web/API/FileReader/readAsDataURL
         reader.readAsDataURL(file)
