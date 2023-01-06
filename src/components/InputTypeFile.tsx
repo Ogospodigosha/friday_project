@@ -17,7 +17,7 @@ export const InputTypeFile: React.FC<PropsType> = ({ setFile64 }) => {
         const reader = new FileReader()
 
         reader.onloadend = () => {
-          const file64 = reader.result as string
+          let file64 = reader.result as string
 
           console.log('file64: ', file64)
           setFile64(file64)

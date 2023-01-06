@@ -30,6 +30,7 @@ export type createDataType = {
   cardsPack: {
     name?: string
     private?: boolean
+    deckCover?: string
   }
 }
 export type editDataType = {
