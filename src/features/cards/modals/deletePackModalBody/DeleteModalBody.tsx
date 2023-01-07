@@ -3,7 +3,6 @@ import React from 'react'
 import Button from '@mui/material/Button'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
-import { PATH } from '../../../../components/pages/Pages'
 import { getPacksSearchParams } from '../../../../utils/getPacksSearchParams'
 import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
 import { deletePackTC } from '../../packs/deletePackTC'
@@ -25,7 +24,7 @@ export const DeleteModalBody = (props: PropsType) => {
   const deletePackHandler = () => {
     dispatch(deletePackTC(props.dataForUpdateModal.id, getPacksSearchParams(searchParams)))
     dispatch(openModal(null))
-    navigate(PATH.PACKS)
+    // navigate(PATH.PACKS)
   }
 
   return (
