@@ -29,6 +29,8 @@ type UpdateModalType = {
 export const FadeMenu: FC<FadeMenuPropsType> = ({ learnPack }) => {
   const dispatch = useAppDispatch()
   const packName = useAppSelector(state => state.cards.packName)
+  const countCardsInPack = useAppSelector(state => state.cards.cards)
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [modul, setModul] = useState(false)
   const [dataForUpdateModal, setDataForUpdateModal] = useState<UpdateModalType>({
@@ -49,9 +51,9 @@ export const FadeMenu: FC<FadeMenuPropsType> = ({ learnPack }) => {
     setModul(false)
   }
   const deletePack = () => {
-    // setModul(true)
-    // setDataForUpdateModal({ id: params.cardsPack_id, name: packName })
-    // dispatch(openModal('Delete pack'))
+    setModul(true)
+    setDataForUpdateModal({ id: params.cardsPack_id, name: packName })
+    dispatch(openModal('Delete pack'))
   }
   const editPack = () => {
     setModul(true)
@@ -95,7 +97,7 @@ export const FadeMenu: FC<FadeMenuPropsType> = ({ learnPack }) => {
             Delete
           </span>
         </MenuItem>
-        <MenuItem onClick={learnPack}>
+        <MenuItem onClick={learnPack} disabled={countCardsInPack?.length === 0}>
           <span className={s.span} onClick={handleClose}>
             <img src={learn} alt="learn" />
             Learn
