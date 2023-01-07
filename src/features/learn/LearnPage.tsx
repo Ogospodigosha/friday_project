@@ -124,7 +124,12 @@ export const LearnPage = () => {
       <h1 className={s.header}>Learn {`"${packName}"`}</h1>
       <div className={s.container}>
         <div className={s.question}>
-          <b>Question:</b> {card.question}
+          <b>Question:</b>
+          {card.questionImg ? (
+            <img src={card.questionImg} alt={'questionImg'} />
+          ) : (
+            <div>{card.question}</div>
+          )}
         </div>
         <div className={s.quantity}>Количество попыток ответов на вопрос: {card.shots}</div>
         {hideAnswer ? (
