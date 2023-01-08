@@ -150,7 +150,9 @@ export const Packs = () => {
             {packs.map(raw => (
               <TableRow key={raw._id} hover={true}>
                 <TableCell style={{ display: 'flex' }}>
-                  {raw.deckCover === 'url or base64' || !raw.deckCover ? (
+                  {raw.deckCover === 'url or base64' ||
+                  !raw.deckCover ||
+                  raw.deckCover === 'startValue' ? (
                     <div style={{ display: 'block', width: '80px', height: '60px' }}></div>
                   ) : (
                     <img
