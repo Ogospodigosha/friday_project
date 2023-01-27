@@ -9,22 +9,23 @@ import { useSearchParams } from 'react-router-dom'
 import { InputTypeFile } from '../../../../components/InputTypeFile'
 import { getPacksSearchParams } from '../../../../utils/getPacksSearchParams'
 import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
+import { useAppSelector } from '../../../../utils/hooks/useAppSelector'
 import { editPackTC } from '../../packs/editPackTC'
 import s from '../createPackModalBody/createPackModalBody.module.css'
 import { openModal } from '../modalReducer'
 
 type PropsType = {
   dataForUpdateModal: { id: string; name: string }
-  deckCover: string
-  setFile64: (file64: string) => void
-  file64: string
-  setDeckCover: (deckCover: string) => void
 }
 export const UpdateModalBody = (props: PropsType) => {
   const dispatch = useAppDispatch()
   const [searchParams] = useSearchParams()
   const [checked, setChecked] = useState(false)
   const [UpdateValue, setUpdateValue] = useState(props.dataForUpdateModal.name)
+  const packs = useAppSelector(state => state.packs.packs.cardPacks)
+  const currentPack = packs.find(el => el._id === props.dataForUpdateModal.id)
+  const deckCover = currentPack?.deckCover
+
   const updatePackName = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setUpdateValue(e.currentTarget.value)
   }
@@ -37,7 +38,8 @@ export const UpdateModalBody = (props: PropsType) => {
       editPackTC(
         props.dataForUpdateModal.id,
         UpdateValue,
-        props.file64, //
+        'fdgdfg',
+        // props.file64, //
         getPacksSearchParams(searchParams)
       )
     )
@@ -46,14 +48,15 @@ export const UpdateModalBody = (props: PropsType) => {
   const cancelHandler = () => {
     dispatch(openModal(null))
   }
-  const currentFile64 = (file64: string) => {
-    props.setDeckCover(file64)
+  const currentFile64 = (file64: string) => {}
+  const addCover = (file64: string) => {
+    return file64
   }
 
   return (
     <>
-      <InputTypeFile setFile64={props.setFile64} currentFile64={currentFile64} />
-      <img src={props.deckCover} />
+      <InputTypeFile addCover={addCover} />
+      <img src={deckCover} />
       <div className={s.packName}>Name pack</div>
       <div style={{ marginBottom: '30px' }}>
         <TextField

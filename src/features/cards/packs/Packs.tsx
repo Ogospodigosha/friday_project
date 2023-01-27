@@ -46,9 +46,7 @@ export const Packs = () => {
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
   const min = useAppSelector(state => state.packs.packs.minCardsCount)
   const max = useAppSelector(state => state.packs.packs.maxCardsCount)
-  const [file64, setFile64] = useState('startValue')
   const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '' })
-  const [deckCover, setDeckCover] = useState('')
 
   useEffect(() => {
     dispatch(getPacksTC(getPacksSearchParams(searchParams)))
@@ -77,7 +75,6 @@ export const Packs = () => {
   }
   const editPack = (id: string, name: string, deckCover: string) => {
     setDataForUpdateModal({ id: id, name: name })
-    setDeckCover(deckCover)
     dispatch(openModal('Edit pack'))
   }
   const showCardsHandler = (id: string) => {
@@ -101,13 +98,7 @@ export const Packs = () => {
   return (
     <div>
       <div className={s.header}>
-        <PackModal
-          dataForUpdateModal={dataForUpdateModal}
-          setFile64={setFile64}
-          file64={file64}
-          deckCover={deckCover}
-          setDeckCover={setDeckCover}
-        />
+        <PackModal dataForUpdateModal={dataForUpdateModal} />
 
         <div className={s.description}>Packs list</div>
         <Button
