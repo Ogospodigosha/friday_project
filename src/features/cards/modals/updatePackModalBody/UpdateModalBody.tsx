@@ -24,7 +24,7 @@ export const UpdateModalBody = (props: PropsType) => {
   const [UpdateValue, setUpdateValue] = useState(props.dataForUpdateModal.name)
   const packs = useAppSelector(state => state.packs.packs.cardPacks)
   const currentPack = packs.find(el => el._id === props.dataForUpdateModal.id)
-  const deckCover = currentPack?.deckCover
+  const [deckCover, setDekCover] = useState(currentPack?.deckCover)
 
   const updatePackName = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setUpdateValue(e.currentTarget.value)
@@ -38,8 +38,7 @@ export const UpdateModalBody = (props: PropsType) => {
       editPackTC(
         props.dataForUpdateModal.id,
         UpdateValue,
-        'fdgdfg',
-        // props.file64, //
+        deckCover,
         getPacksSearchParams(searchParams)
       )
     )
@@ -48,9 +47,9 @@ export const UpdateModalBody = (props: PropsType) => {
   const cancelHandler = () => {
     dispatch(openModal(null))
   }
-  const currentFile64 = (file64: string) => {}
+
   const addCover = (file64: string) => {
-    return file64
+    setDekCover(file64)
   }
 
   return (

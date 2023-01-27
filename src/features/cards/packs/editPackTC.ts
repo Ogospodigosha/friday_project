@@ -8,7 +8,7 @@ import { handleError } from '../../../utils/error-utils'
 import { getPacksTC } from './getPacksTC'
 
 export const editPackTC =
-  (id: string, name: string, file64: string, params: ParamsForGetPacks): AppThunk =>
+  (id: string, name: string, file64: string | undefined, params: ParamsForGetPacks): AppThunk =>
   async dispatch => {
     dispatch(setAppStatusAC('loading'))
     try {

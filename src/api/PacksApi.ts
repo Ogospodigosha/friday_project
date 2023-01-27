@@ -37,6 +37,6 @@ export type editDataType = {
   cardsPack: {
     name?: string
     _id: string
-    deckCover: string
+    deckCover?: string
   }
 }
