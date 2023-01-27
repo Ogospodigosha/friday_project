@@ -20,22 +20,21 @@ export const CreatePackModalBody = (props: PropsType) => {
   const [searchParams] = useSearchParams()
   const [packName, setPackName] = useState('')
   const [checked, setChecked] = useState(false)
+  const [cover, setCover] = useState('')
   const createPackNameHandler = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setPackName(e.currentTarget.value)
   }
 
+  const addCover = (file64: string) => {
+    setCover(file64)
+  }
   const data = {
     cardsPack: {
       name: packName,
-      deckCover: '', // не обязателен
+      deckCover: cover, // не обязателен
       private: checked,
     },
   }
-  const addCover = (file64: string) => {
-    data.cardsPack.deckCover = file64
-  }
-
-  console.log(data)
   const saveHandler = () => {
     dispatch(createPackTC(data, getPacksSearchParams(searchParams)))
     console.log(data)
