@@ -46,7 +46,7 @@ export const Packs = () => {
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
   const min = useAppSelector(state => state.packs.packs.minCardsCount)
   const max = useAppSelector(state => state.packs.packs.maxCardsCount)
-  const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '' })
+  const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '', deckCover: '' })
 
   useEffect(() => {
     dispatch(getPacksTC(getPacksSearchParams(searchParams)))
@@ -69,12 +69,12 @@ export const Packs = () => {
     dispatch(openModal('Add new Pack'))
   }
 
-  const deletePack = (id: string, name: string) => {
-    setDataForUpdateModal({ id: id, name: name })
+  const deletePack = (id: string, name: string, deckCover: string) => {
+    setDataForUpdateModal({ id: id, name: name, deckCover: deckCover })
     dispatch(openModal('Delete pack'))
   }
   const editPack = (id: string, name: string, deckCover: string) => {
-    setDataForUpdateModal({ id: id, name: name })
+    setDataForUpdateModal({ id: id, name: name, deckCover: deckCover })
     dispatch(openModal('Edit pack'))
   }
   const showCardsHandler = (id: string) => {
@@ -178,7 +178,7 @@ export const Packs = () => {
                       <IconButton onClick={() => editPack(raw._id, raw.name, raw.deckCover)}>
                         <EditIcon />
                       </IconButton>
-                      <IconButton onClick={() => deletePack(raw._id, raw.name)}>
+                      <IconButton onClick={() => deletePack(raw._id, raw.name, raw.deckCover)}>
                         <DeleteIcon />
                       </IconButton>
                     </div>

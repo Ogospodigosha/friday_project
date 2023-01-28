@@ -33,9 +33,10 @@ export const FadeMenu: FC<FadeMenuPropsType> = ({ learnPack }) => {
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [modul, setModul] = useState(false)
-  const [dataForUpdateModal, setDataForUpdateModal] = useState<UpdateModalType>({
+  const [dataForUpdateModal, setDataForUpdateModal] = useState({
     id: '',
     name: '',
+    deckCover: '',
   })
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -52,12 +53,12 @@ export const FadeMenu: FC<FadeMenuPropsType> = ({ learnPack }) => {
   }
   const deletePack = () => {
     setModul(true)
-    setDataForUpdateModal({ id: params.cardsPack_id, name: packName })
+    setDataForUpdateModal({ id: params.cardsPack_id, name: packName, deckCover: '' })
     dispatch(openModal('Delete pack'))
   }
   const editPack = () => {
     setModul(true)
-    setDataForUpdateModal({ id: params.cardsPack_id, name: packName })
+    setDataForUpdateModal({ id: params.cardsPack_id, name: packName, deckCover: '' })
     dispatch(openModal('Edit pack'))
   }
 

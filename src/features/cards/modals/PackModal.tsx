@@ -11,7 +11,7 @@ import { UpdateCardModalBody } from './updateCardModalBody/UpdateCardModalBody'
 import { UpdateModalBody } from './updatePackModalBody/UpdateModalBody'
 
 type PropType = {
-  dataForUpdateModal?: { id: string; name: string }
+  dataForUpdateModal?: { id: string; name: string; deckCover: string }
   dataForUpdateCard?: { cardId: string; question: string; answer: string }
   cardsPack_id?: string
 }

@@ -9,22 +9,19 @@ import { useSearchParams } from 'react-router-dom'
 import { InputTypeFile } from '../../../../components/InputTypeFile'
 import { getPacksSearchParams } from '../../../../utils/getPacksSearchParams'
 import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
-import { useAppSelector } from '../../../../utils/hooks/useAppSelector'
 import { editPackTC } from '../../packs/editPackTC'
 import s from '../createPackModalBody/createPackModalBody.module.css'
 import { openModal } from '../modalReducer'
 
 type PropsType = {
-  dataForUpdateModal: { id: string; name: string }
+  dataForUpdateModal: { id: string; name: string; deckCover: string }
 }
 export const UpdateModalBody = (props: PropsType) => {
   const dispatch = useAppDispatch()
   const [searchParams] = useSearchParams()
   const [checked, setChecked] = useState(false)
   const [UpdateValue, setUpdateValue] = useState(props.dataForUpdateModal.name)
-  const packs = useAppSelector(state => state.packs.packs.cardPacks)
-  const currentPack = packs.find(el => el._id === props.dataForUpdateModal.id)
-  const [deckCover, setDekCover] = useState(currentPack?.deckCover)
+  const [deckCover, setDekCover] = useState(props.dataForUpdateModal.deckCover)
 
   const updatePackName = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setUpdateValue(e.currentTarget.value)
