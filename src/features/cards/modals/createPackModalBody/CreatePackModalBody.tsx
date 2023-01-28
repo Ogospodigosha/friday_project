@@ -50,6 +50,7 @@ export const CreatePackModalBody = (props: PropsType) => {
   return (
     <>
       <InputTypeFile addCover={addCover} />
+      <img src={cover} />
       <div className={s.packName}>Name pack</div>
       <div style={{ marginBottom: '30px' }}>
         <TextField

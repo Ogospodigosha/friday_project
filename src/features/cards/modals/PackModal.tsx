@@ -14,10 +14,6 @@ type PropType = {
   dataForUpdateModal?: { id: string; name: string }
   dataForUpdateCard?: { cardId: string; question: string; answer: string }
   cardsPack_id?: string
-  setFile64?: (file64: string) => void
-  file64?: string
-  deckCover?: string
-  setDeckCover?: (deckCover: string) => void
 }
 export const PackModal = (props: PropType) => {
   const title = useAppSelector(state => state.modal.title)
