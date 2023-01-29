@@ -13,7 +13,7 @@ import edit from '../../../../assets/icons/Edit.png'
 import learn from '../../../../assets/icons/learn.png'
 import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../../utils/hooks/useAppSelector'
-import { openModal } from '../../modals/modalReducer'
+import { deletePackForFadeMenu, openModal } from '../../modals/modalReducer'
 import { PackModal } from '../../modals/PackModal'
 
 import s from './FadeMenu.module.css'
@@ -43,6 +43,8 @@ export const FadeMenu: FC<FadeMenuPropsType> = ({ learnPack }) => {
   const open = Boolean(anchorEl)
   const params = Object.fromEntries(searchParams)
 
+  console.log(params)
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
@@ -54,6 +56,7 @@ export const FadeMenu: FC<FadeMenuPropsType> = ({ learnPack }) => {
   const deletePack = () => {
     setModul(true)
     setDataForUpdateModal({ id: params.cardsPack_id, name: packName, deckCover: '' })
+    dispatch(deletePackForFadeMenu(true))
     dispatch(openModal('Delete pack'))
   }
   const editPack = () => {
