@@ -8,7 +8,7 @@ import { getPacksSearchParams } from '../../../../utils/getPacksSearchParams'
 import { useAppDispatch } from '../../../../utils/hooks/useAppDispatch'
 import { useAppSelector } from '../../../../utils/hooks/useAppSelector'
 import { deletePackTC } from '../../packs/deletePackTC'
-import { openModal } from '../modalReducer'
+import { deletePackForFadeMenu, openModal } from '../modalReducer'
 
 import s from './deleteModalBody.module.css'
 
@@ -17,25 +17,35 @@ type PropsType = {
 }
 export const DeleteModalBody = (props: PropsType) => {
   const flag = useAppSelector(state => state.modal.flag)
+
+  console.log(flag)
   const navigate = useNavigate()
 
   const dispatch = useAppDispatch()
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const cancelHandler = () => {
     dispatch(openModal(null))
   }
-  const deletePackHandler = () => {
-    if (!flag) {
+  const deletePackHandler = async () => {
+    debugger
+    if (flag === false) {
+      console.log(flag)
       dispatch(deletePackTC(props.dataForUpdateModal.id, getPacksSearchParams(searchParams)))
       dispatch(openModal(null))
     } else {
-      navigate(PATH.PACKS)
-      console.log(getPacksSearchParams(searchParams))
-      dispatch(deletePackTC(props.dataForUpdateModal.id, getPacksSearchParams(searchParams)))
-      dispatch(openModal(null))
-    }
+      debugger
+      dispatch(deletePackForFadeMenu(true))
+      const res = await dispatch(
+        deletePackTC(props.dataForUpdateModal.id, getPacksSearchParams(searchParams), true)
+      )
 
-    // navigate(PATH.PACKS)
+      if (res !== undefined) {
+        debugger
+        navigate(PATH.PACKS)
+        dispatch(openModal(null))
+      }
+      // navigate(PATH.PACKS)
+    }
   }
 
   return (

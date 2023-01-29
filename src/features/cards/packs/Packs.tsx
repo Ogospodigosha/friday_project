@@ -49,6 +49,7 @@ export const Packs = () => {
   const [dataForUpdateModal, setDataForUpdateModal] = useState({ id: '', name: '', deckCover: '' })
 
   useEffect(() => {
+    debugger
     dispatch(getPacksTC(getPacksSearchParams(searchParams)))
   }, [useDebounce(searchParams)])
 

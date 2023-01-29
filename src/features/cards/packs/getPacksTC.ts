@@ -14,6 +14,9 @@ export const getPacksTC =
     try {
       const res = await packsApi.getPacks(paramsForSend)
 
+      console.log(paramsForSend)
+      debugger
+
       dispatch(setPacksAC(res.data))
     } catch (e) {
       const err = e as Error | AxiosError<{ error: string }>
